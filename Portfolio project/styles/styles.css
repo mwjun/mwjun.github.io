@@ -17,22 +17,27 @@
   --color-grey-4: #454e56;
   --color-grey-5: #2a2e35;
   --color-grey-6: #12181b;
+  --color-bone: #00021bf8;
+  --color-white-for-tl: #fffffffa;
   --br-sm-2: 14px;
-  --box-shadow-1: 0 3px 15px rgba(0,0,0,.3);
+  --box-shadow-1: 0 3px 15px rgba(255, 255, 255, 0.3);
 }
 
 .light-mode {
   --color-primary: #FFFFFF;
-  --color-secondary: #3719dd;
-  --color-white: #3ea8e6;
+  --color-secondary: #c93dc9;
+  --color-white: #000000;
   --color-black: #000;
-  --color-grey0: #f8f8f8;
-  --color-grey-1: #a6b3bd;
+  --color-grey0: #1b1b1b;
+  --color-grey-1: #212122;
   --color-grey-2: #8d979e;
   --color-grey-3: #8998a3;
   --color-grey-4: #737b83;
-  --color-grey-5: #646672;
-  --color-grey-6: #373d41;
+  --color-grey-5: #5a5a5a;
+  --color-grey-6: #5d5f61;
+  --color-white-for-tl: #faf8f8;
+  --br-sm-2: 14px;
+  --box-shadow-1: 0 3px 15px rgba(0,0,0,.3);
 }
 
 body {
@@ -126,7 +131,7 @@ section {
 }
 .controls .control i {
   font-size: 1.2rem;
-  color: var(--color-grey-2);
+  color: var(--color-grey-5);
   pointer-events: none;
 }
 .controls .active-btn {
@@ -134,7 +139,7 @@ section {
   transition: all 0.4s ease-in-out;
 }
 .controls .active-btn i {
-  color: var(--color-white);
+  color: var(--color-black);
 }
 
 .theme-btn {
@@ -150,7 +155,7 @@ section {
   justify-content: center;
   align-items: center;
   box-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
-  transition: all 0.1s ease-in-out;
+  transition: all 0.4s ease-in-out;
 }
 .theme-btn:active {
   transform: translateY(-3px);
@@ -174,9 +179,9 @@ section {
 }
 .header-content .left-header .h-shape {
   transition: all 0.4s ease-in-out;
-  width: 65%;
+  width: 100%;
   height: 100%;
-  background-color: var(--color-secondary);
+  background-color: var(--color-white);
   position: absolute;
   left: 0;
   top: 0;
@@ -233,7 +238,7 @@ section {
   grid-gap: 2rem;
 }
 .about-container .right-about .about-item {
-  border: 1px solid var(--color-grey-5);
+  border: 1px solid var(--color-white);
   border-radius: 5px;
   transition: all 0.4s ease-in-out;
   box-shadow: 1px 2px 15px rgba(0, 0, 0, 0.1);
@@ -242,7 +247,7 @@ section {
   cursor: default;
   transform: translateY(-5px);
   border: 1px solid var(--color-secondary);
-  box-shadow: 1px 4px 15px rgba(0, 0, 0, 0.32);
+  box-shadow: 1px 4px 15px rgba(2, 255, 179, 0.945);
 }
 .about-container .right-about .about-item .abt-text {
   padding: 1.5rem;
@@ -258,9 +263,9 @@ section {
   padding-left: 3rem;
   position: relative;
   text-transform: uppercase;
-  font-size: 1.2rem;
-  color: var(--color-grey-1);
-  letter-spacing: 2px;
+  font-size: 0.9rem;
+  color: var(--color-white);
+  letter-spacing: 1px;
 }
 .about-container .right-about .about-item .abt-text .small-text::before {
   content: "";
@@ -269,7 +274,7 @@ section {
   top: 15px;
   width: 2rem;
   height: 2px;
-  background-color: var(--color-grey-5);
+  background-color: var(--color-white);
 }
 .about-container .left-about {
   padding-right: 5rem;
@@ -277,7 +282,7 @@ section {
 .about-container .left-about p {
   line-height: 2rem;
   padding: 1rem;
-  color: var(--color-grey-1);
+  color: var(--color-white);
 }
 .about-container .left-about h4 {
   font-size: 2rem;
@@ -305,7 +310,7 @@ section {
   align-items: center;
 }
 .about-stats .progress-bars .progress-bar .progress-con .prog-text {
-  color: var(--color-grey-2);
+  color: var(--color-white);
 }
 .about-stats .progress-bars .progress-bar .progress-con .progress {
   width: 100%;
@@ -400,9 +405,12 @@ section {
   font-weight: 600;
 }
 .timeline .timeline-item h5 span {
-  color: var(--color-grey-2);
+  color: var(--color-secondary);
   font-weight: 500;
   font-size: 1.2rem;
+}
+.timeline .timeline-item h6 {
+  color: #ffffff;
 }
 .timeline .timeline-item p {
   color: var(--color-grey-2);
@@ -422,6 +430,10 @@ section {
 .portfolios .portfolio-item {
   position: relative;
   border-radius: 15px;
+  /* If you need both <img> and <video> variants, keep both rules: */
+  /* For the video items */
+  /* Optional hover styling for the video */
+  /* When hovering over the entire .portfolio-item, reveal .hover-items */
 }
 .portfolios .portfolio-item img {
   width: 100%;
@@ -429,11 +441,27 @@ section {
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 15px;
+  transition: all 0.4s ease-in-out;
+}
+.portfolios .portfolio-item .hover-video {
+  /* If the <video> has inline width/height, override with !important */
+  width: 100% !important;
+  height: 300px !important;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 15px;
+  transition: all 0.4s ease-in-out;
+  display: block; /* ensures it respects dimension rules */
+}
+.portfolios .portfolio-item:hover .hover-video {
+  /* e.g. transform: scale(1.02);
+     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+     up to you */
 }
 .portfolios .portfolio-item .hover-items {
   width: 100%;
   height: 100%;
-  background-color: var(--color-secondary);
+  background-color: none; /* or transparent */
   position: absolute;
   left: 0;
   top: 0;
@@ -445,11 +473,13 @@ section {
   opacity: 0;
   transform: scale(0);
   transition: all 0.4s ease-in-out;
+  pointer-events: none; /* so the mouse can pass through if needed */
 }
 .portfolios .portfolio-item .hover-items h3 {
   font-size: 1.5rem;
-  color: var(--color-white);
+  color: var(--color-white-for-tl);
   margin-bottom: 1.5rem;
+  align-items: center;
 }
 .portfolios .portfolio-item .hover-items .icons {
   display: flex;
@@ -479,10 +509,10 @@ section {
 .portfolios .portfolio-item .hover-items .icons .icon:hover i {
   color: var(--color-primary);
 }
-
-.portfolio-item:hover .hover-items {
+.portfolios .portfolio-item:hover .hover-items {
   opacity: 1;
   transform: scale(1);
+  pointer-events: auto; /* re-enable clicks inside the overlay */
 }
 
 .blogs {
@@ -607,6 +637,7 @@ section {
 }
 .contact-content-con .right-contact .input-control {
   margin: 1.5rem 0;
+  color: var(white);
 }
 .contact-content-con .right-contact .input-control input, .contact-content-con .right-contact .input-control textarea {
   border-radius: 30px;
@@ -616,9 +647,9 @@ section {
   padding: 0.8rem 1.1rem;
   outline: none;
   border: none;
-  background-color: var(--color-grey-5);
+  background-color: var(--color-grey-3);
   width: 100%;
-  color: var(--color-white);
+  color: var(--color-white-for-tl);
   resize: none;
 }
 .contact-content-con .right-contact .i-c-2 {
@@ -642,15 +673,21 @@ section {
   border-radius: 30px;
   color: inherit;
   font-weight: 600;
-  position: relative;
+  position: relative; /* for the ::before overlay */
   border: 1px solid var(--color-secondary);
-  display: flex;
-  align-self: flex-start;
-  align-items: center;
-  overflow: hidden;
+  display: flex; /* same as anchor */
+  align-items: center; /* center text & icon vertically */
+  cursor: pointer; /* important for a button */
+  overflow: hidden; /* needed for the overlay effect */
+  background: none; /* optional if you want a transparent background */
+  transition: all 0.4s ease-out;
+  /* The text part and icon part */
+  /* The overlay that slides in from the right */
+  /* Hover effect: overlay expands from right to left */
 }
 .main-btn .btn-text {
   padding: 0 2rem;
+  z-index: 1; /* so text stays above the overlay */
 }
 .main-btn .btn-icon {
   background-color: var(--color-secondary);
@@ -659,25 +696,23 @@ section {
   justify-content: center;
   border-radius: 50%;
   padding: 1rem;
+  z-index: 1; /* so icon is above the overlay */
 }
 .main-btn::before {
   content: "";
   position: absolute;
   top: 0;
   right: 0;
+  width: 0%;
+  height: 100%;
+  background-color: var(--color-secondary);
   transform: translateX(100%);
   transition: all 0.4s ease-out;
-  z-index: -1;
-}
-.main-btn:hover {
-  transition: all 0.4s ease-out;
+  z-index: -1; /* position behind text & icon */
 }
 .main-btn:hover::before {
   width: 100%;
-  height: 100%;
-  background-color: var(--color-secondary);
   transform: translateX(0);
-  transition: all 0.4s ease-out;
 }
 
 .main-title {
@@ -696,12 +731,13 @@ section {
   position: absolute;
   top: 50%;
   left: 50%;
-  color: var(--color-grey-5);
+  color: var(--color-grey-4);
   transition: all 0.4s ease-in-out;
+  opacity: 80%;
   z-index: -1;
   transform: translate(-50%, -50%);
-  font-weight: 800;
-  font-size: 6.3rem;
+  font-weight: 900;
+  font-size: 5rem;
 }
 
 .about-container .left-about p {

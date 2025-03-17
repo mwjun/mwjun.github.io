@@ -47,7 +47,7 @@
     <main>
         <section class="container about" id="about">
             <div class="main-title">
-                <h2>About <span>me</span><span class="bg-text">my stats</span></h2>
+                <h2>About <span>me</span><span class="bg-text">About</span></h2>
             </div>
             <div class="about-container">
                 <div class="left-about">
@@ -71,14 +71,23 @@
                 <div class="right-about">
                     <div class="about-item">
                         <div class="abt-text">
-                            <p class="large-text">650+</p>
-                            <p class="small-text">Projects <br /> Completed</p>
+                            <p class="large-text">7 figure results</p>
+                            <p class="small-text">Analytical mindset that curated strategies took a company from $175,000 in monthly revenue to over 7 figures in monthly revenue through data insights. </p>
                         </div>
                     </div>
                     <div class="about-item">
                         <div class="abt-text">
-                            <p class="large-text">10+</p>
-                            <p class="small-text">Years of <br /> experience</p>
+                            <p class="large-text">10+ years of professional experience</p>
+                            <p class="small-text">Years of experience working with different environments and industries such as:
+                            </br> Insurance
+                        </br> healthcare
+                    </br> E-commerce
+                </br> Entertainment
+            </br> Hospitality
+        </br> Customer Service
+    </br> IT
+              
+                            </p>
                         </div>
                     </div>
                     <div class="about-item">
@@ -160,7 +169,7 @@
                     <div class="tl-icon">
                         <i class="fas fa-briefcase"></i>
                     </div>
-                    <p class="tl-duration">2014 - 2018</p>
+                    <h6 class="tl-duration">2014 - 2018</h6>
                     <h5>Data Analyst<span> - Americal Excel Enterprise</span></h5>
                     <p>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe quasi vero fugit.
@@ -170,7 +179,7 @@
                     <div class="tl-icon">
                         <i class="fas fa-briefcase"></i>
                     </div>
-                    <p class="tl-duration">2023 - 2024</p>
+                    <h6 class="tl-duration">2023 - 2024</h6>
                     <h5>Bachelor's Degree of Science in Computer Science<span> - California State University of Fullerton</span></h5>
                     <p>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe quasi vero fugit.
@@ -181,7 +190,7 @@
                     <div class="tl-icon">
                         <i class="fas fa-briefcase"></i>
                     </div>
-                    <p class="tl-duration">2018 - 2019</p>
+                    <h6 class="tl-duration">2018 - 2019</h6>
                     <h5>Web Developer<span> - JSL Benefits</span></h5>
                     <p>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe quasi vero fugit.
@@ -191,7 +200,7 @@
                     <div class="tl-icon">
                         <i class="fas fa-briefcase"></i>
                     </div>
-                    <p class="tl-duration">2024 - present</p>
+                    <h6 class="tl-duration">2024 - present</h6>
                     <h5>Abnormal Behavioral Analyst<span> - First Step Learning</span></h5>
                     <p>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe quasi vero fugit.
@@ -201,7 +210,7 @@
                     <div class="tl-icon">
                         <i class="fas fa-briefcase"></i>
                     </div>
-                    <p class="tl-duration">2019 - 2022</p>
+                    <h6 class="tl-duration">2019 - 2022</h6>
                     <h5>AS - Degree in Computer Science<span> - Fullerton College</span></h5>
                     <p>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe quasi vero fugit.
@@ -211,18 +220,46 @@
         </section>
         <section class="container" id="portfolio">
             <div class="main-title">
-                <h2>My <span>Portfolio</span><span class="bg-text">My Work</span></h2>
+                <h2>My <span>Portfolio</span><span class="bg-text">Portfolio</span></h2>
             </div>
             <p class="port-text">
-                Here is some of my work that I've done in various programming languages.
+                Here is some of my work that I've done using various programming languages and tools.
             </p>
             <div class="portfolios">
-                <div class="portfolio-item">
+                <div 
+                class="portfolio-item"
+                onmouseover="const vid=this.querySelector('.hover-video'); vid.play();"
+                onmouseout="const vid=this.querySelector('.hover-video'); vid.pause();"
+              >
+                <div class="image">
+                  <video
+                    class="hover-video"
+                    muted
+                    preload="metadata"
+                    poster=""
+                    playsinline
+                  >
+                    <source src="Videos/game.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              
+                <div class="hover-items">
+                  <h3>TutoRial</h3>
+                  <h4>Capstone game</h4>
+                  <div class="icons">
+                    <a href="#" class="icon"><i class="fab fa-github"></i></a>
+                    <a href="#" class="icon"><i class="fas fa-cloud-download-alt"></i></a>
+                    <!-- <a href="#" class="icon"><i class="fab fa-youtube"></i></a> -->
+                  </div>
+                </div>
+              </div>
+                <!-- <div class="portfolio-item">
                     <div class="image">
-                        <img src="img/port1.jpg" alt="">
+                        <img src="img/romulo.jpg" alt="">
                     </div>
                     <div class="hover-items">
-                        <h3>TutoRial - Action Adventure RPG University Capstone Project</h3>
+                        <h3>TraderBot v3</h3>
                         <div class="icons">
                             <a href="#" class="icon">
                                 <i class="fab fa-github"></i>
@@ -235,46 +272,36 @@
                             </a>
                         </div>
                     </div>
+                </div> -->
+                <div 
+                class="portfolio-item"
+                onmouseover="const vid=this.querySelector('.hover-video'); vid.play();"
+                onmouseout="const vid=this.querySelector('.hover-video'); vid.pause();"
+              >
+                <div class="image">
+                  <video
+                    class="hover-video"
+                    muted
+                    preload="metadata"
+                    poster=""
+                    playsinline
+                  >
+                    <source src="Videos/stocks.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
                 </div>
-                <div class="portfolio-item">
-                    <div class="image">
-                        <img src="img/port2.jpg" alt="">
-                    </div>
-                    <div class="hover-items">
-                        <h3>TraderBot V2</h3>
-                        <div class="icons">
-                            <a href="#" class="icon">
-                                <i class="fab fa-github"></i>
-                            </a>
-                            <a href="#" class="icon">
-                                <i class="fab fa-behance"></i>
-                            </a>
-                            <a href="#" class="icon">
-                                <i class="fab fa-youtube"></i>
-                            </a>
-                        </div>
-                    </div>
+              
+                <div class="hover-items">
+                  <h3>TraderBot v3</h3>
+                  <h4>Stock backtesting Application</h4>
+                  <div class="icons">
+                    <a href="#" class="icon"><i class="fab fa-github"></i></a>
+                    <a href="#" class="icon"><i class="fab fa-behance"></i></a>
+                    <a href="#" class="icon"><i class="fab fa-youtube"></i></a>
+                  </div>
                 </div>
-                <div class="portfolio-item">
-                    <div class="image">
-                        <img src="img/port3.jpg" alt="">
-                    </div>
-                    <div class="hover-items">
-                        <h3>Project Source</h3>
-                        <div class="icons">
-                            <a href="#" class="icon">
-                                <i class="fab fa-github"></i>
-                            </a>
-                            <a href="#" class="icon">
-                                <i class="fab fa-behance"></i>
-                            </a>
-                            <a href="#" class="icon">
-                                <i class="fab fa-youtube"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="portfolio-item">
+              </div>
+                <!-- <div class="portfolio-item">
                     <div class="image">
                         <img src="img/port4.jpg" alt="">
                     </div>
@@ -348,11 +375,11 @@
                                 <i class="fab fa-youtube"></i>
                             </a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </section>
-        <section class="container" id="blogs">
+        <!-- <section class="container" id="blogs">
             <div class="blogs-content">
                 <div class="main-title">
                     <h2>My <span>Blogs</span><span class="bg-text">My Blogs</span></h2>
@@ -432,7 +459,7 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </section> -->
         <section class="container contact" id="contact">
             <div class="contact-container">
                 <div class="main-title">
@@ -464,7 +491,7 @@
                                     <span>: Jun.w.matthew@gmail.com</span>
                                 </p>
                             </div>
-                            <div class="contact-item">
+                            <!-- <div class="contact-item">
                                 <div class="icon">
                                     <i class="fas fa-user-graduate"></i>
                                     <span>Education</span>
@@ -472,10 +499,10 @@
                                 <p>
                                     <span>: Cal State Fullerton</span>
                                 </p>
-                            </div>
+                            </div> -->
                             <div class="contact-item">
                                 <div class="icon">
-                                    <i class="fas fa-user-graduate"></i>
+                                    <i class="fas fa-mobile"></i>
                                     <span>Mobile Number</span>
                                 </div>
                                 <p>
@@ -484,7 +511,7 @@
                             </div>
                             <div class="contact-item">
                                 <div class="icon">
-                                    <i class="fas fa-globe-africa"></i>
+                                    <i class="fas fa-globe-americas"></i>
                                     <span>Languages</span>
                                 </div>
                                 <p>
@@ -510,50 +537,81 @@
                         </div>
                     </div>
                     <div class="right-contact">
-                        <form action="" class="contact-form">
-                            <div class="input-control i-c-2">
-                                <input type="text" required placeholder="YOUR NAME">
-                                <input type="email" required placeholder="YOUR EMAIL">
-                            </div>
-                            <div class="input-control">
-                                <input type="text" required placeholder="ENTER SUBJECT">
-                            </div>
-                            <div class="input-control">
-                                <textarea name="" id="" cols="15" rows="8" placeholder="Message Here..."></textarea>
-                            </div>
-                            <div class="submit-btn">
-                                <a href="#" class="main-btn">
-                                    <span class="btn-text">Download CV</span>
-                                    <span class="btn-icon"><i class="fas fa-download"></i></span>
-                                </a>
-                            </div>
+                        <form id="contactForm" class="contact-form">
+                          <div class="input-control i-c-2">
+                            <input
+                              type="text"
+                              id="contactName"
+                              required
+                              placeholder="YOUR NAME"
+                            />
+                            <input
+                              type="email"
+                              id="contactEmail"
+                              required
+                              placeholder="YOUR EMAIL"
+                            />
+                          </div>
+                          <div class="input-control">
+                            <input
+                              type="text"
+                              id="contactSubject"
+                              required
+                              placeholder="ENTER SUBJECT"
+                            />
+                          </div>
+                          <div class="input-control">
+                            <textarea
+                              id="contactMessage"
+                              cols="15"
+                              rows="8"
+                              placeholder="Message Here..."
+                              required
+                            ></textarea>
+                          </div>
+                          <div class="submit-btn">
+                            <button type="submit" class="main-btn">
+                              <span class="btn-text">Send Message</span>
+                              <span class="btn-icon">
+                                <i class="fas fa-paper-plane"></i>
+                              </span>
+                            </button>
+                          </div>
                         </form>
+            
+                        <!-- Success / Error messages (initially hidden) -->
+                        <p id="formSuccess" style="display: none; color: rgb(37, 138, 37);">
+                          Your message has been sent! Thank you.
+                        </p>
+                        <p id="formError" style="display: none; color: rgb(180, 0, 0);">
+                          Oops! Something went wrong. Please try again later.
+                        </p>
+                      </div>
                     </div>
+                  </div>
+                </section>
+              </main>
+            
+              <!-- NAV CONTROLS / THEME TOGGLE -->
+              <div class="controls">
+                <div class="control active-btn" data-id="home">
+                  <i class="fas fa-home"></i>
+                </div>
+                <div class="control" data-id="about">
+                  <i class="fas fa-user"></i>
+                </div>
+                <div class="control" data-id="portfolio">
+                  <i class="fas fa-briefcase"></i>
+                </div>
+                <div class="control" data-id="contact">
+                  <i class="fas fa-envelope-open"></i>
                 </div>
             </div>
-        </section>
-    </main>
-
-    <div class="controls">
-        <div class="control active-btn" data-id="home" >
-            <i class="fas fa-home"></i>
-        </div>
-        <div class="control" data-id="about">
-            <i class="fas fa-user"></i>
-        </div>
-        <div class="control" data-id="portfolio">
-            <i class="fas fa-briefcase"></i>
-        </div>
-        <div class="control" data-id="blogs">
-            <i class="far fa-newspaper"></i>
-        </div>
-        <div class="control" data-id="contact">
-            <i class="fas fa-envelope-open"></i>
-        </div>
+            <div class="theme-btn">
+            <i class="fas fa-adjust"></i>
     </div>
-    <div class="theme-btn">
-        <i class="fas fa-adjust"></i>
-    </div>
+            
+              <!-- SCRIPT REFERENCE -->
     <script src="app.js"></script>
-</body>
+    </body>
 </html>
