@@ -19,14 +19,15 @@
     --color-grey-6: #12181b;
     --color-bone: #00021bf8;
     --color-white-for-tl: #fffffffa;
+    --box-shadow-teal: rgba(2, 255, 179, 0.945);
     --br-sm-2: 14px;
     --box-shadow-1: 0 3px 15px rgba(255, 255, 255, 0.3);
 }
 
 .light-mode {
     --color-primary: #FFFFFF;
-    --color-secondary: #c93dc9;
-    --color-white: #000000;
+    --color-secondary: #148BEB;
+    --color-white: #43A2EF;
     --color-black: #000;
     --color-grey0: #1b1b1b;
     --color-grey-1: #212122;
@@ -36,12 +37,14 @@
     --color-grey-5: #5a5a5a;
     --color-grey-6: #5d5f61;
     --color-white-for-tl: #faf8f8;
+    --box-shadow-teal: rgba(2, 255, 179, 0.945);
     --br-sm-2: 14px;
     --box-shadow-1: 0 3px 15px rgba(0,0,0,.3);
+    
 }
 
 body {
-    background-color: var(--color-primary);
+    // background-color: var(--color-primary);
     font-family: 'Poppins', sans-serif;
     font-size: 1.1rem;
     color: var(--color-white);
@@ -58,6 +61,7 @@ a {
 header {
     min-height: 100vh;
     color: var(--color-white);
+    background-color: transparent;
     overflow: hidden;
     padding: 0 !important;
 }
@@ -75,7 +79,7 @@ section {
     display: none;
     transform: translateY(-100%) scale(0);
     transition: all .4s ease-in-out;
-    background-color: var(--color-primary);
+    background-color: transparent;
 }
 
 
@@ -97,7 +101,7 @@ section {
     height: 100%;
     object-fit: cover; /* Ensures video covers the entire background */
     z-index: -1; /* Pushes video behind text content */
-    opacity: 0.7; /* Optional: Adjust transparency */
+    opacity: 1; /* Optional: Adjust transparency */
     pointer-events: none; /* Prevents users from interacting with the video */
 }
 
@@ -127,14 +131,14 @@ section {
         box-shadow: var(--box-shadow-1) ;
         i {
             font-size: 1.2rem;
-            color: var(--color-grey-5);
+            color: var(--color-grey-2);
             pointer-events: none;
         }
     }
     .active-btn {
         background-color: var(--color-secondary);
         transition: all .4s ease-in-out;
-        i { color: var(--color-black); }
+        i { color: var(--color-white-for-tl); }
     }
 }
 
@@ -144,7 +148,7 @@ section {
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    background-color: var(--color-grey-4);
+    background-color: var(--color-grey-1);
     cursor: pointer;
     position: fixed;
     display: flex;
@@ -166,22 +170,24 @@ section {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     min-height: 100vh;
+    filter: grayscale(0%);
     .left-header {
         display: flex;
         align-items: center;
         position: relative;
         
-        .h-shape {
-            transition: all .4s ease-in-out;
-            width: 100%;
-            height: 100%;
-            background-color: var(--color-white);
-            position: absolute;
-            left: 0;
-            top: 0;
-            z-index: -1;
-            clip-path: polygon(0 0, 46% 0, 79% 100%, 0% 100%);
-        }
+        
+        // .h-shape {
+        //     transition: all .4s ease-in-out;
+        //     width: 100%;
+        //     height: 100%;
+        //     background-color: var(--color-white);
+        //     position: absolute;
+        //     left: 0;
+        //     top: 0;
+        //     z-index: -1;
+        //     clip-path: polygon(0 0, 46% 0, 79% 100%, 0% 100%);
+        // }
         .image {
             border-radius: var(--br-sm-2);
             height: 90%;
@@ -194,7 +200,7 @@ section {
                 height: 100%;
                 object-fit: cover;
                 transition: all .4s ease-in-out;
-                filter: grayscale(100%);
+                filter: grayscale(0%);
                 &:hover{
                     filter: grayscale(0);
                 }
@@ -355,7 +361,7 @@ section {
     .timeline-item {
         position: relative;
         padding-left: 3rem;
-        border-left: 1px solid var(--color-grey-5);
+        border-left: 1px solid var(--color-grey-3);
         .tl-icon {
             position: absolute;
             left: -27px;
@@ -367,7 +373,9 @@ section {
             display: flex;
             align-items: center;
             justify-content: center;
-            i { font-size: 1.3rem; }
+            i { font-size: 1.3rem;
+                color: var(--color-white-for-tl) 
+            }
         }
         .tl-duration {
             padding: .2rem .6rem;
@@ -457,6 +465,12 @@ section {
   
         h3 {
           font-size: 1.5rem;
+          color: var(--color-white-for-tl);
+          margin-bottom: 1.5rem;
+          align-items: center;
+        }
+        h4{
+          font-size: 1rem;
           color: var(--color-white-for-tl);
           margin-bottom: 1.5rem;
           align-items: center;
@@ -613,6 +627,7 @@ section {
                     i { color: var(--color-primary); }
                 }
                 i {
+                    
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -627,7 +642,7 @@ section {
         margin-left: 3rem;
         .input-control {
             margin: 1.5rem 0;
-            color: var(white);
+            // color: var(white);
             input, textarea {
                 border-radius: 30px;
                 font-weight: inherit;
@@ -640,6 +655,13 @@ section {
                 width: 100%;
                 color: var(--color-white-for-tl);
                 resize: none;
+            }
+            // Add placeholder styling
+            input::placeholder,
+            textarea::placeholder {
+                color: var(--color-white-for-tl); 
+            // or var(--color-grey-2), or whichever is most readable
+                }
             }
         }
         .i-c-2 {
