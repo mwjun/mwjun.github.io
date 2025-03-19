@@ -323,7 +323,7 @@ header.container.active {
 .about-stats .progress-bars .progress-bar .progress-con .progress .Cplusplus {
   width: 87%;
 }
-.about-stats .progress-bars .progress-bar .progress-con .progress .Javascript {
+.about-stats .progress-bars .progress-bar .progress-con .progress .js {
   width: 93%;
 }
 .about-stats .progress-bars .progress-bar .progress-con .progress .R {
@@ -358,6 +358,7 @@ header.container.active {
 }
 
 /*Timeline*/
+/* Timeline (vertical accordion style) */
 .timeline {
   display: flex;
   flex-direction: column;
@@ -371,25 +372,34 @@ header.container.active {
   padding-left: 3rem;
   border-left: 1px solid var(--color-grey-3);
   cursor: pointer;
-  /* Timeline Icon */
-  /* Duration and Heading */
-  /* Timeline content (paragraph) is hidden by default using a vertical collapse */
-  /* When the timeline item is active, expand the paragraph vertically */
+  /* Timeline Icon: Default state */
+  /* When active, change the icon appearance */
+  /* The rest of your timeline item styling remains unchanged */
+  /* Timeline content (paragraph) – hidden by default with vertical collapse */
+  /* When active, reveal the content */
 }
 .timeline-item .tl-icon {
   position: absolute;
   left: -27px;
   top: 0;
-  background-color: var(--color-secondary);
+  background-color: var(--color-grey-4); /* default grey background */
   width: 50px;
   height: 50px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.4s ease-in-out;
 }
 .timeline-item .tl-icon i {
   font-size: 1.3rem;
+  color: var(--color-grey-2); /* default icon color grey */
+  transition: all 0.4s ease-in-out;
+}
+.timeline-item.active .tl-icon {
+  background-color: var(--color-secondary);
+}
+.timeline-item.active .tl-icon i {
   color: var(--color-white-for-tl);
 }
 .timeline-item .tl-duration {
@@ -424,9 +434,9 @@ header.container.active {
   margin: 0;
 }
 .timeline-item.active p {
-  max-height: 500px; /* Ensure this is high enough for your content */
+  max-height: 500px; /* adjust based on your content */
   opacity: 1;
-  margin-top: 0.5rem; /* Optional spacing when expanded */
+  margin-top: 0.5rem;
 }
 
 .port-text {

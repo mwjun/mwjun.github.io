@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // === 1) Nav & Theme Toggles ===
+  // === 1) Nav Controls ===
   [...document.querySelectorAll(".control")].forEach((button) => {
     button.addEventListener("click", function () {
       const activeBtn = document.querySelector(".active-btn");
@@ -18,9 +18,13 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
+  // === 1.1) Theme Toggle (Light Mode Only) ===
+  // When the theme button is clicked, toggle the light-mode class on the body.
   const themeBtn = document.querySelector(".theme-btn");
   if (themeBtn) {
     themeBtn.addEventListener("click", () => {
+      themeBtn.classList.toggle("active-btn");
       document.body.classList.toggle("light-mode");
     });
   }
@@ -62,10 +66,8 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // === 3) Advanced Timeline Toggle Interactivity ===
-  // When a timeline icon is clicked, close all timeline items and open the clicked one.
-  // When the content (p) is clicked, close that item.
   const timelineItems = document.querySelectorAll('.timeline-item');
-  timelineItems.forEach(item => {
+  timelineItems.forEach((item) => {
     const icon = item.querySelector('.tl-icon');
     const content = item.querySelector('p');
 
@@ -73,34 +75,33 @@ document.addEventListener("DOMContentLoaded", () => {
       icon.addEventListener('click', (e) => {
         e.stopPropagation();
         // Close all timeline items
-        timelineItems.forEach(other => other.classList.remove('active'));
-        // Open the clicked item
+        timelineItems.forEach((other) => other.classList.remove('active'));
+        // Open the clicked timeline item
         item.classList.add('active');
       });
     }
     if (content) {
       content.addEventListener('click', (e) => {
         e.stopPropagation();
-        // Close this timeline item when content is clicked
+        // Close this timeline item
         item.classList.remove('active');
       });
     }
   });
-  // Optional: clicking anywhere in the timeline container closes any open item
+  // Optional: Clicking anywhere in the timeline container closes all active items.
   const timelineContainer = document.querySelector('.timeline');
   if (timelineContainer) {
     timelineContainer.addEventListener('click', () => {
-      timelineItems.forEach(item => item.classList.remove('active'));
+      timelineItems.forEach((item) => item.classList.remove('active'));
     });
   }
 
   // === 4) Portfolio Video Playback Rate Adjustment ===
-  // Set the video playback rate to a slower speed by default, then normal on hover.
   const portfolioItems = document.querySelectorAll('.portfolio-item');
-  portfolioItems.forEach(item => {
+  portfolioItems.forEach((item) => {
     const video = item.querySelector('.hover-video');
     if (video) {
-      // Set initial playback rate (0.5 means half speed; use 0.1 for 10% speed if preferred)
+      // Set initial playback rate (currently 0.5; change to 0.1 for 10% speed if desired)
       video.playbackRate = 0.5;
       item.addEventListener('mouseenter', () => {
         video.playbackRate = 1;
@@ -117,5 +118,5 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
       welcomeScreen.style.display = 'none';
     }, 9500); // Adjust delay to match your CSS animations
-  }
+}
 });
