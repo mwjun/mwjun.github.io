@@ -81,7 +81,7 @@ section {
 header.container {
   opacity: 0;
   visibility: hidden;
-  transition: opacity 2s ease-in-out, visibility 2s ease-in-out;
+  transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
 }
 
 header.container.active {
@@ -91,7 +91,7 @@ header.container.active {
 
 /* All other pages slide in from the top */
 .container:not(header) {
-  transform: translateY(-100%);
+  transform: translateX(100%);
   opacity: 0;
   visibility: hidden;
   transition: transform 1s ease-in-out, opacity 1s ease-in-out, visibility 1s ease-in-out;
@@ -107,8 +107,8 @@ header.container.active {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 90%;
+  width: 92%;
+  height: 100%;
   -o-object-fit: cover;
      object-fit: cover; /* Ensures video covers the entire background */
   z-index: -1; /* Pushes video behind text content */
@@ -155,7 +155,7 @@ header.container.active {
 
 .theme-btn {
   top: 5%;
-  right: 3%;
+  right: 2.5%;
   width: 70px;
   height: 70px;
   border-radius: 50%;
@@ -192,7 +192,7 @@ header.container.active {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-right: 18rem;
+  padding-right: 13rem;
 }
 .header-content .right-header .name {
   font-size: 3rem;
@@ -308,20 +308,35 @@ header.container.active {
   transition: all 0.4s ease-in-out;
   width: 60%;
 }
-.about-stats .progress-bars .progress-bar .progress-con .progress .html {
-  width: 80%;
+.about-stats .progress-bars .progress-bar .progress-con .progress .html5andcss {
+  width: 92%;
 }
 .about-stats .progress-bars .progress-bar .progress-con .progress .C {
-  width: 95%;
+  width: 91%;
 }
 .about-stats .progress-bars .progress-bar .progress-con .progress .Python {
-  width: 75%;
+  width: 98%;
 }
 .about-stats .progress-bars .progress-bar .progress-con .progress .SQL {
-  width: 60%;
+  width: 96%;
 }
 .about-stats .progress-bars .progress-bar .progress-con .progress .Cplusplus {
   width: 87%;
+}
+.about-stats .progress-bars .progress-bar .progress-con .progress .Javascript {
+  width: 93%;
+}
+.about-stats .progress-bars .progress-bar .progress-con .progress .R {
+  width: 87%;
+}
+.about-stats .progress-bars .progress-bar .progress-con .progress .AWS {
+  width: 90%;
+}
+.about-stats .progress-bars .progress-bar .progress-con .progress .networking {
+  width: 87%;
+}
+.about-stats .progress-bars .progress-bar .progress-con .progress .AI {
+  width: 96%;
 }
 
 .stat-title {
@@ -344,17 +359,24 @@ header.container.active {
 
 /*Timeline*/
 .timeline {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* minimal gap between items */
   padding-bottom: 3rem;
 }
-.timeline .timeline-item {
+
+/* Each timeline item */
+.timeline-item {
   position: relative;
   padding-left: 3rem;
   border-left: 1px solid var(--color-grey-3);
+  cursor: pointer;
+  /* Timeline Icon */
+  /* Duration and Heading */
+  /* Timeline content (paragraph) is hidden by default using a vertical collapse */
+  /* When the timeline item is active, expand the paragraph vertically */
 }
-.timeline .timeline-item .tl-icon {
+.timeline-item .tl-icon {
   position: absolute;
   left: -27px;
   top: 0;
@@ -365,13 +387,12 @@ header.container.active {
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
 }
-.timeline .timeline-item .tl-icon i {
+.timeline-item .tl-icon i {
   font-size: 1.3rem;
   color: var(--color-white-for-tl);
 }
-.timeline .timeline-item .tl-duration {
+.timeline-item .tl-duration {
   padding: 0.2rem 0.6rem;
   background-color: var(--color-grey-5);
   border-radius: 15px;
@@ -379,33 +400,33 @@ header.container.active {
   font-size: 0.8rem;
   text-transform: uppercase;
   font-weight: 500;
+  margin-bottom: 0.5rem;
 }
-.timeline .timeline-item h5 {
-  padding: 1rem 0;
+.timeline-item h5 {
+  padding: 0.5rem 0;
   text-transform: uppercase;
   font-size: 1.3rem;
   font-weight: 600;
 }
-.timeline .timeline-item h5 span {
+.timeline-item h5 span {
   color: var(--color-secondary);
   font-weight: 500;
   font-size: 1.2rem;
 }
-.timeline .timeline-item h6 {
+.timeline-item h6 {
   color: #ffffff;
 }
-.timeline .timeline-item p {
-  color: var(--color-grey-2);
+.timeline-item p {
   max-height: 0;
   opacity: 0;
   overflow: hidden;
   transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
   margin: 0;
 }
-.timeline .timeline-item.active p {
-  max-height: 1000px;
+.timeline-item.active p {
+  max-height: 500px; /* Ensure this is high enough for your content */
   opacity: 1;
-  margin-top: 1px;
+  margin-top: 0.5rem; /* Optional spacing when expanded */
 }
 
 .port-text {
@@ -422,10 +443,10 @@ header.container.active {
 .portfolios .portfolio-item {
   position: relative;
   border-radius: 15px;
-  /* If you need both <img> and <video> variants, keep both rules: */
+  /* Image styling remains unchanged */
   /* For the video items */
-  /* Optional hover styling for the video */
-  /* When hovering over the entire .portfolio-item, reveal .hover-items */
+  /* On hover, remove the grayscale filter */
+  /* Reveal the overlay on hover */
 }
 .portfolios .portfolio-item img {
   width: 100%;
@@ -436,24 +457,24 @@ header.container.active {
   transition: all 0.4s ease-in-out;
 }
 .portfolios .portfolio-item .hover-video {
-  /* If the <video> has inline width/height, override with !important */
   width: 100% !important;
   height: 300px !important;
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 15px;
-  transition: all 0.4s ease-in-out;
-  display: block; /* ensures it respects dimension rules */
+  display: block;
+  /* Force the video to be grayscaled by default */
+  filter: grayscale(100%) !important;
+  transition: filter 0.4s ease-in-out !important;
+  will-change: filter;
 }
 .portfolios .portfolio-item:hover .hover-video {
-  /* e.g. transform: scale(1.02);
-     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-     up to you */
+  filter: grayscale(0%) !important;
 }
 .portfolios .portfolio-item .hover-items {
   width: 100%;
   height: 100%;
-  background-color: none; /* or transparent */
+  background-color: transparent; /* or none */
   position: absolute;
   left: 0;
   top: 0;
@@ -465,7 +486,7 @@ header.container.active {
   opacity: 0;
   transform: scale(0);
   transition: all 0.4s ease-in-out;
-  pointer-events: none; /* so the mouse can pass through if needed */
+  pointer-events: none;
 }
 .portfolios .portfolio-item .hover-items h3 {
   font-size: 1.5rem;
@@ -510,60 +531,7 @@ header.container.active {
 .portfolios .portfolio-item:hover .hover-items {
   opacity: 1;
   transform: scale(1);
-  pointer-events: auto; /* re-enable clicks inside the overlay */
-}
-
-.blogs {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 2rem;
-  margin-top: 3rem;
-}
-.blogs .blog {
-  position: relative;
-  background-color: var(--color-grey-5);
-  border-radius: 5px;
-  box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.1);
-  transition: all 0.4s ease-in-out;
-}
-.blogs .blog:hover {
-  box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.3);
-  transform: translateY(-5px);
-  transition: all 0.4s ease-in-out;
-}
-.blogs .blog:hover img {
-  filter: grayscale(0);
-  transform: scale(1.1);
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.8);
-}
-.blogs .blog img {
-  width: 100%;
-  height: 300px;
-  -o-object-fit: cover;
-     object-fit: cover;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  filter: grayscale(100%);
-  transition: all 0.4s ease-in-out;
-}
-.blogs .blog .blog-text {
-  margin-top: -7px;
-  padding: 1.1rem;
-  border-top: 8px solid var(--color-secondary);
-}
-.blogs .blog .blog-text h4 {
-  font-size: 1.5rem;
-  margin-bottom: 0.7rem;
-  transition: all 0.4s ease-in-out;
-  cursor: pointer;
-}
-.blogs .blog .blog-text h4:hover {
-  color: var(--color-secondary);
-}
-.blogs .blog .blog-text p {
-  color: var(--color-grey-2);
-  line-height: 2rem;
-  padding-bottom: 1rem;
+  pointer-events: auto;
 }
 
 .contact-content-con {
@@ -769,7 +737,7 @@ header.container.active {
   opacity: 0;
   background-color: transparent;
   animation: fadeInOutText 3s ease-in-out forwards;
-  animation-delay: 0.2s;
+  animation-delay: 0.3s;
 }
 
 @keyframes fadeOutText {
@@ -792,480 +760,1200 @@ header.container.active {
   position: absolute;
   top: 0;
   left: 0%;
-  width: 5%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutTop 2.5s ease-in-out forwards;
-  animation-delay: 3.9s;
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 4.1s;
 }
 
 .letterbox-top-2 {
   position: absolute;
   top: 0;
-  left: 5%;
-  width: 5%;
+  left: 2%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutTop 2.5s ease-in-out forwards;
+  animation: slideOutTop 3s ease-in-out forwards;
   animation-delay: 4.2s;
 }
 
 .letterbox-top-3 {
   position: absolute;
   top: 0;
-  left: 10%;
-  width: 5%;
+  left: 4%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutTop 2.5s ease-in-out forwards;
-  animation-delay: 3.7s;
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 4.3s;
 }
 
 .letterbox-top-4 {
   position: absolute;
   top: 0;
-  left: 15%;
-  width: 5%;
+  left: 6%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutTop 2.5s ease-in-out forwards;
+  animation: slideOutTop 3s ease-in-out forwards;
   animation-delay: 4.4s;
 }
 
 .letterbox-top-5 {
   position: absolute;
   top: 0;
-  left: 20%;
-  width: 5%;
+  left: 8%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutTop 2.5s ease-in-out forwards;
-  animation-delay: 3.5s;
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 4.5s;
 }
 
 .letterbox-top-6 {
   position: absolute;
   top: 0;
-  left: 25%;
-  width: 5%;
+  left: 10%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutTop 2.5s ease-in-out forwards;
+  animation: slideOutTop 3s ease-in-out forwards;
   animation-delay: 4.6s;
 }
 
 .letterbox-top-7 {
   position: absolute;
   top: 0;
-  left: 30%;
-  width: 5%;
+  left: 12%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutTop 2.5s ease-in-out forwards;
-  animation-delay: 3.3s;
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 4.7s;
 }
 
 .letterbox-top-8 {
   position: absolute;
   top: 0;
-  left: 35%;
-  width: 5%;
+  left: 14%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutTop 2.5s ease-in-out forwards;
+  animation: slideOutTop 3s ease-in-out forwards;
   animation-delay: 4.8s;
 }
 
 .letterbox-top-9 {
   position: absolute;
   top: 0;
-  left: 40%;
-  width: 5%;
+  left: 16%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutTop 2.5s ease-in-out forwards;
-  animation-delay: 3.1s;
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 4.9s;
 }
 
 .letterbox-top-10 {
   position: absolute;
   top: 0;
-  left: 45%;
-  width: 5%;
+  left: 18%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutTop 2.5s ease-in-out forwards;
+  animation: slideOutTop 3s ease-in-out forwards;
   animation-delay: 5s;
 }
 
 .letterbox-top-11 {
   position: absolute;
   top: 0;
-  left: 50%;
-  width: 5%;
+  left: 20%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutTop 2.5s ease-in-out forwards;
-  animation-delay: 2.9s;
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 5.1s;
 }
 
 .letterbox-top-12 {
   position: absolute;
   top: 0;
-  left: 55%;
-  width: 5%;
+  left: 22%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutTop 2.5s ease-in-out forwards;
+  animation: slideOutTop 3s ease-in-out forwards;
   animation-delay: 5.2s;
 }
 
 .letterbox-top-13 {
   position: absolute;
   top: 0;
-  left: 60%;
-  width: 5%;
+  left: 24%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutTop 2.5s ease-in-out forwards;
-  animation-delay: 2.7s;
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 5.3s;
 }
 
 .letterbox-top-14 {
   position: absolute;
   top: 0;
-  left: 65%;
-  width: 5%;
+  left: 26%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutTop 2.5s ease-in-out forwards;
+  animation: slideOutTop 3s ease-in-out forwards;
   animation-delay: 5.4s;
 }
 
 .letterbox-top-15 {
   position: absolute;
   top: 0;
-  left: 70%;
-  width: 5%;
+  left: 28%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutTop 2.5s ease-in-out forwards;
-  animation-delay: 2.5s;
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 5.5s;
 }
 
 .letterbox-top-16 {
   position: absolute;
   top: 0;
-  left: 75%;
-  width: 5%;
+  left: 30%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutTop 2.5s ease-in-out forwards;
+  animation: slideOutTop 3s ease-in-out forwards;
   animation-delay: 5.6s;
 }
 
 .letterbox-top-17 {
   position: absolute;
   top: 0;
-  left: 80%;
-  width: 5%;
+  left: 32%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutTop 2.5s ease-in-out forwards;
-  animation-delay: 2.3s;
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 5.7s;
 }
 
 .letterbox-top-18 {
   position: absolute;
   top: 0;
-  left: 85%;
-  width: 5%;
+  left: 34%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutTop 2.5s ease-in-out forwards;
+  animation: slideOutTop 3s ease-in-out forwards;
   animation-delay: 5.8s;
 }
 
 .letterbox-top-19 {
   position: absolute;
   top: 0;
-  left: 90%;
-  width: 5%;
+  left: 36%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutTop 2.5s ease-in-out forwards;
-  animation-delay: 2.1s;
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 5.9s;
 }
 
 .letterbox-top-20 {
   position: absolute;
   top: 0;
-  left: 95%;
-  width: 5%;
+  left: 38%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutTop 2.5s ease-in-out forwards;
+  animation: slideOutTop 3s ease-in-out forwards;
   animation-delay: 6s;
+}
+
+.letterbox-top-21 {
+  position: absolute;
+  top: 0;
+  left: 40%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 6.1s;
+}
+
+.letterbox-top-22 {
+  position: absolute;
+  top: 0;
+  left: 42%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 6.2s;
+}
+
+.letterbox-top-23 {
+  position: absolute;
+  top: 0;
+  left: 44%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 6.3s;
+}
+
+.letterbox-top-24 {
+  position: absolute;
+  top: 0;
+  left: 46%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 6.4s;
+}
+
+.letterbox-top-25 {
+  position: absolute;
+  top: 0;
+  left: 48%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 6.5s;
+}
+
+.letterbox-top-26 {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 6.6s;
+}
+
+.letterbox-top-27 {
+  position: absolute;
+  top: 0;
+  left: 52%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 6.7s;
+}
+
+.letterbox-top-28 {
+  position: absolute;
+  top: 0;
+  left: 54%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 6.8s;
+}
+
+.letterbox-top-29 {
+  position: absolute;
+  top: 0;
+  left: 56%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 6.9s;
+}
+
+.letterbox-top-30 {
+  position: absolute;
+  top: 0;
+  left: 58%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 7s;
+}
+
+.letterbox-top-31 {
+  position: absolute;
+  top: 0;
+  left: 60%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 7.1s;
+}
+
+.letterbox-top-32 {
+  position: absolute;
+  top: 0;
+  left: 62%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 7.2s;
+}
+
+.letterbox-top-33 {
+  position: absolute;
+  top: 0;
+  left: 64%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 7.3s;
+}
+
+.letterbox-top-34 {
+  position: absolute;
+  top: 0;
+  left: 66%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 7.4s;
+}
+
+.letterbox-top-35 {
+  position: absolute;
+  top: 0;
+  left: 68%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 7.5s;
+}
+
+.letterbox-top-36 {
+  position: absolute;
+  top: 0;
+  left: 70%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 7.6s;
+}
+
+.letterbox-top-37 {
+  position: absolute;
+  top: 0;
+  left: 72%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 7.7s;
+}
+
+.letterbox-top-38 {
+  position: absolute;
+  top: 0;
+  left: 74%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 7.8s;
+}
+
+.letterbox-top-39 {
+  position: absolute;
+  top: 0;
+  left: 76%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 7.9s;
+}
+
+.letterbox-top-40 {
+  position: absolute;
+  top: 0;
+  left: 78%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 8s;
+}
+
+.letterbox-top-41 {
+  position: absolute;
+  top: 0;
+  left: 80%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 8.1s;
+}
+
+.letterbox-top-42 {
+  position: absolute;
+  top: 0;
+  left: 82%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 8.2s;
+}
+
+.letterbox-top-43 {
+  position: absolute;
+  top: 0;
+  left: 84%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 8.3s;
+}
+
+.letterbox-top-44 {
+  position: absolute;
+  top: 0;
+  left: 86%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 8.4s;
+}
+
+.letterbox-top-45 {
+  position: absolute;
+  top: 0;
+  left: 88%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 8.5s;
+}
+
+.letterbox-top-46 {
+  position: absolute;
+  top: 0;
+  left: 90%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 8.6s;
+}
+
+.letterbox-top-47 {
+  position: absolute;
+  top: 0;
+  left: 92%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 2s;
+}
+
+.letterbox-top-48 {
+  position: absolute;
+  top: 0;
+  left: 94%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 2s;
+}
+
+.letterbox-top-49 {
+  position: absolute;
+  top: 0;
+  left: 96%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 2s;
+}
+
+.letterbox-top-50 {
+  position: absolute;
+  top: 0;
+  left: 98%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 2s;
 }
 
 .letterbox-bottom-1 {
   position: absolute;
   bottom: 0;
   left: 0%;
-  width: 5%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutBottom 2.5s ease-in-out forwards;
-  animation-delay: 3.9s;
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 4.1s;
 }
 
 .letterbox-bottom-2 {
   position: absolute;
   bottom: 0;
-  left: 5%;
-  width: 5%;
+  left: 2%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutBottom 2.5s ease-in-out forwards;
+  animation: slideOutBottom 3s ease-in-out forwards;
   animation-delay: 4.2s;
 }
 
 .letterbox-bottom-3 {
   position: absolute;
   bottom: 0;
-  left: 10%;
-  width: 5%;
+  left: 4%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutBottom 2.5s ease-in-out forwards;
-  animation-delay: 3.7s;
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 4.3s;
 }
 
 .letterbox-bottom-4 {
   position: absolute;
   bottom: 0;
-  left: 15%;
-  width: 5%;
+  left: 6%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutBottom 2.5s ease-in-out forwards;
+  animation: slideOutBottom 3s ease-in-out forwards;
   animation-delay: 4.4s;
 }
 
 .letterbox-bottom-5 {
   position: absolute;
   bottom: 0;
-  left: 20%;
-  width: 5%;
+  left: 8%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutBottom 2.5s ease-in-out forwards;
-  animation-delay: 3.5s;
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 4.5s;
 }
 
 .letterbox-bottom-6 {
   position: absolute;
   bottom: 0;
-  left: 25%;
-  width: 5%;
+  left: 10%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutBottom 2.5s ease-in-out forwards;
+  animation: slideOutBottom 3s ease-in-out forwards;
   animation-delay: 4.6s;
 }
 
 .letterbox-bottom-7 {
   position: absolute;
   bottom: 0;
-  left: 30%;
-  width: 5%;
+  left: 12%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutBottom 2.5s ease-in-out forwards;
-  animation-delay: 3.3s;
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 4.7s;
 }
 
 .letterbox-bottom-8 {
   position: absolute;
   bottom: 0;
-  left: 35%;
-  width: 5%;
+  left: 14%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutBottom 2.5s ease-in-out forwards;
+  animation: slideOutBottom 3s ease-in-out forwards;
   animation-delay: 4.8s;
 }
 
 .letterbox-bottom-9 {
   position: absolute;
   bottom: 0;
-  left: 40%;
-  width: 5%;
+  left: 16%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutBottom 2.5s ease-in-out forwards;
-  animation-delay: 3.1s;
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 4.9s;
 }
 
 .letterbox-bottom-10 {
   position: absolute;
   bottom: 0;
-  left: 45%;
-  width: 5%;
+  left: 18%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutBottom 2.5s ease-in-out forwards;
+  animation: slideOutBottom 3s ease-in-out forwards;
   animation-delay: 5s;
 }
 
 .letterbox-bottom-11 {
   position: absolute;
   bottom: 0;
-  left: 50%;
-  width: 5%;
+  left: 20%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutBottom 2.5s ease-in-out forwards;
-  animation-delay: 2.9s;
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 5.1s;
 }
 
 .letterbox-bottom-12 {
   position: absolute;
   bottom: 0;
-  left: 55%;
-  width: 5%;
+  left: 22%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutBottom 2.5s ease-in-out forwards;
+  animation: slideOutBottom 3s ease-in-out forwards;
   animation-delay: 5.2s;
 }
 
 .letterbox-bottom-13 {
   position: absolute;
   bottom: 0;
-  left: 60%;
-  width: 5%;
+  left: 24%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutBottom 2.5s ease-in-out forwards;
-  animation-delay: 2.7s;
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 5.3s;
 }
 
 .letterbox-bottom-14 {
   position: absolute;
   bottom: 0;
-  left: 65%;
-  width: 5%;
+  left: 26%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutBottom 2.5s ease-in-out forwards;
+  animation: slideOutBottom 3s ease-in-out forwards;
   animation-delay: 5.4s;
 }
 
 .letterbox-bottom-15 {
   position: absolute;
   bottom: 0;
-  left: 70%;
-  width: 5%;
+  left: 28%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutBottom 2.5s ease-in-out forwards;
-  animation-delay: 2.5s;
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 5.5s;
 }
 
 .letterbox-bottom-16 {
   position: absolute;
   bottom: 0;
-  left: 75%;
-  width: 5%;
+  left: 30%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutBottom 2.5s ease-in-out forwards;
+  animation: slideOutBottom 3s ease-in-out forwards;
   animation-delay: 5.6s;
 }
 
 .letterbox-bottom-17 {
   position: absolute;
   bottom: 0;
-  left: 80%;
-  width: 5%;
+  left: 32%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutBottom 2.5s ease-in-out forwards;
-  animation-delay: 2.3s;
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 5.7s;
 }
 
 .letterbox-bottom-18 {
   position: absolute;
   bottom: 0;
-  left: 85%;
-  width: 5%;
+  left: 34%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutBottom 2.5s ease-in-out forwards;
+  animation: slideOutBottom 3s ease-in-out forwards;
   animation-delay: 5.8s;
 }
 
 .letterbox-bottom-19 {
   position: absolute;
   bottom: 0;
-  left: 90%;
-  width: 5%;
+  left: 36%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutBottom 2.5s ease-in-out forwards;
-  animation-delay: 2.1s;
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 5.9s;
 }
 
 .letterbox-bottom-20 {
   position: absolute;
   bottom: 0;
-  left: 95%;
-  width: 5%;
+  left: 38%;
+  width: 2%;
   height: 50%;
   background-color: black;
   transform: translateY(0);
-  animation: slideOutBottom 2.5s ease-in-out forwards;
+  animation: slideOutBottom 3s ease-in-out forwards;
   animation-delay: 6s;
+}
+
+.letterbox-bottom-21 {
+  position: absolute;
+  bottom: 0;
+  left: 40%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 6.1s;
+}
+
+.letterbox-bottom-22 {
+  position: absolute;
+  bottom: 0;
+  left: 42%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 6.2s;
+}
+
+.letterbox-bottom-23 {
+  position: absolute;
+  bottom: 0;
+  left: 44%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 6.3s;
+}
+
+.letterbox-bottom-24 {
+  position: absolute;
+  bottom: 0;
+  left: 46%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 6.4s;
+}
+
+.letterbox-bottom-25 {
+  position: absolute;
+  bottom: 0;
+  left: 48%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 6.5s;
+}
+
+.letterbox-bottom-26 {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 6.6s;
+}
+
+.letterbox-bottom-27 {
+  position: absolute;
+  bottom: 0;
+  left: 52%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 6.7s;
+}
+
+.letterbox-bottom-28 {
+  position: absolute;
+  bottom: 0;
+  left: 54%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 6.8s;
+}
+
+.letterbox-bottom-29 {
+  position: absolute;
+  bottom: 0;
+  left: 56%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 6.9s;
+}
+
+.letterbox-bottom-30 {
+  position: absolute;
+  bottom: 0;
+  left: 58%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 7s;
+}
+
+.letterbox-bottom-31 {
+  position: absolute;
+  bottom: 0;
+  left: 60%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 7.1s;
+}
+
+.letterbox-bottom-32 {
+  position: absolute;
+  bottom: 0;
+  left: 62%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 7.2s;
+}
+
+.letterbox-bottom-33 {
+  position: absolute;
+  bottom: 0;
+  left: 64%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 7.3s;
+}
+
+.letterbox-bottom-34 {
+  position: absolute;
+  bottom: 0;
+  left: 66%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 7.4s;
+}
+
+.letterbox-bottom-35 {
+  position: absolute;
+  bottom: 0;
+  left: 68%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 7.5s;
+}
+
+.letterbox-bottom-36 {
+  position: absolute;
+  bottom: 0;
+  left: 70%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 7.6s;
+}
+
+.letterbox-bottom-37 {
+  position: absolute;
+  bottom: 0;
+  left: 72%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 7.7s;
+}
+
+.letterbox-bottom-38 {
+  position: absolute;
+  bottom: 0;
+  left: 74%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 7.8s;
+}
+
+.letterbox-bottom-39 {
+  position: absolute;
+  bottom: 0;
+  left: 76%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 7.9s;
+}
+
+.letterbox-bottom-40 {
+  position: absolute;
+  bottom: 0;
+  left: 78%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 8s;
+}
+
+.letterbox-bottom-41 {
+  position: absolute;
+  bottom: 0;
+  left: 80%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 8.1s;
+}
+
+.letterbox-bottom-42 {
+  position: absolute;
+  bottom: 0;
+  left: 82%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 8.2s;
+}
+
+.letterbox-bottom-43 {
+  position: absolute;
+  bottom: 0;
+  left: 84%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 8.3s;
+}
+
+.letterbox-bottom-44 {
+  position: absolute;
+  bottom: 0;
+  left: 86%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 8.4s;
+}
+
+.letterbox-bottom-45 {
+  position: absolute;
+  bottom: 0;
+  left: 88%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 8.5s;
+}
+
+.letterbox-bottom-46 {
+  position: absolute;
+  bottom: 0;
+  left: 90%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 8.6s;
+}
+
+.letterbox-bottom-47 {
+  position: absolute;
+  bottom: 0;
+  left: 92%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 2s;
+}
+
+.letterbox-bottom-48 {
+  position: absolute;
+  bottom: 0;
+  left: 94%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 2s;
+}
+
+.letterbox-bottom-49 {
+  position: absolute;
+  bottom: 0;
+  left: 96%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 2s;
+}
+
+.letterbox-bottom-50 {
+  position: absolute;
+  bottom: 0;
+  left: 98%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 2s;
 }
 
 @keyframes slideOutTop {
@@ -1284,7 +1972,6 @@ header.container.active {
     transform: translateY(100%);
   }
 }
-/* The keyframes for the original welcome text fade in/out remain unchanged if needed */
 @keyframes fadeInOutText {
   0% {
     opacity: 0;

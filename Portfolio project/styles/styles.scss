@@ -82,7 +82,7 @@ section {
 header.container {
     opacity: 0;
     visibility: hidden;
-    transition: opacity 2s ease-in-out, visibility 2s ease-in-out;
+    transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
   }
   
   header.container.active {
@@ -92,7 +92,7 @@ header.container {
   
   /* All other pages slide in from the top */
   .container:not(header) {
-    transform: translateY(-100%);
+    transform: translateX(100%);
     opacity: 0;
     visibility: hidden;
     transition: transform 1s ease-in-out, opacity 1s ease-in-out, visibility 1s ease-in-out;
@@ -109,8 +109,8 @@ header.container {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 90%;
+    width: 92%;
+    height: 100%;
     object-fit: cover; /* Ensures video covers the entire background */
     z-index: -1; /* Pushes video behind text content */
     opacity: 1; /* Optional: Adjust transparency */
@@ -156,7 +156,7 @@ header.container {
 
 .theme-btn {
     top: 5%;
-    right: 3%;
+    right: 2.5%;
     width: 70px;
     height: 70px;
     border-radius: 50%;
@@ -222,7 +222,7 @@ header.container {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding-right: 18rem;
+        padding-right: 13rem;
         .name {
             font-size: 3rem;
             span { color: var(--color-secondary); }
@@ -333,11 +333,16 @@ header.container {
                         transition: all .4s ease-in-out;
                         width: 60%;
                     }
-                    .html { width: 80%; }
-                    .C { width: 95%; }
-                    .Python { width: 75%; }
-                    .SQL{ width: 60%; }
+                    .html5andcss { width: 92%; }
+                    .C { width: 91%; }
+                    .Python { width: 98%; }
+                    .SQL{ width: 96%; }
                     .Cplusplus{ width: 87%; }
+                    .Javascript { width: 93%;}
+                    .R {width: 87%;}
+                    .AWS {width: 90%;}
+                    .networking{ width: 87%;}
+                    .AI{width: 96%;}
                     
                 }
             }
@@ -366,80 +371,83 @@ header.container {
 
 /*Timeline*/
 .timeline {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 2rem;
-    padding-bottom: 3rem;
-    
-    .timeline-item {
-      position: relative;
-      padding-left: 3rem;
-      border-left: 1px solid var(--color-grey-3);
-      
-      .tl-icon {
-        position: absolute;
-        left: -27px;
-        top: 0;
-        background-color: var(--color-secondary);
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer; // Make it look clickable
-        i {
-          font-size: 1.3rem;
-          color: var(--color-white-for-tl);
-        }
-      }
-      
-      .tl-duration {
-        padding: 0.2rem 0.6rem;
-        background-color: var(--color-grey-5);
-        border-radius: 15px;
-        display: inline-block;
-        font-size: 0.8rem;
-        text-transform: uppercase;
-        font-weight: 500;
-      }
-      
-      h5 {
-        padding: 1rem 0;
-        text-transform: uppercase;
-        font-size: 1.3rem;
-        font-weight: 600;
-        span {
-          color: var(--color-secondary);
-          font-weight: 500;
-          font-size: 1.2rem;
-        }
-      }
-      
-      h6 {
-        color: #ffffff;
-      }
-      
-      // Hide the paragraph content by default with a transition
-      p {
-        color: var(--color-grey-2);
-        max-height: 0;
-        opacity: 0;
-        overflow: hidden;
-        transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
-        margin: 0; // Remove extra space when hidden
-      }
-      
-      // When .active is added to a timeline-item, reveal the <p> content
-      &.active {
-        p {
-          max-height: 1000px; // Adjust this value if needed
-          opacity: 1;
-          margin-top: 1px; // Optional spacing when revealed
-        }
-      }
-    }
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* minimal gap between items */
+  padding-bottom: 3rem;
+}
+
+/* Each timeline item */
+.timeline-item {
+  position: relative;
+  padding-left: 3rem;
+  border-left: 1px solid var(--color-grey-3);
+  cursor: pointer;
+  
+  /* Timeline Icon */
+  .tl-icon {
+    position: absolute;
+    left: -27px;
+    top: 0;
+    background-color: var(--color-secondary);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
+  
+  .tl-icon i {
+    font-size: 1.3rem;
+    color: var(--color-white-for-tl);
+  }
+  
+  /* Duration and Heading */
+  .tl-duration {
+    padding: 0.2rem 0.6rem;
+    background-color: var(--color-grey-5);
+    border-radius: 15px;
+    display: inline-block;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  
+  h5 {
+    padding: 0.5rem 0;
+    text-transform: uppercase;
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+  
+  h5 span {
+    color: var(--color-secondary);
+    font-weight: 500;
+    font-size: 1.2rem;
+  }
+  
+  h6 {
+    color: #ffffff;
+  }
+  
+  /* Timeline content (paragraph) is hidden by default using a vertical collapse */
+  p {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+    margin: 0;
+  }
+  
+  /* When the timeline item is active, expand the paragraph vertically */
+  &.active p {
+    max-height: 500px; /* Ensure this is high enough for your content */
+    opacity: 1;
+    margin-top: 0.5rem; /* Optional spacing when expanded */
+  }
+}
 
 //Portfolios
 .port-text {
@@ -448,164 +456,165 @@ header.container {
 }
 
 .portfolios {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 2rem;
-    margin-top: 3rem;
-  
-    .portfolio-item {
-      position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 2rem;
+  margin-top: 3rem;
+
+  .portfolio-item {
+    position: relative;
+    border-radius: 15px;
+
+    /* Image styling remains unchanged */
+    img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
       border-radius: 15px;
-  
-      /* If you need both <img> and <video> variants, keep both rules: */
-      img {
-        width: 100%;
-        height: 300px;
-        object-fit: cover;
-        border-radius: 15px;
-        transition: all 0.4s ease-in-out;
+      transition: all 0.4s ease-in-out;
+    }
+
+    /* For the video items */
+    .hover-video {
+      width: 100% !important;
+      height: 300px !important;
+      object-fit: cover;
+      border-radius: 15px;
+      display: block;
+      /* Force the video to be grayscaled by default */
+      filter: grayscale(100%) !important;
+      // /* Transition only the filter */
+      transition: filter 0.4s ease-in-out !important;
+      // /* Hint to the browser that filter will change */
+      will-change: filter;
+    }
+
+    /* On hover, remove the grayscale filter */
+    &:hover .hover-video {
+      filter: grayscale(0%) !important;
+    }
+
+    .hover-items {
+      width: 100%;
+      height: 100%;
+      background-color: transparent; /* or none */
+      position: absolute;
+      left: 0;
+      top: 0;
+      border-radius: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      opacity: 0;
+      transform: scale(0);
+      transition: all 0.4s ease-in-out;
+      pointer-events: none;
+
+      h3 {
+        font-size: 1.5rem;
+        color: var(--color-white-for-tl);
+        margin-bottom: 1.5rem;
+        align-items: center;
       }
-  
-      /* For the video items */
-      .hover-video {
-        /* If the <video> has inline width/height, override with !important */
-        width: 100% !important;
-        height: 300px !important;
-        object-fit: cover;
-        border-radius: 15px;
-        transition: all 0.4s ease-in-out;
-        display: block; /* ensures it respects dimension rules */
+      h4 {
+        font-size: 1rem;
+        color: var(--color-white-for-tl);
+        margin-bottom: 1.5rem;
+        align-items: center;
       }
-  
-      /* Optional hover styling for the video */
-      &:hover .hover-video {
-        /* e.g. transform: scale(1.02);
-           box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-           up to you */
-      }
-  
-      .hover-items {
-        width: 100%;
-        height: 100%;
-        background-color: none; /* or transparent */
-        position: absolute;
-        left: 0;
-        top: 0;
-        border-radius: 15px;
+
+      .icons {
         display: flex;
         justify-content: center;
         align-items: center;
-        flex-direction: column;
-        opacity: 0;
-        transform: scale(0);
-        transition: all 0.4s ease-in-out;
-        pointer-events: none;  /* so the mouse can pass through if needed */
-  
-        h3 {
-          font-size: 1.5rem;
-          color: var(--color-white-for-tl);
-          margin-bottom: 1.5rem;
-          align-items: center;
-        }
-        h4{
-          font-size: 1rem;
-          color: var(--color-white-for-tl);
-          margin-bottom: 1.5rem;
-          align-items: center;
-        }
-  
-        .icons {
+
+        .icon {
+          background-color: var(--color-primary);
+          border-radius: 50%;
+          width: 50px;
+          height: 50px;
           display: flex;
-          justify-content: center;
           align-items: center;
-  
-          .icon {
-            background-color: var(--color-primary);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+          justify-content: center;
+          margin: 0 1rem;
+          cursor: pointer;
+          transition: all 0.4s ease-in-out;
+
+          i {
+            font-size: 1.5rem;
+            color: var(--color-white);
             margin: 0 1rem;
-            cursor: pointer;
-            transition: all 0.4s ease-in-out;
-  
+          }
+
+          &:hover {
+            background-color: var(--color-white);
             i {
-              font-size: 1.5rem;
-              color: var(--color-white);
-              margin: 0 1rem;
-            }
-  
-            &:hover {
-              background-color: var(--color-white);
-              i {
-                color: var(--color-primary);
-              }
+              color: var(--color-primary);
             }
           }
         }
       }
-  
-      /* When hovering over the entire .portfolio-item, reveal .hover-items */
-      &:hover .hover-items {
-        opacity: 1;
-        transform: scale(1);
-        pointer-events: auto; /* re-enable clicks inside the overlay */
-      }
+    }
+
+    /* Reveal the overlay on hover */
+    &:hover .hover-items {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
     }
   }
-
-//Blogs Section
-.blogs {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 2rem;
-    margin-top: 3rem;
-    .blog {
-        position: relative;
-        background-color: var(--color-grey-5);
-        border-radius: 5px;
-        box-shadow: 1px 1px 20px rgba(0,0,0,.1);
-        transition: all .4s ease-in-out;
-        &:hover {
-            box-shadow: 1px 1px 20px rgba(0,0,0,.3);
-            transform: translateY(-5px);
-            transition: all .4s ease-in-out;
-            img {
-                filter: grayscale(0);
-                transform: scale(1.1);
-                box-shadow: 0px 4px 15px rgba(0,0,0,0.8);
-            }
-        }
-        img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            border-top-left-radius: 5px;
-            border-top-right-radius: 5px;
-            filter: grayscale(100%);
-            transition: all .4s ease-in-out;
-        }
-        .blog-text {
-            margin-top: -7px;
-            padding: 1.1rem;
-            border-top: 8px solid var(--color-secondary);
-            h4 {
-                font-size: 1.5rem;
-                margin-bottom: .7rem;
-                transition: all .4s ease-in-out;
-                cursor: pointer;
-                &:hover { color: var(--color-secondary); }
-            }
-            p{
-                color: var(--color-grey-2);
-                line-height: 2rem;
-                padding-bottom: 1rem;
-            }
-        }
-    }
 }
+//Blogs Section
+// .blogs {
+//     display: grid;
+//     grid-template-columns: repeat(3, 1fr);
+//     grid-gap: 2rem;
+//     margin-top: 3rem;
+//     .blog {
+//         position: relative;
+//         background-color: var(--color-grey-5);
+//         border-radius: 5px;
+//         box-shadow: 1px 1px 20px rgba(0,0,0,.1);
+//         transition: all .4s ease-in-out;
+//         &:hover {
+//             box-shadow: 1px 1px 20px rgba(0,0,0,.3);
+//             transform: translateY(-5px);
+//             transition: all .4s ease-in-out;
+//             img {
+//                 filter: grayscale(0);
+//                 transform: scale(1.1);
+//                 box-shadow: 0px 4px 15px rgba(0,0,0,0.8);
+//             }
+//         }
+//         img {
+//             width: 100%;
+//             height: 300px;
+//             object-fit: cover;
+//             border-top-left-radius: 5px;
+//             border-top-right-radius: 5px;
+//             filter: grayscale(100%);
+//             transition: all .4s ease-in-out;
+//         }
+//         .blog-text {
+//             margin-top: -7px;
+//             padding: 1.1rem;
+//             border-top: 8px solid var(--color-secondary);
+//             h4 {
+//                 font-size: 1.5rem;
+//                 margin-bottom: .7rem;
+//                 transition: all .4s ease-in-out;
+//                 cursor: pointer;
+//                 &:hover { color: var(--color-secondary); }
+//             }
+//             p{
+//                 color: var(--color-grey-2);
+//                 line-height: 2rem;
+//                 padding-bottom: 1rem;
+//             }
+//         }
+//     }
+// }
 
 
 //Contact section
@@ -819,7 +828,7 @@ header.container {
     opacity: 0;
     background-color: transparent;
     animation: fadeInOutText 3s ease-in-out forwards;
-    animation-delay: .2s;
+    animation-delay: .3s;
   }
   @keyframes fadeOutText {
     0% { opacity: 1; }
@@ -835,57 +844,75 @@ header.container {
     z-index: 10000;
   }
   
-  $letterboxCount: 20;
-  $letterboxWidth: 100% / $letterboxCount; // Each box will be 2% wide when $letterboxCount is 50
-  
-  // Top letterboxes
-  @for $i from 1 through $letterboxCount {
-    .letterbox-top-#{$i} {
-      position: absolute;
-      top: 0;
-      left: #{($i - 1) * $letterboxWidth};
-      width: $letterboxWidth;
-      height: 50%; // Adjust the height as desired
-      background-color: black;
-      transform: translateY(0);
-      animation: slideOutTop 2.5s ease-in-out forwards;
-      animation-delay: #{if($i % 2 == 0, 4s + ($i * 0.1s), 4s - ($i * 0.1s))};
+ // Set up variables
+$letterboxCount: 50;
+$letterboxWidth: 100% / $letterboxCount; // With 20 boxes, each is 5% wide
+
+// -----------------------
+// Top Letterboxes
+// -----------------------
+@for $i from 1 through $letterboxCount {
+  .letterbox-top-#{$i} {
+    position: absolute;
+    top: 0;
+    left: #{($i - 1) * $letterboxWidth};
+    width: $letterboxWidth;
+    height: 50%; // Adjust height if needed (this row covers the top 50% of the screen)
+    background-color: black;
+    transform: translateY(0);
+    animation: slideOutTop 3s ease-in-out forwards;
+    // For boxes 19 and 20 (the rightmost two), fix the delay at 6s
+    @if $i >= 47 {
+      animation-delay: 2s;
+    } @else {
+      // For all other boxes, add a staggered delay based on the index
+      animation-delay: 4s + ($i * 0.1s);
     }
   }
-  
-  // Bottom letterboxes
-  @for $i from 1 through $letterboxCount {
-    .letterbox-bottom-#{$i} {
-      position: absolute;
-      bottom: 0;
-      left: #{($i - 1) * $letterboxWidth};
-      width: $letterboxWidth;
-      height: 50%; // Adjust as desired
-      background-color: black;
-      transform: translateY(0);
-      animation: slideOutBottom 2.5s ease-in-out forwards;
-      animation-delay: #{if($i % 2 == 0, 4s + ($i * 0.1s), 4s - ($i * 0.1s))};
+}
+
+// -----------------------
+// Bottom Letterboxes
+// -----------------------
+@for $i from 1 through $letterboxCount {
+  .letterbox-bottom-#{$i} {
+    position: absolute;
+    bottom: 0;
+    left: #{($i - 1) * $letterboxWidth};
+    width: $letterboxWidth;
+    height: 50%; // Adjust height if needed (this row covers the bottom 50% of the screen)
+    background-color: black;
+    transform: translateY(0);
+    animation: slideOutBottom 3s ease-in-out forwards;
+    @if $i >= 47 {
+      animation-delay: 2s;
+    } @else {
+      animation-delay: 4s + ($i * 0.1s);
     }
   }
-  
-  // * Keyframes for letterbox animations */
-  @keyframes slideOutTop {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-100%); }
-  }
-  
-  @keyframes slideOutBottom {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(100%); }
-  }
-  
-  /* The keyframes for the original welcome text fade in/out remain unchanged if needed */
-  @keyframes fadeInOutText {
-    0% { opacity: 0; }
-    30% { opacity: 1; }
-    70% { opacity: 1; }
-    100% { opacity: 0; }
-  }
+}
+
+// -----------------------
+// Keyframes
+// -----------------------
+@keyframes slideOutTop {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-100%); }
+}
+
+@keyframes slideOutBottom {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(100%); }
+}
+
+// Optional: If you still have your welcome text fade-out animation elsewhere,
+// you can include its keyframes. For example:
+@keyframes fadeInOutText {
+  0%   { opacity: 0; }
+  30%  { opacity: 1; }
+  70%  { opacity: 1; }
+  100% { opacity: 0; }
+}
 
 
 @import './media';
