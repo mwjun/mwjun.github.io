@@ -58,11 +58,18 @@ document.addEventListener("DOMContentLoaded", () => {
   }
   
   // === 3) Timeline Toggle Interactivity ===
-  // This code adds a click listener to each timeline icon.
-  // When a timeline icon is clicked, it toggles the "active" class on its parent .timeline-item.
   document.querySelectorAll('.timeline-item .tl-icon').forEach((icon) => {
     icon.addEventListener("click", function () {
       this.parentElement.classList.toggle("active");
     });
   });
+
+  // === 4) Remove Welcome Screen After Animation ===
+  const welcomeScreen = document.getElementById('welcome-screen');
+  if (welcomeScreen) {
+    setTimeout(() => {
+      welcomeScreen.style.display = 'none';
+    }, 8500); // Adjust this delay to match your CSS animations
+  }
 });
+

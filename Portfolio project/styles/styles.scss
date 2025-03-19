@@ -73,6 +73,7 @@ section {
     padding: 3rem 18rem;
 }
 
+
 /* ======================================================
    Transition Styles for Page Containers
    ====================================================== */
@@ -109,7 +110,7 @@ header.container {
     top: 0;
     left: 0;
     width: 100%;
-    height: 85%;
+    height: 90%;
     object-fit: cover; /* Ensures video covers the entire background */
     z-index: -1; /* Pushes video behind text content */
     opacity: 1; /* Optional: Adjust transparency */
@@ -434,7 +435,7 @@ header.container {
         p {
           max-height: 1000px; // Adjust this value if needed
           opacity: 1;
-          margin-top: 10px; // Optional spacing when revealed
+          margin-top: 1px; // Optional spacing when revealed
         }
       }
     }
@@ -793,5 +794,98 @@ header.container {
         }
     }
 }
+/* Welcome Screen Overlay */
+#welcome-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent; /* Now transparent */
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  
+  
+  /* Welcome text animation */
+  .welcome-text {
+    position: relative;  /* establish a new stacking context */
+    z-index: 10100;      /* higher than the letterboxes’ z-index */
+    font-size: 3rem;
+    color: white;
+    opacity: 0;
+    background-color: transparent;
+    animation: fadeInOutText 3s ease-in-out forwards;
+    animation-delay: .2s;
+  }
+  @keyframes fadeOutText {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+  /* Letterbox panels for the top and bottom */
+  .letterbox {
+    position: absolute;
+    // left: 0;
+    // right: 0;
+    height: 50%;
+    background-color: transparent;
+    z-index: 10000;
+  }
+  
+  $letterboxCount: 20;
+  $letterboxWidth: 100% / $letterboxCount; // Each box will be 2% wide when $letterboxCount is 50
+  
+  // Top letterboxes
+  @for $i from 1 through $letterboxCount {
+    .letterbox-top-#{$i} {
+      position: absolute;
+      top: 0;
+      left: #{($i - 1) * $letterboxWidth};
+      width: $letterboxWidth;
+      height: 50%; // Adjust the height as desired
+      background-color: black;
+      transform: translateY(0);
+      animation: slideOutTop 2.5s ease-in-out forwards;
+      animation-delay: #{if($i % 2 == 0, 4s + ($i * 0.1s), 4s - ($i * 0.1s))};
+    }
+  }
+  
+  // Bottom letterboxes
+  @for $i from 1 through $letterboxCount {
+    .letterbox-bottom-#{$i} {
+      position: absolute;
+      bottom: 0;
+      left: #{($i - 1) * $letterboxWidth};
+      width: $letterboxWidth;
+      height: 50%; // Adjust as desired
+      background-color: black;
+      transform: translateY(0);
+      animation: slideOutBottom 2.5s ease-in-out forwards;
+      animation-delay: #{if($i % 2 == 0, 4s + ($i * 0.1s), 4s - ($i * 0.1s))};
+    }
+  }
+  
+  // * Keyframes for letterbox animations */
+  @keyframes slideOutTop {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-100%); }
+  }
+  
+  @keyframes slideOutBottom {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(100%); }
+  }
+  
+  /* The keyframes for the original welcome text fade in/out remain unchanged if needed */
+  @keyframes fadeInOutText {
+    0% { opacity: 0; }
+    30% { opacity: 1; }
+    70% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
 
 @import './media';
