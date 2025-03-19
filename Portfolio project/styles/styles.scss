@@ -40,11 +40,10 @@
     --box-shadow-teal: rgba(2, 255, 179, 0.945);
     --br-sm-2: 14px;
     --box-shadow-1: 0 3px 15px rgba(0,0,0,.3);
-    
 }
 
 body {
-    // background-color: var(--color-primary);
+    background-color: var(--color-primary);
     font-family: 'Poppins', sans-serif;
     font-size: 1.1rem;
     color: var(--color-white);
@@ -61,7 +60,6 @@ a {
 header {
     min-height: 100vh;
     color: var(--color-white);
-    background-color: transparent;
     overflow: hidden;
     padding: 0 !important;
 }
@@ -75,30 +73,43 @@ section {
     padding: 3rem 18rem;
 }
 
-.container {
-    display: none;
-    transform: translateY(-100%) scale(0);
-    transition: all .4s ease-in-out;
-    background-color: transparent;
-}
+/* ======================================================
+   Transition Styles for Page Containers
+   ====================================================== */
 
+/* Header (first page) fades in */
+header.container {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 2s ease-in-out, visibility 2s ease-in-out;
+  }
+  
+  header.container.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  /* All other pages slide in from the top */
+  .container:not(header) {
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 1s ease-in-out, opacity 1s ease-in-out, visibility 1s ease-in-out;
+  }
+  
+  .container:not(header).active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
 
-.active {
-    display: block;
-    animation: appear 1s ease-in-out;
-    transform: translateY(0) scaleY(1);
-    @keyframes appear {
-        0%{ transform: translateY(-100%) scaleY(0); }
-        100%{ transform: translateY(0) scaleY(1); }
-    }
-}
 
 .bg-video {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 85%;
     object-fit: cover; /* Ensures video covers the entire background */
     z-index: -1; /* Pushes video behind text content */
     opacity: 1; /* Optional: Adjust transparency */
@@ -170,12 +181,10 @@ section {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     min-height: 100vh;
-    filter: grayscale(0%);
     .left-header {
         display: flex;
         align-items: center;
         position: relative;
-        
         
         // .h-shape {
         //     transition: all .4s ease-in-out;
@@ -188,24 +197,24 @@ section {
         //     z-index: -1;
         //     clip-path: polygon(0 0, 46% 0, 79% 100%, 0% 100%);
         // }
-        .image {
-            border-radius: var(--br-sm-2);
-            height: 90%;
-            width: 68%;
-            margin-left: 4rem;
-            background-color: var(--color-black);
-            transition: all .4s ease-in-out;
-            img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                transition: all .4s ease-in-out;
-                filter: grayscale(0%);
-                &:hover{
-                    filter: grayscale(0);
-                }
-            }
-        }
+        // .image {
+        //     border-radius: var(--br-sm-2);
+        //     height: 90%;
+        //     width: 68%;
+        //     margin-left: 4rem;
+        //     background-color: var(--color-black);
+        //     transition: all .4s ease-in-out;
+        //     img {
+        //         width: 100%;
+        //         height: 100%;
+        //         object-fit: cover;
+        //         transition: all .4s ease-in-out;
+        //         filter: grayscale(100%);
+        //         &:hover{
+        //             filter: grayscale(0);
+        //         }
+        //     }
+        // }
     }
 
     .right-header {
@@ -236,7 +245,7 @@ section {
         grid-gap: 2rem;
         .about-item {
             border: 1px solid var(--color-white);
-            border-radius: 5px;
+            border-radius: 25px;
             transition: all .4s ease-in-out;
             box-shadow: 1px 2px 15px rgba(0,0,0,.1);
             &:hover {
@@ -341,16 +350,18 @@ section {
     padding: 3.5rem 0;
     position: relative;
     &::before {
+        // this is the line break on the aobut page
         content: '';
         position: absolute;
         left: 50%;
         top: 0;
-        width: 40%;
+        width: 80%;
         height: 1px;
         background-color: var(--color-grey-5);
         transform: translateX(-50%);
     }
 }
+
 
 /*Timeline*/
 .timeline {
@@ -358,50 +369,76 @@ section {
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 2rem;
     padding-bottom: 3rem;
+    
     .timeline-item {
-        position: relative;
-        padding-left: 3rem;
-        border-left: 1px solid var(--color-grey-3);
-        .tl-icon {
-            position: absolute;
-            left: -27px;
-            top: 0;
-            background-color: var(--color-secondary);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            i { font-size: 1.3rem;
-                color: var(--color-white-for-tl) 
-            }
+      position: relative;
+      padding-left: 3rem;
+      border-left: 1px solid var(--color-grey-3);
+      
+      .tl-icon {
+        position: absolute;
+        left: -27px;
+        top: 0;
+        background-color: var(--color-secondary);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer; // Make it look clickable
+        i {
+          font-size: 1.3rem;
+          color: var(--color-white-for-tl);
         }
-        .tl-duration {
-            padding: .2rem .6rem;
-            background-color: var(--color-grey-5);
-            border-radius: 15px;
-            display: inline-block;
-            font-size: .8rem;
-            text-transform: uppercase;
-            font-weight: 500;
+      }
+      
+      .tl-duration {
+        padding: 0.2rem 0.6rem;
+        background-color: var(--color-grey-5);
+        border-radius: 15px;
+        display: inline-block;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        font-weight: 500;
+      }
+      
+      h5 {
+        padding: 1rem 0;
+        text-transform: uppercase;
+        font-size: 1.3rem;
+        font-weight: 600;
+        span {
+          color: var(--color-secondary);
+          font-weight: 500;
+          font-size: 1.2rem;
         }
-        h5 {
-            padding: 1rem 0;
-            text-transform: uppercase;
-            font-size: 1.3rem;
-            font-weight: 600;
-            span {
-                color: var(--color-secondary);
-                font-weight: 500;
-                font-size: 1.2rem;
-            }
+      }
+      
+      h6 {
+        color: #ffffff;
+      }
+      
+      // Hide the paragraph content by default with a transition
+      p {
+        color: var(--color-grey-2);
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+        margin: 0; // Remove extra space when hidden
+      }
+      
+      // When .active is added to a timeline-item, reveal the <p> content
+      &.active {
+        p {
+          max-height: 1000px; // Adjust this value if needed
+          opacity: 1;
+          margin-top: 10px; // Optional spacing when revealed
         }
-        h6 { color: #ffffff;
-        }
-        p{ color: var(--color-grey-2); }
+      }
     }
-}
+  }
 
 //Portfolios
 .port-text {
@@ -642,7 +679,7 @@ section {
         margin-left: 3rem;
         .input-control {
             margin: 1.5rem 0;
-            // color: var(white);
+            color: var(white);
             input, textarea {
                 border-radius: 30px;
                 font-weight: inherit;
@@ -675,7 +712,7 @@ section {
             justify-content: flex-start;
         }
     }
-}
+
 
 
 /*Independed components*/
@@ -748,10 +785,10 @@ section {
             left: 50%;
             color: var(--color-grey-4);
             transition: all .4s ease-in-out;
-            opacity: 80%;
+            opacity: 50%;
             z-index: -1;
             transform: translate(-50%, -50%);
-            font-weight: 900;
+            font-weight: 1200;
             font-size: 5rem;
         }
     }
