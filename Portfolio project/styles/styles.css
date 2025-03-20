@@ -1,3 +1,4 @@
+@charset "UTF-8";
 * {
   margin: 0;
   padding: 0;
@@ -17,22 +18,29 @@
   --color-grey-4: #454e56;
   --color-grey-5: #2a2e35;
   --color-grey-6: #12181b;
+  --color-bone: #00021bf8;
+  --color-white-for-tl: #fffffffa;
+  --box-shadow-teal: rgba(2, 255, 179, 0.945);
   --br-sm-2: 14px;
-  --box-shadow-1: 0 3px 15px rgba(0,0,0,.3);
+  --box-shadow-1: 0 3px 15px rgba(255, 255, 255, 0.3);
 }
 
 .light-mode {
   --color-primary: #FFFFFF;
-  --color-secondary: #3719dd;
-  --color-white: #3ea8e6;
+  --color-secondary: #148BEB;
+  --color-white: #43A2EF;
   --color-black: #000;
-  --color-grey0: #f8f8f8;
-  --color-grey-1: #a6b3bd;
+  --color-grey0: #1b1b1b;
+  --color-grey-1: #212122;
   --color-grey-2: #8d979e;
   --color-grey-3: #8998a3;
   --color-grey-4: #737b83;
-  --color-grey-5: #646672;
-  --color-grey-6: #373d41;
+  --color-grey-5: #5a5a5a;
+  --color-grey-6: #5d5f61;
+  --color-white-for-tl: #faf8f8;
+  --box-shadow-teal: rgba(2, 255, 179, 0.945);
+  --br-sm-2: 14px;
+  --box-shadow-1: 0 3px 15px rgba(0,0,0,.3);
 }
 
 body {
@@ -66,37 +74,45 @@ section {
   padding: 3rem 18rem;
 }
 
-.container {
-  display: none;
-  transform: translateY(-100%) scale(0);
-  transition: all 0.4s ease-in-out;
-  background-color: var(--color-primary);
+/* ======================================================
+   Transition Styles for Page Containers
+   ====================================================== */
+/* Header (first page) fades in */
+header.container {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
 }
 
-.active {
-  display: block;
-  animation: appear 1s ease-in-out;
-  transform: translateY(0) scaleY(1);
+header.container.active {
+  opacity: 1;
+  visibility: visible;
 }
-@keyframes appear {
-  0% {
-    transform: translateY(-100%) scaleY(0);
-  }
-  100% {
-    transform: translateY(0) scaleY(1);
-  }
+
+/* All other pages slide in from the top */
+.container:not(header) {
+  transform: translateX(100%);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 1s ease-in-out, opacity 1s ease-in-out, visibility 1s ease-in-out;
+}
+
+.container:not(header).active {
+  transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
 }
 
 .bg-video {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 92%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover; /* Ensures video covers the entire background */
   z-index: -1; /* Pushes video behind text content */
-  opacity: 0.7; /* Optional: Adjust transparency */
+  opacity: 1; /* Optional: Adjust transparency */
   pointer-events: none; /* Prevents users from interacting with the video */
 }
 
@@ -134,23 +150,23 @@ section {
   transition: all 0.4s ease-in-out;
 }
 .controls .active-btn i {
-  color: var(--color-white);
+  color: var(--color-white-for-tl);
 }
 
 .theme-btn {
   top: 5%;
-  right: 3%;
+  right: 2.5%;
   width: 70px;
   height: 70px;
   border-radius: 50%;
-  background-color: var(--color-grey-4);
+  background-color: var(--color-grey-1);
   cursor: pointer;
   position: fixed;
   display: flex;
   justify-content: center;
   align-items: center;
   box-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
-  transition: all 0.1s ease-in-out;
+  transition: all 0.4s ease-in-out;
 }
 .theme-btn:active {
   transform: translateY(-3px);
@@ -172,42 +188,11 @@ section {
   align-items: center;
   position: relative;
 }
-.header-content .left-header .h-shape {
-  transition: all 0.4s ease-in-out;
-  width: 65%;
-  height: 100%;
-  background-color: var(--color-secondary);
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: -1;
-  -webkit-clip-path: polygon(0 0, 46% 0, 79% 100%, 0% 100%);
-          clip-path: polygon(0 0, 46% 0, 79% 100%, 0% 100%);
-}
-.header-content .left-header .image {
-  border-radius: var(--br-sm-2);
-  height: 90%;
-  width: 68%;
-  margin-left: 4rem;
-  background-color: var(--color-black);
-  transition: all 0.4s ease-in-out;
-}
-.header-content .left-header .image img {
-  width: 100%;
-  height: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
-  transition: all 0.4s ease-in-out;
-  filter: grayscale(100%);
-}
-.header-content .left-header .image img:hover {
-  filter: grayscale(0);
-}
 .header-content .right-header {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-right: 18rem;
+  padding-right: 13rem;
 }
 .header-content .right-header .name {
   font-size: 3rem;
@@ -233,8 +218,8 @@ section {
   grid-gap: 2rem;
 }
 .about-container .right-about .about-item {
-  border: 1px solid var(--color-grey-5);
-  border-radius: 5px;
+  border: 1px solid var(--color-white);
+  border-radius: 25px;
   transition: all 0.4s ease-in-out;
   box-shadow: 1px 2px 15px rgba(0, 0, 0, 0.1);
 }
@@ -242,7 +227,7 @@ section {
   cursor: default;
   transform: translateY(-5px);
   border: 1px solid var(--color-secondary);
-  box-shadow: 1px 4px 15px rgba(0, 0, 0, 0.32);
+  box-shadow: 1px 4px 15px rgba(2, 255, 179, 0.945);
 }
 .about-container .right-about .about-item .abt-text {
   padding: 1.5rem;
@@ -258,9 +243,9 @@ section {
   padding-left: 3rem;
   position: relative;
   text-transform: uppercase;
-  font-size: 1.2rem;
-  color: var(--color-grey-1);
-  letter-spacing: 2px;
+  font-size: 0.9rem;
+  color: var(--color-white);
+  letter-spacing: 1px;
 }
 .about-container .right-about .about-item .abt-text .small-text::before {
   content: "";
@@ -269,7 +254,7 @@ section {
   top: 15px;
   width: 2rem;
   height: 2px;
-  background-color: var(--color-grey-5);
+  background-color: var(--color-white);
 }
 .about-container .left-about {
   padding-right: 5rem;
@@ -277,7 +262,7 @@ section {
 .about-container .left-about p {
   line-height: 2rem;
   padding: 1rem;
-  color: var(--color-grey-1);
+  color: var(--color-white);
 }
 .about-container .left-about h4 {
   font-size: 2rem;
@@ -305,7 +290,7 @@ section {
   align-items: center;
 }
 .about-stats .progress-bars .progress-bar .progress-con .prog-text {
-  color: var(--color-grey-2);
+  color: var(--color-white);
 }
 .about-stats .progress-bars .progress-bar .progress-con .progress {
   width: 100%;
@@ -323,20 +308,35 @@ section {
   transition: all 0.4s ease-in-out;
   width: 60%;
 }
-.about-stats .progress-bars .progress-bar .progress-con .progress .html {
-  width: 80%;
+.about-stats .progress-bars .progress-bar .progress-con .progress .html5andcss {
+  width: 92%;
 }
 .about-stats .progress-bars .progress-bar .progress-con .progress .C {
-  width: 95%;
+  width: 91%;
 }
 .about-stats .progress-bars .progress-bar .progress-con .progress .Python {
-  width: 75%;
+  width: 98%;
 }
 .about-stats .progress-bars .progress-bar .progress-con .progress .SQL {
-  width: 60%;
+  width: 96%;
 }
 .about-stats .progress-bars .progress-bar .progress-con .progress .Cplusplus {
   width: 87%;
+}
+.about-stats .progress-bars .progress-bar .progress-con .progress .js {
+  width: 93%;
+}
+.about-stats .progress-bars .progress-bar .progress-con .progress .R {
+  width: 87%;
+}
+.about-stats .progress-bars .progress-bar .progress-con .progress .AWS {
+  width: 90%;
+}
+.about-stats .progress-bars .progress-bar .progress-con .progress .networking {
+  width: 87%;
+}
+.about-stats .progress-bars .progress-bar .progress-con .progress .AI {
+  width: 96%;
 }
 
 .stat-title {
@@ -351,40 +351,58 @@ section {
   position: absolute;
   left: 50%;
   top: 0;
-  width: 40%;
+  width: 80%;
   height: 1px;
   background-color: var(--color-grey-5);
   transform: translateX(-50%);
 }
 
 /*Timeline*/
+/* Timeline (vertical accordion style) */
 .timeline {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* minimal gap between items */
   padding-bottom: 3rem;
 }
-.timeline .timeline-item {
+
+/* Each timeline item */
+.timeline-item {
   position: relative;
   padding-left: 3rem;
-  border-left: 1px solid var(--color-grey-5);
+  border-left: 1px solid var(--color-grey-3);
+  cursor: pointer;
+  /* Timeline Icon: Default state */
+  /* When active, change the icon appearance */
+  /* The rest of your timeline item styling remains unchanged */
+  /* Timeline content (paragraph) – hidden by default with vertical collapse */
+  /* When active, reveal the content */
 }
-.timeline .timeline-item .tl-icon {
+.timeline-item .tl-icon {
   position: absolute;
   left: -27px;
   top: 0;
-  background-color: var(--color-secondary);
+  background-color: var(--color-grey-4); /* default grey background */
   width: 50px;
   height: 50px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.4s ease-in-out;
 }
-.timeline .timeline-item .tl-icon i {
+.timeline-item .tl-icon i {
   font-size: 1.3rem;
+  color: var(--color-grey-2); /* default icon color grey */
+  transition: all 0.4s ease-in-out;
 }
-.timeline .timeline-item .tl-duration {
+.timeline-item.active .tl-icon {
+  background-color: var(--color-secondary);
+}
+.timeline-item.active .tl-icon i {
+  color: var(--color-white-for-tl);
+}
+.timeline-item .tl-duration {
   padding: 0.2rem 0.6rem;
   background-color: var(--color-grey-5);
   border-radius: 15px;
@@ -392,20 +410,33 @@ section {
   font-size: 0.8rem;
   text-transform: uppercase;
   font-weight: 500;
+  margin-bottom: 0.5rem;
 }
-.timeline .timeline-item h5 {
-  padding: 1rem 0;
+.timeline-item h5 {
+  padding: 0.5rem 0;
   text-transform: uppercase;
   font-size: 1.3rem;
   font-weight: 600;
 }
-.timeline .timeline-item h5 span {
-  color: var(--color-grey-2);
+.timeline-item h5 span {
+  color: var(--color-secondary);
   font-weight: 500;
   font-size: 1.2rem;
 }
-.timeline .timeline-item p {
-  color: var(--color-grey-2);
+.timeline-item h6 {
+  color: #ffffff;
+}
+.timeline-item p {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+  margin: 0;
+}
+.timeline-item.active p {
+  max-height: 500px; /* adjust based on your content */
+  opacity: 1;
+  margin-top: 0.5rem;
 }
 
 .port-text {
@@ -422,6 +453,10 @@ section {
 .portfolios .portfolio-item {
   position: relative;
   border-radius: 15px;
+  /* Image styling remains unchanged */
+  /* For the video items */
+  /* On hover, remove the grayscale filter */
+  /* Reveal the overlay on hover */
 }
 .portfolios .portfolio-item img {
   width: 100%;
@@ -429,11 +464,27 @@ section {
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 15px;
+  transition: all 0.4s ease-in-out;
+}
+.portfolios .portfolio-item .hover-video {
+  width: 100% !important;
+  height: 300px !important;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 15px;
+  display: block;
+  /* Force the video to be grayscaled by default */
+  filter: grayscale(100%) !important;
+  transition: filter 0.4s ease-in-out !important;
+  will-change: filter;
+}
+.portfolios .portfolio-item:hover .hover-video {
+  filter: grayscale(0%) !important;
 }
 .portfolios .portfolio-item .hover-items {
   width: 100%;
   height: 100%;
-  background-color: var(--color-secondary);
+  background-color: transparent; /* or none */
   position: absolute;
   left: 0;
   top: 0;
@@ -445,11 +496,19 @@ section {
   opacity: 0;
   transform: scale(0);
   transition: all 0.4s ease-in-out;
+  pointer-events: none;
 }
 .portfolios .portfolio-item .hover-items h3 {
   font-size: 1.5rem;
-  color: var(--color-white);
+  color: var(--color-white-for-tl);
   margin-bottom: 1.5rem;
+  align-items: center;
+}
+.portfolios .portfolio-item .hover-items h4 {
+  font-size: 1rem;
+  color: var(--color-white-for-tl);
+  margin-bottom: 1.5rem;
+  align-items: center;
 }
 .portfolios .portfolio-item .hover-items .icons {
   display: flex;
@@ -479,63 +538,10 @@ section {
 .portfolios .portfolio-item .hover-items .icons .icon:hover i {
   color: var(--color-primary);
 }
-
-.portfolio-item:hover .hover-items {
+.portfolios .portfolio-item:hover .hover-items {
   opacity: 1;
   transform: scale(1);
-}
-
-.blogs {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 2rem;
-  margin-top: 3rem;
-}
-.blogs .blog {
-  position: relative;
-  background-color: var(--color-grey-5);
-  border-radius: 5px;
-  box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.1);
-  transition: all 0.4s ease-in-out;
-}
-.blogs .blog:hover {
-  box-shadow: 1px 1px 20px rgba(0, 0, 0, 0.3);
-  transform: translateY(-5px);
-  transition: all 0.4s ease-in-out;
-}
-.blogs .blog:hover img {
-  filter: grayscale(0);
-  transform: scale(1.1);
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.8);
-}
-.blogs .blog img {
-  width: 100%;
-  height: 300px;
-  -o-object-fit: cover;
-     object-fit: cover;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  filter: grayscale(100%);
-  transition: all 0.4s ease-in-out;
-}
-.blogs .blog .blog-text {
-  margin-top: -7px;
-  padding: 1.1rem;
-  border-top: 8px solid var(--color-secondary);
-}
-.blogs .blog .blog-text h4 {
-  font-size: 1.5rem;
-  margin-bottom: 0.7rem;
-  transition: all 0.4s ease-in-out;
-  cursor: pointer;
-}
-.blogs .blog .blog-text h4:hover {
-  color: var(--color-secondary);
-}
-.blogs .blog .blog-text p {
-  color: var(--color-grey-2);
-  line-height: 2rem;
-  padding-bottom: 1rem;
+  pointer-events: auto;
 }
 
 .contact-content-con {
@@ -607,6 +613,7 @@ section {
 }
 .contact-content-con .right-contact .input-control {
   margin: 1.5rem 0;
+  color: var(white);
 }
 .contact-content-con .right-contact .input-control input, .contact-content-con .right-contact .input-control textarea {
   border-radius: 30px;
@@ -616,18 +623,25 @@ section {
   padding: 0.8rem 1.1rem;
   outline: none;
   border: none;
-  background-color: var(--color-grey-5);
+  background-color: var(--color-grey-3);
   width: 100%;
-  color: var(--color-white);
+  color: var(--color-white-for-tl);
   resize: none;
 }
-.contact-content-con .right-contact .i-c-2 {
+.contact-content-con .right-contact .input-control input::-moz-placeholder, .contact-content-con .right-contact .input-control textarea::-moz-placeholder {
+  color: var(--color-white-for-tl);
+}
+.contact-content-con .right-contact .input-control input::placeholder,
+.contact-content-con .right-contact .input-control textarea::placeholder {
+  color: var(--color-white-for-tl);
+}
+.contact-content-con .i-c-2 {
   display: flex;
 }
-.contact-content-con .right-contact .i-c-2 :last-child {
+.contact-content-con .i-c-2 :last-child {
   margin-left: 1.5rem;
 }
-.contact-content-con .right-contact .submit-btn {
+.contact-content-con .submit-btn {
   display: flex;
   justify-content: flex-start;
 }
@@ -642,15 +656,21 @@ section {
   border-radius: 30px;
   color: inherit;
   font-weight: 600;
-  position: relative;
+  position: relative; /* for the ::before overlay */
   border: 1px solid var(--color-secondary);
-  display: flex;
-  align-self: flex-start;
-  align-items: center;
-  overflow: hidden;
+  display: flex; /* same as anchor */
+  align-items: center; /* center text & icon vertically */
+  cursor: pointer; /* important for a button */
+  overflow: hidden; /* needed for the overlay effect */
+  background: none; /* optional if you want a transparent background */
+  transition: all 0.4s ease-out;
+  /* The text part and icon part */
+  /* The overlay that slides in from the right */
+  /* Hover effect: overlay expands from right to left */
 }
 .main-btn .btn-text {
   padding: 0 2rem;
+  z-index: 1; /* so text stays above the overlay */
 }
 .main-btn .btn-icon {
   background-color: var(--color-secondary);
@@ -659,25 +679,23 @@ section {
   justify-content: center;
   border-radius: 50%;
   padding: 1rem;
+  z-index: 1; /* so icon is above the overlay */
 }
 .main-btn::before {
   content: "";
   position: absolute;
   top: 0;
   right: 0;
+  width: 0%;
+  height: 100%;
+  background-color: var(--color-secondary);
   transform: translateX(100%);
   transition: all 0.4s ease-out;
-  z-index: -1;
-}
-.main-btn:hover {
-  transition: all 0.4s ease-out;
+  z-index: -1; /* position behind text & icon */
 }
 .main-btn:hover::before {
   width: 100%;
-  height: 100%;
-  background-color: var(--color-secondary);
   transform: translateX(0);
-  transition: all 0.4s ease-out;
 }
 
 .main-title {
@@ -696,15 +714,1289 @@ section {
   position: absolute;
   top: 50%;
   left: 50%;
-  color: var(--color-grey-5);
+  color: var(--color-grey-4);
   transition: all 0.4s ease-in-out;
+  opacity: 50%;
   z-index: -1;
   transform: translate(-50%, -50%);
-  font-weight: 800;
-  font-size: 6.3rem;
+  font-weight: 1200;
+  font-size: 5rem;
 }
 
-.about-container .left-about p {
+/* Welcome Screen Overlay */
+#welcome-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent; /* Now transparent */
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Welcome text animation */
+.welcome-text {
+  position: relative; /* establish a new stacking context */
+  z-index: 10100; /* higher than the letterboxes’ z-index */
+  font-size: 3rem;
+  color: white;
+  opacity: 0;
+  background-color: transparent;
+  animation: fadeInOutText 3s ease-in-out forwards;
+  animation-delay: 0.3s;
+}
+
+@keyframes fadeOutText {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+/* Letterbox panels for the top and bottom */
+.letterbox {
+  position: absolute;
+  height: 50%;
+  background-color: transparent;
+  z-index: 10000;
+}
+
+.letterbox-top-1 {
+  position: absolute;
+  top: 0;
+  left: 0%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 4.1s;
+}
+
+.letterbox-top-2 {
+  position: absolute;
+  top: 0;
+  left: 2%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 4.2s;
+}
+
+.letterbox-top-3 {
+  position: absolute;
+  top: 0;
+  left: 4%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 4.3s;
+}
+
+.letterbox-top-4 {
+  position: absolute;
+  top: 0;
+  left: 6%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 4.4s;
+}
+
+.letterbox-top-5 {
+  position: absolute;
+  top: 0;
+  left: 8%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 4.5s;
+}
+
+.letterbox-top-6 {
+  position: absolute;
+  top: 0;
+  left: 10%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 4.6s;
+}
+
+.letterbox-top-7 {
+  position: absolute;
+  top: 0;
+  left: 12%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 4.7s;
+}
+
+.letterbox-top-8 {
+  position: absolute;
+  top: 0;
+  left: 14%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 4.8s;
+}
+
+.letterbox-top-9 {
+  position: absolute;
+  top: 0;
+  left: 16%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 4.9s;
+}
+
+.letterbox-top-10 {
+  position: absolute;
+  top: 0;
+  left: 18%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 5s;
+}
+
+.letterbox-top-11 {
+  position: absolute;
+  top: 0;
+  left: 20%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 5.1s;
+}
+
+.letterbox-top-12 {
+  position: absolute;
+  top: 0;
+  left: 22%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 5.2s;
+}
+
+.letterbox-top-13 {
+  position: absolute;
+  top: 0;
+  left: 24%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 5.3s;
+}
+
+.letterbox-top-14 {
+  position: absolute;
+  top: 0;
+  left: 26%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 5.4s;
+}
+
+.letterbox-top-15 {
+  position: absolute;
+  top: 0;
+  left: 28%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 5.5s;
+}
+
+.letterbox-top-16 {
+  position: absolute;
+  top: 0;
+  left: 30%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 5.6s;
+}
+
+.letterbox-top-17 {
+  position: absolute;
+  top: 0;
+  left: 32%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 5.7s;
+}
+
+.letterbox-top-18 {
+  position: absolute;
+  top: 0;
+  left: 34%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 5.8s;
+}
+
+.letterbox-top-19 {
+  position: absolute;
+  top: 0;
+  left: 36%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 5.9s;
+}
+
+.letterbox-top-20 {
+  position: absolute;
+  top: 0;
+  left: 38%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 6s;
+}
+
+.letterbox-top-21 {
+  position: absolute;
+  top: 0;
+  left: 40%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 6.1s;
+}
+
+.letterbox-top-22 {
+  position: absolute;
+  top: 0;
+  left: 42%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 6.2s;
+}
+
+.letterbox-top-23 {
+  position: absolute;
+  top: 0;
+  left: 44%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 6.3s;
+}
+
+.letterbox-top-24 {
+  position: absolute;
+  top: 0;
+  left: 46%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 6.4s;
+}
+
+.letterbox-top-25 {
+  position: absolute;
+  top: 0;
+  left: 48%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 6.5s;
+}
+
+.letterbox-top-26 {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 6.6s;
+}
+
+.letterbox-top-27 {
+  position: absolute;
+  top: 0;
+  left: 52%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 6.7s;
+}
+
+.letterbox-top-28 {
+  position: absolute;
+  top: 0;
+  left: 54%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 6.8s;
+}
+
+.letterbox-top-29 {
+  position: absolute;
+  top: 0;
+  left: 56%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 6.9s;
+}
+
+.letterbox-top-30 {
+  position: absolute;
+  top: 0;
+  left: 58%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 7s;
+}
+
+.letterbox-top-31 {
+  position: absolute;
+  top: 0;
+  left: 60%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 7.1s;
+}
+
+.letterbox-top-32 {
+  position: absolute;
+  top: 0;
+  left: 62%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 7.2s;
+}
+
+.letterbox-top-33 {
+  position: absolute;
+  top: 0;
+  left: 64%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 7.3s;
+}
+
+.letterbox-top-34 {
+  position: absolute;
+  top: 0;
+  left: 66%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 7.4s;
+}
+
+.letterbox-top-35 {
+  position: absolute;
+  top: 0;
+  left: 68%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 7.5s;
+}
+
+.letterbox-top-36 {
+  position: absolute;
+  top: 0;
+  left: 70%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 7.6s;
+}
+
+.letterbox-top-37 {
+  position: absolute;
+  top: 0;
+  left: 72%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 7.7s;
+}
+
+.letterbox-top-38 {
+  position: absolute;
+  top: 0;
+  left: 74%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 7.8s;
+}
+
+.letterbox-top-39 {
+  position: absolute;
+  top: 0;
+  left: 76%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 7.9s;
+}
+
+.letterbox-top-40 {
+  position: absolute;
+  top: 0;
+  left: 78%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 8s;
+}
+
+.letterbox-top-41 {
+  position: absolute;
+  top: 0;
+  left: 80%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 8.1s;
+}
+
+.letterbox-top-42 {
+  position: absolute;
+  top: 0;
+  left: 82%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 8.2s;
+}
+
+.letterbox-top-43 {
+  position: absolute;
+  top: 0;
+  left: 84%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 8.3s;
+}
+
+.letterbox-top-44 {
+  position: absolute;
+  top: 0;
+  left: 86%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 8.4s;
+}
+
+.letterbox-top-45 {
+  position: absolute;
+  top: 0;
+  left: 88%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 8.5s;
+}
+
+.letterbox-top-46 {
+  position: absolute;
+  top: 0;
+  left: 90%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 8.6s;
+}
+
+.letterbox-top-47 {
+  position: absolute;
+  top: 0;
+  left: 92%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 2s;
+}
+
+.letterbox-top-48 {
+  position: absolute;
+  top: 0;
+  left: 94%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 2s;
+}
+
+.letterbox-top-49 {
+  position: absolute;
+  top: 0;
+  left: 96%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 2s;
+}
+
+.letterbox-top-50 {
+  position: absolute;
+  top: 0;
+  left: 98%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutTop 3s ease-in-out forwards;
+  animation-delay: 2s;
+}
+
+.letterbox-bottom-1 {
+  position: absolute;
+  bottom: 0;
+  left: 0%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 4.1s;
+}
+
+.letterbox-bottom-2 {
+  position: absolute;
+  bottom: 0;
+  left: 2%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 4.2s;
+}
+
+.letterbox-bottom-3 {
+  position: absolute;
+  bottom: 0;
+  left: 4%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 4.3s;
+}
+
+.letterbox-bottom-4 {
+  position: absolute;
+  bottom: 0;
+  left: 6%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 4.4s;
+}
+
+.letterbox-bottom-5 {
+  position: absolute;
+  bottom: 0;
+  left: 8%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 4.5s;
+}
+
+.letterbox-bottom-6 {
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 4.6s;
+}
+
+.letterbox-bottom-7 {
+  position: absolute;
+  bottom: 0;
+  left: 12%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 4.7s;
+}
+
+.letterbox-bottom-8 {
+  position: absolute;
+  bottom: 0;
+  left: 14%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 4.8s;
+}
+
+.letterbox-bottom-9 {
+  position: absolute;
+  bottom: 0;
+  left: 16%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 4.9s;
+}
+
+.letterbox-bottom-10 {
+  position: absolute;
+  bottom: 0;
+  left: 18%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 5s;
+}
+
+.letterbox-bottom-11 {
+  position: absolute;
+  bottom: 0;
+  left: 20%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 5.1s;
+}
+
+.letterbox-bottom-12 {
+  position: absolute;
+  bottom: 0;
+  left: 22%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 5.2s;
+}
+
+.letterbox-bottom-13 {
+  position: absolute;
+  bottom: 0;
+  left: 24%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 5.3s;
+}
+
+.letterbox-bottom-14 {
+  position: absolute;
+  bottom: 0;
+  left: 26%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 5.4s;
+}
+
+.letterbox-bottom-15 {
+  position: absolute;
+  bottom: 0;
+  left: 28%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 5.5s;
+}
+
+.letterbox-bottom-16 {
+  position: absolute;
+  bottom: 0;
+  left: 30%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 5.6s;
+}
+
+.letterbox-bottom-17 {
+  position: absolute;
+  bottom: 0;
+  left: 32%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 5.7s;
+}
+
+.letterbox-bottom-18 {
+  position: absolute;
+  bottom: 0;
+  left: 34%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 5.8s;
+}
+
+.letterbox-bottom-19 {
+  position: absolute;
+  bottom: 0;
+  left: 36%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 5.9s;
+}
+
+.letterbox-bottom-20 {
+  position: absolute;
+  bottom: 0;
+  left: 38%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 6s;
+}
+
+.letterbox-bottom-21 {
+  position: absolute;
+  bottom: 0;
+  left: 40%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 6.1s;
+}
+
+.letterbox-bottom-22 {
+  position: absolute;
+  bottom: 0;
+  left: 42%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 6.2s;
+}
+
+.letterbox-bottom-23 {
+  position: absolute;
+  bottom: 0;
+  left: 44%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 6.3s;
+}
+
+.letterbox-bottom-24 {
+  position: absolute;
+  bottom: 0;
+  left: 46%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 6.4s;
+}
+
+.letterbox-bottom-25 {
+  position: absolute;
+  bottom: 0;
+  left: 48%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 6.5s;
+}
+
+.letterbox-bottom-26 {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 6.6s;
+}
+
+.letterbox-bottom-27 {
+  position: absolute;
+  bottom: 0;
+  left: 52%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 6.7s;
+}
+
+.letterbox-bottom-28 {
+  position: absolute;
+  bottom: 0;
+  left: 54%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 6.8s;
+}
+
+.letterbox-bottom-29 {
+  position: absolute;
+  bottom: 0;
+  left: 56%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 6.9s;
+}
+
+.letterbox-bottom-30 {
+  position: absolute;
+  bottom: 0;
+  left: 58%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 7s;
+}
+
+.letterbox-bottom-31 {
+  position: absolute;
+  bottom: 0;
+  left: 60%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 7.1s;
+}
+
+.letterbox-bottom-32 {
+  position: absolute;
+  bottom: 0;
+  left: 62%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 7.2s;
+}
+
+.letterbox-bottom-33 {
+  position: absolute;
+  bottom: 0;
+  left: 64%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 7.3s;
+}
+
+.letterbox-bottom-34 {
+  position: absolute;
+  bottom: 0;
+  left: 66%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 7.4s;
+}
+
+.letterbox-bottom-35 {
+  position: absolute;
+  bottom: 0;
+  left: 68%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 7.5s;
+}
+
+.letterbox-bottom-36 {
+  position: absolute;
+  bottom: 0;
+  left: 70%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 7.6s;
+}
+
+.letterbox-bottom-37 {
+  position: absolute;
+  bottom: 0;
+  left: 72%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 7.7s;
+}
+
+.letterbox-bottom-38 {
+  position: absolute;
+  bottom: 0;
+  left: 74%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 7.8s;
+}
+
+.letterbox-bottom-39 {
+  position: absolute;
+  bottom: 0;
+  left: 76%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 7.9s;
+}
+
+.letterbox-bottom-40 {
+  position: absolute;
+  bottom: 0;
+  left: 78%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 8s;
+}
+
+.letterbox-bottom-41 {
+  position: absolute;
+  bottom: 0;
+  left: 80%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 8.1s;
+}
+
+.letterbox-bottom-42 {
+  position: absolute;
+  bottom: 0;
+  left: 82%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 8.2s;
+}
+
+.letterbox-bottom-43 {
+  position: absolute;
+  bottom: 0;
+  left: 84%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 8.3s;
+}
+
+.letterbox-bottom-44 {
+  position: absolute;
+  bottom: 0;
+  left: 86%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 8.4s;
+}
+
+.letterbox-bottom-45 {
+  position: absolute;
+  bottom: 0;
+  left: 88%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 8.5s;
+}
+
+.letterbox-bottom-46 {
+  position: absolute;
+  bottom: 0;
+  left: 90%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 8.6s;
+}
+
+.letterbox-bottom-47 {
+  position: absolute;
+  bottom: 0;
+  left: 92%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 2s;
+}
+
+.letterbox-bottom-48 {
+  position: absolute;
+  bottom: 0;
+  left: 94%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 2s;
+}
+
+.letterbox-bottom-49 {
+  position: absolute;
+  bottom: 0;
+  left: 96%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 2s;
+}
+
+.letterbox-bottom-50 {
+  position: absolute;
+  bottom: 0;
+  left: 98%;
+  width: 2%;
+  height: 50%;
+  background-color: black;
+  transform: translateY(0);
+  animation: slideOutBottom 3s ease-in-out forwards;
+  animation-delay: 2s;
+}
+
+@keyframes slideOutTop {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-100%);
+  }
+}
+@keyframes slideOutBottom {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(100%);
+  }
+}
+@keyframes fadeInOutText {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.about-container .lvideoeft-about p {
   padding-left: 0;
 }
 

@@ -17,22 +17,27 @@
     --color-grey-4: #454e56;
     --color-grey-5: #2a2e35;
     --color-grey-6: #12181b;
+    --color-bone: #00021bf8;
+    --color-white-for-tl: #fffffffa;
+    --box-shadow-teal: rgba(2, 255, 179, 0.945);
     --br-sm-2: 14px;
-    --box-shadow-1: 0 3px 15px rgba(0,0,0,.3);
+    --box-shadow-1: 0 3px 15px rgba(255, 255, 255, 0.3);
 }
 
 .light-mode {
     --color-primary: #FFFFFF;
-    --color-secondary: #ca3bca;
-    --color-white: #edeeee;
+    --color-secondary: #148BEB;
+    --color-white: #43A2EF;
     --color-black: #000;
-    --color-grey0: #f8f8f8;
-    --color-grey-1: #a6b3bd;
+    --color-grey0: #1b1b1b;
+    --color-grey-1: #212122;
     --color-grey-2: #8d979e;
     --color-grey-3: #8998a3;
     --color-grey-4: #737b83;
-    --color-grey-5: #646672;
-    --color-grey-6: #373d41;
+    --color-grey-5: #5a5a5a;
+    --color-grey-6: #5d5f61;
+    --color-white-for-tl: #faf8f8;
+    --box-shadow-teal: rgba(2, 255, 179, 0.945);
     --br-sm-2: 14px;
     --box-shadow-1: 0 3px 15px rgba(0,0,0,.3);
 }
@@ -68,33 +73,47 @@ section {
     padding: 3rem 18rem;
 }
 
-.container {
-    display: none;
-    transform: translateY(-100%) scale(0);
-    transition: all .4s ease-in-out;
-    background-color: var(--color-primary);
-}
 
+/* ======================================================
+   Transition Styles for Page Containers
+   ====================================================== */
 
-.active {
-    display: block;
-    animation: appear 1s ease-in-out;
-    transform: translateY(0) scaleY(1);
-    @keyframes appear {
-        0%{ transform: translateY(-100%) scaleY(0); }
-        100%{ transform: translateY(0) scaleY(1); }
-    }
-}
+/* Header (first page) fades in */
+header.container {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
+  }
+  
+  header.container.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  /* All other pages slide in from the top */
+  .container:not(header) {
+    transform: translateX(100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 1s ease-in-out, opacity 1s ease-in-out, visibility 1s ease-in-out;
+  }
+  
+  .container:not(header).active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
 
 .bg-video {
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 92%;
     height: 100%;
     object-fit: cover; /* Ensures video covers the entire background */
     z-index: -1; /* Pushes video behind text content */
-    opacity: 0.7; /* Optional: Adjust transparency */
+    opacity: 1; /* Optional: Adjust transparency */
     pointer-events: none; /* Prevents users from interacting with the video */
 }
 
@@ -131,24 +150,24 @@ section {
     .active-btn {
         background-color: var(--color-secondary);
         transition: all .4s ease-in-out;
-        i { color: var(--color-white); }
+        i { color: var(--color-white-for-tl); }
     }
 }
 
 .theme-btn {
     top: 5%;
-    right: 3%;
+    right: 2.5%;
     width: 70px;
     height: 70px;
     border-radius: 50%;
-    background-color: var(--color-grey-4);
+    background-color: var(--color-grey-1);
     cursor: pointer;
     position: fixed;
     display: flex;
     justify-content: center;
     align-items: center;
     box-shadow: 0 3px 15px rgba(0,0,0,.3);
-    transition: all .1s ease-in-out;
+    transition: all .4s ease-in-out;
     &:active{ transform: translateY(-3px); }
     i{
         font-size: 1.4rem;
@@ -168,42 +187,42 @@ section {
         align-items: center;
         position: relative;
         
-        .h-shape {
-            transition: all .4s ease-in-out;
-            width: 65%;
-            height: 100%;
-            background-color: var(--color-blue-hue);
-            position: absolute;
-            left: 0;
-            top: 0;
-            z-index: -1;
-            clip-path: polygon(0 0, 46% 0, 79% 100%, 0% 100%);
-        }
-        .image {
-            border-radius: var(--br-sm-2);
-            height: 90%;
-            width: 68%;
-            margin-left: 4rem;
-            background-color: var(--color-black);
-            transition: all .4s ease-in-out;
-            img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                transition: all .4s ease-in-out;
-                filter: grayscale(100%);
-                &:hover{
-                    filter: grayscale(0);
-                }
-            }
-        }
+        // .h-shape {
+        //     transition: all .4s ease-in-out;
+        //     width: 100%;
+        //     height: 100%;
+        //     background-color: var(--color-white);
+        //     position: absolute;
+        //     left: 0;
+        //     top: 0;
+        //     z-index: -1;
+        //     clip-path: polygon(0 0, 46% 0, 79% 100%, 0% 100%);
+        // }
+        // .image {
+        //     border-radius: var(--br-sm-2);
+        //     height: 90%;
+        //     width: 68%;
+        //     margin-left: 4rem;
+        //     background-color: var(--color-black);
+        //     transition: all .4s ease-in-out;
+        //     img {
+        //         width: 100%;
+        //         height: 100%;
+        //         object-fit: cover;
+        //         transition: all .4s ease-in-out;
+        //         filter: grayscale(100%);
+        //         &:hover{
+        //             filter: grayscale(0);
+        //         }
+        //     }
+        // }
     }
 
     .right-header {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        padding-right: 18rem;
+        padding-right: 13rem;
         .name {
             font-size: 3rem;
             span { color: var(--color-secondary); }
@@ -226,15 +245,15 @@ section {
         grid-template-columns: repeat(2, 1fr);
         grid-gap: 2rem;
         .about-item {
-            border: 1px solid var(--color-grey-5);
-            border-radius: 5px;
+            border: 1px solid var(--color-white);
+            border-radius: 25px;
             transition: all .4s ease-in-out;
             box-shadow: 1px 2px 15px rgba(0,0,0,.1);
             &:hover {
                 cursor: default;
                 transform: translateY(-5px);
                 border: 1px solid var(--color-secondary);
-                box-shadow: 1px 4px 15px rgba(0,0,0,.32);
+                box-shadow: 1px 4px 15px rgba(2, 255, 179, 0.945);
             }
             .abt-text {
                 padding: 1.5rem;
@@ -249,9 +268,9 @@ section {
                     padding-left: 3rem;
                     position: relative;
                     text-transform: uppercase;
-                    font-size: 1.2rem;
-                    color: var(--color-grey-1);
-                    letter-spacing: 2px;
+                    font-size: .9rem;
+                    color: var(--color-white);
+                    letter-spacing: 1px;
                     &::before {
                         content: '';
                         position: absolute;
@@ -259,7 +278,7 @@ section {
                         top: 15px;
                         width: 2rem;
                         height: 2px;
-                        background-color: var(--color-grey-5);
+                        background-color: var(--color-white);
                     }
                 }
             }
@@ -271,7 +290,7 @@ section {
         p {
             line-height: 2rem;
             padding: 1rem;
-            color: var(--color-grey-1);
+            color: var(--color-white);
         }
         h4 {
             font-size: 2rem;
@@ -297,7 +316,7 @@ section {
                 display: flex;
                 align-items: center;
                 .prog-text {
-                    color: var(--color-grey-2);
+                    color: var(--color-white);
                 }
                 .progress {
                     width: 100%;
@@ -314,11 +333,16 @@ section {
                         transition: all .4s ease-in-out;
                         width: 60%;
                     }
-                    .html { width: 80%; }
-                    .C { width: 95%; }
-                    .Python { width: 75%; }
-                    .SQL{ width: 60%; }
+                    .html5andcss { width: 92%; }
+                    .C { width: 91%; }
+                    .Python { width: 98%; }
+                    .SQL{ width: 96%; }
                     .Cplusplus{ width: 87%; }
+                    .js { width: 93%;}
+                    .R {width: 87%;}
+                    .AWS {width: 90%;}
+                    .networking{ width: 87%;}
+                    .AI{width: 96%;}
                     
                 }
             }
@@ -332,62 +356,110 @@ section {
     padding: 3.5rem 0;
     position: relative;
     &::before {
+        // this is the line break on the aobut page
         content: '';
         position: absolute;
         left: 50%;
         top: 0;
-        width: 40%;
+        width: 80%;
         height: 1px;
         background-color: var(--color-grey-5);
         transform: translateX(-50%);
     }
 }
 
+
 /*Timeline*/
+/* Timeline (vertical accordion style) */
 .timeline {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 2rem;
-    padding-bottom: 3rem;
-    .timeline-item {
-        position: relative;
-        padding-left: 3rem;
-        border-left: 1px solid var(--color-grey-5);
-        .tl-icon {
-            position: absolute;
-            left: -27px;
-            top: 0;
-            background-color: var(--color-secondary);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            i { font-size: 1.3rem; }
-        }
-        .tl-duration {
-            padding: .2rem .6rem;
-            background-color: var(--color-grey-5);
-            border-radius: 15px;
-            display: inline-block;
-            font-size: .8rem;
-            text-transform: uppercase;
-            font-weight: 500;
-        }
-        h5 {
-            padding: 1rem 0;
-            text-transform: uppercase;
-            font-size: 1.3rem;
-            font-weight: 600;
-            span {
-                color: var(--color-grey-2);
-                font-weight: 500;
-                font-size: 1.2rem;
-            }
-        }
-        p{ color: var(--color-grey-2); }
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* minimal gap between items */
+  padding-bottom: 3rem;
+}
+
+/* Each timeline item */
+.timeline-item {
+  position: relative;
+  padding-left: 3rem;
+  border-left: 1px solid var(--color-grey-3);
+  cursor: pointer;
+  
+  /* Timeline Icon: Default state */
+  .tl-icon {
+    position: absolute;
+    left: -27px;
+    top: 0;
+    background-color: var(--color-grey-4); /* default grey background */
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s ease-in-out;
+  }
+  
+  .tl-icon i {
+    font-size: 1.3rem;
+    color: var(--color-grey-2); /* default icon color grey */
+    transition: all 0.4s ease-in-out;
+  }
+  
+  /* When active, change the icon appearance */
+  &.active {
+    .tl-icon {
+      background-color: var(--color-secondary);
     }
+    .tl-icon i {
+      color: var(--color-white-for-tl);
+    }
+  }
+  
+  /* The rest of your timeline item styling remains unchanged */
+  .tl-duration {
+    padding: 0.2rem 0.6rem;
+    background-color: var(--color-grey-5);
+    border-radius: 15px;
+    display: inline-block;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+  
+  h5 {
+    padding: 0.5rem 0;
+    text-transform: uppercase;
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+  
+  h5 span {
+    color: var(--color-secondary);
+    font-weight: 500;
+    font-size: 1.2rem;
+  }
+  
+  h6 {
+    color: #ffffff;
+  }
+  
+  /* Timeline content (paragraph) – hidden by default with vertical collapse */
+  p {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+    margin: 0;
+  }
+  
+  /* When active, reveal the content */
+  &.active p {
+    max-height: 500px; /* adjust based on your content */
+    opacity: 1;
+    margin-top: 0.5rem;
+  }
 }
 
 //Portfolios
@@ -397,125 +469,165 @@ section {
 }
 
 .portfolios {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 2rem;
-    margin-top: 3rem;
-    .portfolio-item {
-        position: relative;
-        border-radius: 15px;
-        img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            border-radius: 15px;
-        }
-        .hover-items {
-            width: 100%;
-            height: 100%;
-            background-color: var(--color-secondary);
-            position: absolute;
-            left: 0;
-            top: 0;
-            border-radius: 15px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            opacity: 0;
-            transform: scale(0);
-            transition: all .4s ease-in-out;
-            h3 {
-                font-size: 1.5rem;
-                color: var(--color-white);
-                margin-bottom: 1.5rem;
-                
-            }
-            .icons {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                .icon {
-                    background-color: var(--color-primary);
-                    border-radius: 50%;
-                    width: 50px;
-                    height: 50px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    margin: 0 1rem;
-                    cursor: pointer;
-                    transition: all .4s ease-in-out;
-                    i {
-                        font-size: 1.5rem;
-                        color: var(--color-white);
-                        margin: 0 1rem;
-                    }
-                    &:hover {
-                        background-color: var(--color-white);
-                        i { color: var(--color-primary); }
-                    }
-                }
-            }
-        }
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 2rem;
+  margin-top: 3rem;
+
+  .portfolio-item {
+    position: relative;
+    border-radius: 15px;
+
+    /* Image styling remains unchanged */
+    img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 15px;
+      transition: all 0.4s ease-in-out;
     }
-}
 
-.portfolio-item:hover .hover-items {
-    opacity: 1;
-    transform: scale(1);
-}
+    /* For the video items */
+    .hover-video {
+      width: 100% !important;
+      height: 300px !important;
+      object-fit: cover;
+      border-radius: 15px;
+      display: block;
+      /* Force the video to be grayscaled by default */
+      filter: grayscale(100%) !important;
+      // /* Transition only the filter */
+      transition: filter 0.4s ease-in-out !important;
+      // /* Hint to the browser that filter will change */
+      will-change: filter;
+    }
 
+    /* On hover, remove the grayscale filter */
+    &:hover .hover-video {
+      filter: grayscale(0%) !important;
+    }
+
+    .hover-items {
+      width: 100%;
+      height: 100%;
+      background-color: transparent; /* or none */
+      position: absolute;
+      left: 0;
+      top: 0;
+      border-radius: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      opacity: 0;
+      transform: scale(0);
+      transition: all 0.4s ease-in-out;
+      pointer-events: none;
+
+      h3 {
+        font-size: 1.5rem;
+        color: var(--color-white-for-tl);
+        margin-bottom: 1.5rem;
+        align-items: center;
+      }
+      h4 {
+        font-size: 1rem;
+        color: var(--color-white-for-tl);
+        margin-bottom: 1.5rem;
+        align-items: center;
+      }
+
+      .icons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .icon {
+          background-color: var(--color-primary);
+          border-radius: 50%;
+          width: 50px;
+          height: 50px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin: 0 1rem;
+          cursor: pointer;
+          transition: all 0.4s ease-in-out;
+
+          i {
+            font-size: 1.5rem;
+            color: var(--color-white);
+            margin: 0 1rem;
+          }
+
+          &:hover {
+            background-color: var(--color-white);
+            i {
+              color: var(--color-primary);
+            }
+          }
+        }
+      }
+    }
+
+    /* Reveal the overlay on hover */
+    &:hover .hover-items {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: auto;
+    }
+  }
+}
 //Blogs Section
-.blogs {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 2rem;
-    margin-top: 3rem;
-    .blog {
-        position: relative;
-        background-color: var(--color-grey-5);
-        border-radius: 5px;
-        box-shadow: 1px 1px 20px rgba(0,0,0,.1);
-        transition: all .4s ease-in-out;
-        &:hover {
-            box-shadow: 1px 1px 20px rgba(0,0,0,.3);
-            transform: translateY(-5px);
-            transition: all .4s ease-in-out;
-            img {
-                filter: grayscale(0);
-                transform: scale(1.1);
-                box-shadow: 0px 4px 15px rgba(0,0,0,0.8);
-            }
-        }
-        img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            border-top-left-radius: 5px;
-            border-top-right-radius: 5px;
-            filter: grayscale(100%);
-            transition: all .4s ease-in-out;
-        }
-        .blog-text {
-            margin-top: -7px;
-            padding: 1.1rem;
-            border-top: 8px solid var(--color-secondary);
-            h4 {
-                font-size: 1.5rem;
-                margin-bottom: .7rem;
-                transition: all .4s ease-in-out;
-                cursor: pointer;
-                &:hover { color: var(--color-secondary); }
-            }
-            p{
-                color: var(--color-grey-2);
-                line-height: 2rem;
-                padding-bottom: 1rem;
-            }
-        }
-    }
-}
+// .blogs {
+//     display: grid;
+//     grid-template-columns: repeat(3, 1fr);
+//     grid-gap: 2rem;
+//     margin-top: 3rem;
+//     .blog {
+//         position: relative;
+//         background-color: var(--color-grey-5);
+//         border-radius: 5px;
+//         box-shadow: 1px 1px 20px rgba(0,0,0,.1);
+//         transition: all .4s ease-in-out;
+//         &:hover {
+//             box-shadow: 1px 1px 20px rgba(0,0,0,.3);
+//             transform: translateY(-5px);
+//             transition: all .4s ease-in-out;
+//             img {
+//                 filter: grayscale(0);
+//                 transform: scale(1.1);
+//                 box-shadow: 0px 4px 15px rgba(0,0,0,0.8);
+//             }
+//         }
+//         img {
+//             width: 100%;
+//             height: 300px;
+//             object-fit: cover;
+//             border-top-left-radius: 5px;
+//             border-top-right-radius: 5px;
+//             filter: grayscale(100%);
+//             transition: all .4s ease-in-out;
+//         }
+//         .blog-text {
+//             margin-top: -7px;
+//             padding: 1.1rem;
+//             border-top: 8px solid var(--color-secondary);
+//             h4 {
+//                 font-size: 1.5rem;
+//                 margin-bottom: .7rem;
+//                 transition: all .4s ease-in-out;
+//                 cursor: pointer;
+//                 &:hover { color: var(--color-secondary); }
+//             }
+//             p{
+//                 color: var(--color-grey-2);
+//                 line-height: 2rem;
+//                 padding-bottom: 1rem;
+//             }
+//         }
+//     }
+// }
 
 
 //Contact section
@@ -575,6 +687,7 @@ section {
                     i { color: var(--color-primary); }
                 }
                 i {
+                    
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -589,6 +702,7 @@ section {
         margin-left: 3rem;
         .input-control {
             margin: 1.5rem 0;
+            color: var(white);
             input, textarea {
                 border-radius: 30px;
                 font-weight: inherit;
@@ -597,10 +711,17 @@ section {
                 padding: .8rem 1.1rem;
                 outline: none;
                 border: none;
-                background-color: var(--color-grey-5);
+                background-color: var(--color-grey-3);
                 width: 100%;
-                color: var(--color-white);
+                color: var(--color-white-for-tl);
                 resize: none;
+            }
+            // Add placeholder styling
+            input::placeholder,
+            textarea::placeholder {
+                color: var(--color-white-for-tl); 
+            // or var(--color-grey-2), or whichever is most readable
+                }
             }
         }
         .i-c-2 {
@@ -614,7 +735,7 @@ section {
             justify-content: flex-start;
         }
     }
-}
+
 
 
 /*Independed components*/
@@ -626,42 +747,52 @@ section {
     border-radius: 30px;
     color: inherit;
     font-weight: 600;
-    position: relative;
+    position: relative; /* for the ::before overlay */
     border: 1px solid var(--color-secondary);
-    display: flex;
-    align-self: flex-start;
-    align-items: center;
-    overflow: hidden;
-    .btn-text { padding: 0 2rem; }
+    display: flex;       /* same as anchor */
+    align-items: center; /* center text & icon vertically */
+    cursor: pointer;     /* important for a button */
+    overflow: hidden;    /* needed for the overlay effect */
+    background: none;    /* optional if you want a transparent background */
+    transition: all 0.4s ease-out;
+  
+    /* The text part and icon part */
+    .btn-text {
+      padding: 0 2rem;
+      z-index: 1; /* so text stays above the overlay */
+    }
     .btn-icon {
-        background-color: var(--color-secondary);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        padding: 1rem;
+      background-color: var(--color-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      padding: 1rem;
+      z-index: 1; /* so icon is above the overlay */
     }
+  
+    /* The overlay that slides in from the right */
     &::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        right: 0;
-        transform: translateX(100%);
-        transition: all .4s ease-out;
-        z-index: -1;
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 0%;
+      height: 100%;
+      background-color: var(--color-secondary);
+      transform: translateX(100%);
+      transition: all 0.4s ease-out;
+      z-index: -1; /* position behind text & icon */
     }
+  
+    /* Hover effect: overlay expands from right to left */
     &:hover {
-        transition: all .4s ease-out;
-        &::before {
-            width: 100%;
-            height: 100%;
-            background-color: var(--color-secondary);
-            transform: translateX(0);
-            transition: all .4s ease-out;
-        }
+      &::before {
+        width: 100%;
+        transform: translateX(0);
+      }
     }
-
-}
+  }
 
 .main-title {
     text-align: center;
@@ -675,14 +806,126 @@ section {
             position: absolute;
             top: 50%;
             left: 50%;
-            color: var(--color-grey-5);
+            color: var(--color-grey-4);
             transition: all .4s ease-in-out;
+            opacity: 50%;
             z-index: -1;
             transform: translate(-50%, -50%);
-            font-weight: 800;
-            font-size: 6.3rem;
+            font-weight: 1200;
+            font-size: 5rem;
         }
     }
 }
+/* Welcome Screen Overlay */
+#welcome-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent; /* Now transparent */
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  
+  
+  /* Welcome text animation */
+  .welcome-text {
+    position: relative;  /* establish a new stacking context */
+    z-index: 10100;      /* higher than the letterboxes’ z-index */
+    font-size: 3rem;
+    color: white;
+    opacity: 0;
+    background-color: transparent;
+    animation: fadeInOutText 3s ease-in-out forwards;
+    animation-delay: .3s;
+  }
+  @keyframes fadeOutText {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+  /* Letterbox panels for the top and bottom */
+  .letterbox {
+    position: absolute;
+    // left: 0;
+    // right: 0;
+    height: 50%;
+    background-color: transparent;
+    z-index: 10000;
+  }
+  
+ // Set up variables
+$letterboxCount: 50;
+$letterboxWidth: 100% / $letterboxCount; // With 20 boxes, each is 5% wide
+
+// -----------------------
+// Top Letterboxes
+// -----------------------
+@for $i from 1 through $letterboxCount {
+  .letterbox-top-#{$i} {
+    position: absolute;
+    top: 0;
+    left: #{($i - 1) * $letterboxWidth};
+    width: $letterboxWidth;
+    height: 50%; // Adjust height if needed (this row covers the top 50% of the screen)
+    background-color: black;
+    transform: translateY(0);
+    animation: slideOutTop 3s ease-in-out forwards;
+    // For boxes 19 and 20 (the rightmost two), fix the delay at 6s
+    @if $i >= 47 {
+      animation-delay: 2s;
+    } @else {
+      // For all other boxes, add a staggered delay based on the index
+      animation-delay: 4s + ($i * 0.1s);
+    }
+  }
+}
+
+// -----------------------
+// Bottom Letterboxes
+// -----------------------
+@for $i from 1 through $letterboxCount {
+  .letterbox-bottom-#{$i} {
+    position: absolute;
+    bottom: 0;
+    left: #{($i - 1) * $letterboxWidth};
+    width: $letterboxWidth;
+    height: 50%; // Adjust height if needed (this row covers the bottom 50% of the screen)
+    background-color: black;
+    transform: translateY(0);
+    animation: slideOutBottom 3s ease-in-out forwards;
+    @if $i >= 47 {
+      animation-delay: 2s;
+    } @else {
+      animation-delay: 4s + ($i * 0.1s);
+    }
+  }
+}
+
+// -----------------------
+// Keyframes
+// -----------------------
+@keyframes slideOutTop {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-100%); }
+}
+
+@keyframes slideOutBottom {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(100%); }
+}
+
+// Optional: If you still have your welcome text fade-out animation elsewhere,
+// you can include its keyframes. For example:
+@keyframes fadeInOutText {
+  0%   { opacity: 0; }
+  30%  { opacity: 1; }
+  70%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
 
 @import './media';
