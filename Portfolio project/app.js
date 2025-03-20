@@ -65,36 +65,39 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // === 3) Advanced Timeline Toggle Interactivity ===
-  const timelineItems = document.querySelectorAll('.timeline-item');
-  timelineItems.forEach((item) => {
-    const icon = item.querySelector('.tl-icon');
-    const content = item.querySelector('p');
+  // === Advanced Timeline Toggle Interactivity ===
+const timelineItems = document.querySelectorAll('.timeline-item');
+timelineItems.forEach((item) => {
+  const icon = item.querySelector('.tl-icon');
+  const content = item.querySelector('p');
 
-    if (icon) {
-      icon.addEventListener('click', (e) => {
-        e.stopPropagation();
-        // Close all timeline items
-        timelineItems.forEach((other) => other.classList.remove('active'));
-        // Open the clicked timeline item
-        item.classList.add('active');
-      });
-    }
-    if (content) {
-      content.addEventListener('click', (e) => {
-        e.stopPropagation();
-        // Close this timeline item
-        item.classList.remove('active');
-      });
-    }
-  });
-  // Optional: Clicking anywhere in the timeline container closes all active items.
-  const timelineContainer = document.querySelector('.timeline');
-  if (timelineContainer) {
-    timelineContainer.addEventListener('click', () => {
-      timelineItems.forEach((item) => item.classList.remove('active'));
+  // When the timeline icon is clicked:
+  if (icon) {
+    icon.addEventListener('click', (e) => {
+      e.stopPropagation();
+      // Close all timeline items
+      timelineItems.forEach((other) => other.classList.remove('active'));
+      // Open (activate) the clicked timeline item
+      item.classList.add('active');
     });
   }
+
+  // When the content (<p>) is clicked, close that timeline item:
+  if (content) {
+    content.addEventListener('click', (e) => {
+      e.stopPropagation();
+      item.classList.remove('active');
+    });
+  }
+});
+
+// Optional: Clicking anywhere in the timeline container closes all active items.
+const timelineContainer = document.querySelector('.timeline');
+if (timelineContainer) {
+  timelineContainer.addEventListener('click', () => {
+    timelineItems.forEach((item) => item.classList.remove('active'));
+  });
+}
 
   // === 4) Portfolio Video Playback Rate Adjustment ===
   const portfolioItems = document.querySelectorAll('.portfolio-item');
@@ -102,12 +105,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const video = item.querySelector('.hover-video');
     if (video) {
       // Set initial playback rate (currently 0.5; change to 0.1 for 10% speed if desired)
-      video.playbackRate = 0.5;
+      video.playbackRate = 0.0;
       item.addEventListener('mouseenter', () => {
         video.playbackRate = 1;
       });
       item.addEventListener('mouseleave', () => {
-        video.playbackRate = 0.5;
+        video.playbackRate = 0.0;
       });
     }
   });
