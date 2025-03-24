@@ -33,7 +33,7 @@
   --color-grey-1: #212122;
   --color-grey-2: #8d979e;
   --color-grey-3: #8998a3;
-  --color-grey-4: #737b83;
+  --color-grey-4: #c1c3c5;
   --color-grey-5: #bbbaba;
   --color-grey-6: #5d5f61;
   --color-white-for-tl: #faf8f8;
@@ -812,20 +812,15 @@ header.container.active {
   z-index: 10100;
   font-size: 3rem;
   color: white;
-  opacity: 0;
   background-color: transparent;
-  animation: fadeInOutText 2.5s ease-in-out forwards;
-  animation-delay: 0.3s;
+  opacity: 1;
+  transition: opacity 2s ease-in-out;
 }
 
-@keyframes fadeOutText {
-  0% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
+.welcome-text.fade-out {
+  opacity: 0;
 }
+
 /* Letterbox panels for the top and bottom */
 .letterbox {
   position: absolute;
@@ -2251,7 +2246,7 @@ html, body {
 }
 
 .volume-panel input[type=range] {
-  width: 100px;
+  width: 200px;
   accent-color: var(--color-secondary);
 }
 
@@ -2265,7 +2260,7 @@ html, body {
 
 .enter-button {
   position: absolute;
-  bottom: 10%;
+  bottom: 30%;
   padding: 1rem 2rem;
   font-size: 1.2rem;
   background-color: var(--color-secondary);
@@ -2273,12 +2268,16 @@ html, body {
   border-radius: 30px;
   color: var(--color-white);
   cursor: pointer;
-  transition: all 0.3s ease-in-out;
+  transition: all 2s ease-in-out;
   z-index: 10100;
 }
 .enter-button:hover {
   background-color: var(--color-grey-2);
   color: var(--color-black);
+}
+
+.enter-button.fade-out {
+  opacity: 0;
 }
 
 .about-container .lvideoeft-about p {

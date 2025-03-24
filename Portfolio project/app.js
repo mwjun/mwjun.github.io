@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const bgMusic = document.getElementById("bg-music");
   const navSound = document.getElementById("nav-sound");
   const themeSound = document.getElementById("theme-sound");
-
+  const enterSound = document.getElementById("enter-sound");
   // === 1) Nav Controls ===
   [...document.querySelectorAll(".control")].forEach((button) => {
     button.addEventListener("click", function () {
@@ -157,27 +157,43 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // === 7) Welcome Screen "Enter" Button to Start Animation and Music ===
-  const welcomeScreen = document.getElementById("welcome-screen");
-  const enterBtn = document.getElementById("enter-btn");
+// === 7) Welcome Screen "Enter" Button to Start Animation and Music ===
+const welcomeScreen = document.getElementById("welcome-screen");
+const enterBtn = document.getElementById("enter-btn");
+const welcomeText = document.querySelector(".welcome-text");
 
-  if (enterBtn && welcomeScreen) {
-    enterBtn.addEventListener("click", () => {
-      if (bgMusic && bgMusic.paused) {
-        bgMusic.play().catch(() => {
-          console.warn("Autoplay blocked");
-        });
-      }
-
-      document.querySelectorAll("[class^='letterbox']").forEach((el) => {
-        el.style.animationPlayState = "running";
+if (enterBtn && welcomeScreen) {
+  enterBtn.addEventListener("click", () => {
+    // Fade out the welcome text
+    if (welcomeText) {
+      welcomeText.classList.add("fade-out");
+    }
+  
+    // Fade out the button itself
+    enterBtn.classList.add("fade-out");
+  
+    // Optional: hide button after fade is done
+    setTimeout(() => {
+      enterBtn.style.display = "none";
+    }, 3000);
+  
+    // Start background music
+    if (bgMusic && bgMusic.paused) {
+      bgMusic.play().catch(() => {
+        console.warn("Autoplay blocked");
       });
-
-      enterBtn.disabled = true;
-
-      setTimeout(() => {
-        welcomeScreen.style.display = "none";
-      }, 9500);
+    }
+  
+    // Start letterbox animations
+    document.querySelectorAll("[class^='letterbox']").forEach((el) => {
+      el.style.animationPlayState = "running";
     });
-  }
+  
+    enterBtn.disabled = true;
+  
+    setTimeout(() => {
+      welcomeScreen.style.display = "none";
+    }, 9300);
+  });
+}
 });
