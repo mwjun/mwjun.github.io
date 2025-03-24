@@ -11,9 +11,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
+<!-- Sound for theme toggle -->
+<audio id="bg-music" src="music/The Real Folk Blues (Instrumental).mp3" loop preload="auto"></audio>
+<!-- <audio id="bg-music" src="sounds/bg-music.mp3" loop preload="auto" autoplay></audio> -->
+<audio id="theme-sound" src="sounds/highpitch-chime.mp3" preload="auto"></audio>
+<audio id="nav-sound" src="sounds/warmsoft-chime.mp3" preload="auto"></audio>
+<!-- Sound for nav buttons -->
+<audio id="nav-sound" src="sounds/nav-chime.wav" preload="auto"></audio>
 <body class="main-content">
+    <!-- Sound cue for light/dark mode -->
     <div id="welcome-screen">
         <div class="welcome-text">Welcome</div>
+        <button id="enter-btn" class="enter-button">Enter</button>
         <div class="letterbox letterbox-top-1"></div>
         <div class="letterbox letterbox-top-2"></div>
         <div class="letterbox letterbox-top-3"></div>
@@ -138,7 +147,7 @@
                     A Computer Scientist.
                 </h1>
                 <p>
-                    Loren ipsum
+                    Welcome to my portfolio.
                 </p>
                 <!-- <div class="btn-con">
                     <a href="" class="main-btn">
@@ -232,7 +241,7 @@
                         <div class="progress-con">
                             <p class="prog-text"></p>
                             <div class="progress">
-                                <span class="js"></span>
+                                <span class="Javascript"></span>
                             </div>
                         </div>
                     </div>
@@ -337,6 +346,49 @@
                         Moving forward I toko the lessons from this company to heart and I truely appreciated everything they have done for me.
                     </p>
                 </div>
+
+                <div class="timeline-item">
+                    <div class="tl-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h6 class="tl-duration">2018 - 2019</h6>
+                    <h5>Web Developer<span> - JSL Benefits</span></h5>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe quasi vero fugit.
+                    </p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="tl-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h6 class="tl-duration">2019 - 2022</h6>
+                    <h5>Associate's of Science Degree in Computer Science<span> - Fullerton College</span></h5>
+                    <p>
+                            This was start of my college journey...again. I first attended community college in 2009, but I had no idea what I wanted to do. So I dropped out. During that time I really despised school and I was always told I was a failure growing up.  
+                            I thought that going into business would be a better fit. I mostly made many decisions by myself with no guidance or help from family. What was worse is that I 
+                            was too ashamed or embarassed to ask for help because I was always belittled. So naturally, this was a poor decision in my eyes looking backwards. I was always just 
+                            trying the best that I could.
+                            However, you can't change the past and so moving forward, after years of being in business, and doing so many odd jobs, life had other plans for me. My mother passed from Pancreatic Cancer in 2018.
+                            It was one of the most difficult times of my life.
+                            I lost my job, had a failed engagement, lost my best friend(my dog), and now I lost my mother. It was a stressful time, but after some greiving and soul searching, I decided to go back to school. This time, things were different.
+                            I was different. But one that that was not different was, I still had no idea what I wanted to do. This gave me time to explore a little bit. I took a few classes to see if it was good fit. I talked to countless people who were actually in the field, I did a lot of research, and this time I 
+                            asked for help. I attempted to dive into the field of Automotive, Electricians, Forensics, and Nursing but none if it stimulated my brain enough to get me interested. I ended up not going through with any of them.
+                            Being an adult going back to school, I now understood that the past Matt did not do well because he was dumb. I know myself now that if it's not challenging enough, it's not very motivating for me. Because I love challenges.
+                            I was lost in what I wanted to do now that plan A,B,C and D were no longer part of the equation. Then I took my first programming class which was Java and it peaked my interest. I then took C++ and it was
+                            so much fun. I remembered working on projects with my friend until 4am to fix a simple bug that was caused by a semi colon. And even when the projects were completed, we still continued to improve upon it.
+                            That's when I knew this was it. I was commited to learning about Computer Science. This guy who had a .9 GPA in highschool, went onto getting a 3.9 GPA in his college career. It would have been a 4.0 if Calculus 2 didn't kick my ass 
+                            and drop my GPA. But that wasn't important. What was important was, that I did change. 
+                            College in my eyes was different than how I looked it at it in the past. It was no longer a place for me to go to learn about random subjects, or to just get a letter grade, or a place to just get a piece of paper at the end.
+                            College was filled with opporunity. It was an opportunity for me to learn the intangeble skills, such as socialization, adaptability working in groups with a variety of characters, being responsible with time management, stepping up and 
+                            being a leader. It was an opporunity to learn about something I actually gave a shit about. It was an opporunity to prove to the ones who didn't believei in me that their opinions couldn't dictate my future. But most importantly, 
+                            it was an opporunity to try hard to honor the ones that did matter. It was an opportunity to find what I loved in life and chase after my dreams. And it was an opportunity to at least finish what I started. 
+                            I was happy to say I was no longer the guy from back then. I guess you could say this is my redemption story and this...is just another chapter in that book.
+                    </p>
+                </div>
+                
+
+
                 <div class="timeline-item">
                     <div class="tl-icon">
                         <i class="fas fa-briefcase"></i>
@@ -345,7 +397,7 @@
                     <h5>Bachelor's Degree of Science in Computer Science<span> - California State University of Fullerton</span></h5>
                     <p>
                         This was my first and last year of my undergraduate program at California State University of Fullerton.  
-                        <p>I had many tell me that I couldn't do it. That I was someone who did not belong in Computer Science. A lot of the times, this kind of 
+                        I had many tell me that I couldn't do it. That I was someone who did not belong in Computer Science. A lot of the times, this kind of 
                             feedback came from family memebers or friends that I admired or looked up to. Then I had people look down on me for going here. I was well aware that this was not the most presteige school for Computer Science.
                             I did get accepted into better schools, but it was all I could realistically afford at the time given my situtaiton. However, none of that mattered. It was still a great education. And to me it didn't matter where you went, 
                             what mattered is how you make of the time spent there. All of my professors were very helpful and I learned so much from their experiences. To me it didn't matter what school I ended up in. What mattered is that I got an education. 
@@ -359,27 +411,27 @@
                             and Math were intertwined. Maybe I just had an amazing professor, but I was a guy who grew up an artist saying I am not a math person. The thought of math sickened me. But little did I know, I realized the beautiful 
                             relationship between the two. My experience is my own and I can't speak for others. But going to this University further fed my skills in adaptability, analytical thinking, problem solving, leadership skills, 
                             resilience, having grace, and so much more. 
-                            <p>I know you may not understand exactly what I went through, but it was a heavy burden to bear. I was the only male in my family line that finished college. There were so many times I wanted 
-                                to just give up. But I came too far to give up now, right? Graduating was not just for my career, it was also for myself. Because not many believed in me. Because I was told I was words like worthless, or a failure. 
-                                Now I was the first male of my family to graduate from a 4 year University. With a degree I had no idea I could acheive. The moment brought me back to 2009, when I saw a news article about Google's new headquarters in Santa
-                                Monica. It was showing the type of environment that those employees worked in. I thought to myself, I wish I could work in a place like that. I wish I could work with people like that. But I remembered shutting myself down 
-                                thinking, "but im not smart enough for that". I'm not saying I'm destined to work at google, but life is short. It's too short to not go after your dreams. I may not know where I'll end up, but one thing is for certain is 
-                                that I will always keep fighting. And always, keep learning.
-                            </p>    
-                        </p>
+                            I know you may not understand exactly what I went through, but it was a heavy burden to bear. I was the only male in my family line that finished college. There were so many times I wanted 
+                            to just give up. But I came too far to give up now, right? Graduating was not just for my career, it was also for myself. Because not many believed in me. Because I was told I was words like worthless, or a failure. 
+                            Now I was the first male of my family to graduate from a 4 year University. With a degree I had no idea I could acheive. The moment brought me back to 2009, when I saw a news article about Google's new headquarters in Santa
+                            Monica. It was showing the type of environment that those employees worked in. I thought to myself, I wish I could work in a place like that. I wish I could work with people like that. But I remembered shutting myself down 
+                            thinking, "but im not smart enough for that". I'm not saying I'm destined to work at google, but life is short. It's too short to not go after your dreams. I may not know where I'll end up, but one thing is for certain is 
+                            that I will always keep fighting. And always, keep learning.
                     </p>
                 </div>
+                
                 
                 <div class="timeline-item">
                     <div class="tl-icon">
                         <i class="fas fa-briefcase"></i>
                     </div>
-                    <h6 class="tl-duration">2018 - 2019</h6>
-                    <h5>Web Developer<span> - JSL Benefits</span></h5>
+                    <h6 class="tl-duration">2022 - 2024</h6>
+                    <h5>SI Math Instructor<span> - Fullerton College</span></h5>
                     <p>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe quasi vero fugit.
                     </p>
                 </div>
+
                 <div class="timeline-item">
                     <div class="tl-icon">
                         <i class="fas fa-briefcase"></i>
@@ -390,35 +442,9 @@
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe quasi vero fugit.
                     </p>
                 </div>
-                <div class="timeline-item">
-                    <div class="tl-icon">
-                        <i class="fas fa-briefcase"></i>
-                    </div>
-                    <h6 class="tl-duration">2019 - 2022</h6>
-                    <h5>AS - Degree in Computer Science<span> - Fullerton College</span></h5>
-                    <p>
-                            This was start of my college journey...again. I first attended community college in 2009, but I had no idea what I wanted to do. So I dropped out. During that time I really despised school and I was always told I was a failure growing up.  
-                        I thought that going into business would be a better fit. I mostly made many decisions by myself with no guidance or help from family. What was worse is that I 
-                        was too ashamed or embarassed to ask for help because I was always belittled. So naturally, this was a poor decision in my eyes looking backwards. I was always just 
-                        trying the best that I could.
-                    <p>     However, you can't change the past and so moving forward, after years of being in business, and doing so many odd jobs, life had other plans for me. My mother passed from Pancreatic Cancer in 2018.
-                        It was one of the most difficult times of my life.
-                        I lost my job, had a failed engagement, lost my best friend(my dog), and now I lost my mother. It was a stressful time, but after some greiving and soul searching, I decided to go back to school. This time, things were different.
-                        I was different. But one that that was not different was, I still had no idea what I wanted to do. This gave me time to explore a little bit. I took a few classes to see if it was good fit. I talked to countless people who were actually in the field, I did a lot of research, and this time I 
-                        asked for help. I attempted to dive into the field of Automotive, Electricians, Forensics, and Nursing but none if it stimulated my brain enough to get me interested. I ended up not going through with any of them.
-                        Being an adult going back to school, I now understood that the past Matt did not do well because he was dumb. I know myself now that if it's not challenging enough, it's not very motivating for me. Because I love challenges.
-                        I was lost in what I wanted to do now that plan A,B,C and D were no longer part of the equation. Then I took my first programming class which was Java and it peaked my interest. I then took C++ and it was
-                        so much fun. I remembered working on projects with my friend until 4am to fix a simple bug that was caused by a semi colon. And even when the projects were completed, we still continued to improve upon it.
-                        That's when I knew this was it. I was commited to learning about Computer Science. This guy who had a .9 GPA in highschool, went onto getting a 3.9 GPA in his college career. It would have been a 4.0 if Calculus 2 didn't kick my ass 
-                        and drop my GPA. But that wasn't important. What was important was, that I did change. 
-                        College in my eyes was different than how I looked it at it in the past. It was no longer a place for me to go to learn about random subjects, or to just get a letter grade, or a place to just get a piece of paper at the end.
-                        College was filled with opporunity. It was an opportunity for me to learn the intangeble skills, such as socialization, adaptability working in groups with a variety of characters, being responsible with time management, stepping up and 
-                        being a leader. It was an opporunity to learn about something I actually gave a shit about. It was an opporunity to prove to the ones who didn't believei in me that their opinions couldn't dictate my future. But most importantly, 
-                        it was an opporunity to try hard to honor the ones that did matter. It was an opportunity to find what I loved in life and chase after my dreams. And it was an opportunity to at least finish what I started. 
-                        I was happy to say I was no longer the guy from back then. I guess you could say this is my redemption story and this...is just another chapter in that book.
-                    </p>
-                </div>
-            </div>
+
+                
+
         </section>
         <section class="container" id="portfolio">
             <div class="main-title">
@@ -640,19 +666,19 @@
                             <div class="contact-item">
                                 <div class="icon">
                                     <i class="fas fa-map-marker-alt"></i>
-                                    <span>Location</span>
+                                    <span>Location:</span>
                                 </div>
                                 <p>
-                                    : Orange County, CA
+                                     Orange County, CA
                                 </p>
                             </div>
                             <div class="contact-item">
                                 <div class="icon">
                                     <i class="fas fa-envelope"></i>
-                                    <span>Email</span>
+                                    <span>Email:</span>
                                 </div>
                                 <p>
-                                    <span>: Jun.w.matthew@gmail.com</span>
+                                    <span> Jun.w.matthew@gmail.com</span>
                                 </p>
                             </div>
                             <!-- <div class="contact-item">
@@ -667,19 +693,19 @@
                             <div class="contact-item">
                                 <div class="icon">
                                     <i class="fas fa-mobile"></i>
-                                    <span>Mobile Number</span>
+                                    <span>Mobile Number:</span>
                                 </div>
                                 <p>
-                                    <span>: 909-973-3383</span>
+                                    <span> 909-973-3383</span>
                                 </p>
                             </div>
                             <div class="contact-item">
                                 <div class="icon">
                                     <i class="fas fa-globe-americas"></i>
-                                    <span>Languages</span>
+                                    <span>Languages:</span>
                                 </div>
                                 <p>
-                                    <span>: Korean, English, Spanish</span>
+                                    <span> Korean, English, Spanish</span>
                                 </p>
                             </div>
                         </div>
@@ -771,9 +797,22 @@
                   <i class="fas fa-envelope-open"></i>
                 </div>
             </div>
+
             <div class="theme-btn">
             <i class="fas fa-adjust"></i>
-    </div>
+            </div>
+
+            <div class="music-toggle-wrapper">
+            <button id="music-toggle" class="music-btn">
+              <i class="fas fa-music"></i>
+            </button>
+            <div class="volume-panel" id="volume-panel">
+              <input type="range" id="volume-range" min="0" max="1" step="0.01" value="0.3" />
+              <button id="mute-toggle" class="mute-btn">
+                <i class="fas fa-volume-mute"></i>
+              </button>
+            </div>
+          </div>
             
               <!-- SCRIPT REFERENCE -->
     <script src="app.js"></script>
