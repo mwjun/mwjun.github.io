@@ -1,4 +1,3 @@
-@charset "UTF-8";
 * {
   margin: 0;
   padding: 0;
@@ -198,26 +197,26 @@ header.container.active {
 }
 .header-content .right-header {
   -webkit-text-stroke: 0.5px #ffffff;
-  /* Optionally, add a text shadow for browsers that don’t support text stroke */
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding-right: 13rem;
   color: var(--color-white-for-tl);
-  transition: color 1s ease-in-out, text-shadow 1s ease-in-out;
+  transition: color 0.2s ease-in-out, text-shadow 0.4s ease-in-out;
 }
 .header-content .right-header .name {
-  transition: color 0.4s ease-in-out, -webkit-text-stroke 0.4s ease-in-out;
   font-size: 3rem;
+  transition: color 0.4s ease-in-out, -webkit-text-stroke 0.4s ease-in-out;
 }
 .header-content .right-header .name span {
   color: var(--color-secondary);
+  transition: color 0.5s ease-in-out;
 }
 .header-content .right-header p {
-  transition: color 0.2s ease-in-out;
   margin: 1.5rem 0;
   line-height: 2rem;
+  transition: color 0.2s ease-in-out;
 }
 
 /*About*/
@@ -338,7 +337,7 @@ header.container.active {
 .about-stats .progress-bars .progress-bar .progress-con .progress .Cplusplus {
   width: 87%;
 }
-.about-stats .progress-bars .progress-bar .progress-con .progress .javascript {
+.about-stats .progress-bars .progress-bar .progress-con .progress .Javascript {
   width: 93%;
 }
 .about-stats .progress-bars .progress-bar .progress-con .progress .R {
@@ -845,6 +844,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 3.1s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-2 {
@@ -857,6 +857,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 3.2s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-3 {
@@ -869,6 +870,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 3.3s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-4 {
@@ -881,6 +883,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 3.4s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-5 {
@@ -893,6 +896,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 3.5s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-6 {
@@ -905,6 +909,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 3.6s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-7 {
@@ -917,6 +922,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 3.7s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-8 {
@@ -929,6 +935,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 3.8s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-9 {
@@ -941,6 +948,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 3.9s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-10 {
@@ -953,6 +961,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 4s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-11 {
@@ -965,6 +974,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 4.1s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-12 {
@@ -977,6 +987,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 4.2s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-13 {
@@ -989,6 +1000,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 4.3s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-14 {
@@ -1001,6 +1013,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 4.4s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-15 {
@@ -1013,6 +1026,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 4.5s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-16 {
@@ -1025,6 +1039,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 4.6s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-17 {
@@ -1037,6 +1052,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 4.7s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-18 {
@@ -1049,6 +1065,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 4.8s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-19 {
@@ -1061,6 +1078,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 4.9s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-20 {
@@ -1073,6 +1091,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 5s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-21 {
@@ -1085,6 +1104,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 5.1s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-22 {
@@ -1097,6 +1117,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 5.2s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-23 {
@@ -1109,6 +1130,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 5.3s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-24 {
@@ -1121,6 +1143,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 5.4s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-25 {
@@ -1133,6 +1156,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 5.5s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-26 {
@@ -1145,6 +1169,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 5.6s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-27 {
@@ -1157,6 +1182,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 5.7s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-28 {
@@ -1169,6 +1195,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 5.8s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-29 {
@@ -1181,6 +1208,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 5.9s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-30 {
@@ -1193,6 +1221,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 6s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-31 {
@@ -1205,6 +1234,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 6.1s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-32 {
@@ -1217,6 +1247,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 6.2s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-33 {
@@ -1229,6 +1260,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 6.3s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-34 {
@@ -1241,6 +1273,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 6.4s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-35 {
@@ -1253,6 +1286,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 6.5s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-36 {
@@ -1265,6 +1299,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 6.6s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-37 {
@@ -1277,6 +1312,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 6.7s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-38 {
@@ -1289,6 +1325,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 6.8s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-39 {
@@ -1301,6 +1338,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 6.9s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-40 {
@@ -1313,6 +1351,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 7s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-41 {
@@ -1325,6 +1364,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 7.1s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-42 {
@@ -1337,6 +1377,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 7.2s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-43 {
@@ -1349,6 +1390,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 7.3s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-44 {
@@ -1361,6 +1403,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 7.4s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-45 {
@@ -1373,6 +1416,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 7.5s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-46 {
@@ -1385,6 +1429,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 7.6s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-47 {
@@ -1397,6 +1442,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 2s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-48 {
@@ -1409,6 +1455,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 2s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-49 {
@@ -1421,6 +1468,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 2s;
+  animation-play-state: paused;
 }
 
 .letterbox-top-50 {
@@ -1433,6 +1481,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutTop 2s ease-in-out forwards;
   animation-delay: 2s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-1 {
@@ -1445,6 +1494,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 3.1s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-2 {
@@ -1457,6 +1507,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 3.2s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-3 {
@@ -1469,6 +1520,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 3.3s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-4 {
@@ -1481,6 +1533,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 3.4s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-5 {
@@ -1493,6 +1546,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 3.5s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-6 {
@@ -1505,6 +1559,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 3.6s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-7 {
@@ -1517,6 +1572,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 3.7s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-8 {
@@ -1529,6 +1585,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 3.8s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-9 {
@@ -1541,6 +1598,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 3.9s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-10 {
@@ -1553,6 +1611,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 4s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-11 {
@@ -1565,6 +1624,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 4.1s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-12 {
@@ -1577,6 +1637,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 4.2s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-13 {
@@ -1589,6 +1650,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 4.3s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-14 {
@@ -1601,6 +1663,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 4.4s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-15 {
@@ -1613,6 +1676,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 4.5s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-16 {
@@ -1625,6 +1689,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 4.6s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-17 {
@@ -1637,6 +1702,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 4.7s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-18 {
@@ -1649,6 +1715,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 4.8s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-19 {
@@ -1661,6 +1728,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 4.9s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-20 {
@@ -1673,6 +1741,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 5s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-21 {
@@ -1685,6 +1754,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 5.1s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-22 {
@@ -1697,6 +1767,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 5.2s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-23 {
@@ -1709,6 +1780,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 5.3s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-24 {
@@ -1721,6 +1793,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 5.4s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-25 {
@@ -1733,6 +1806,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 5.5s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-26 {
@@ -1745,6 +1819,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 5.6s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-27 {
@@ -1757,6 +1832,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 5.7s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-28 {
@@ -1769,6 +1845,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 5.8s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-29 {
@@ -1781,6 +1858,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 5.9s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-30 {
@@ -1793,6 +1871,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 6s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-31 {
@@ -1805,6 +1884,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 6.1s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-32 {
@@ -1817,6 +1897,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 6.2s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-33 {
@@ -1829,6 +1910,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 6.3s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-34 {
@@ -1841,6 +1923,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 6.4s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-35 {
@@ -1853,6 +1936,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 6.5s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-36 {
@@ -1865,6 +1949,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 6.6s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-37 {
@@ -1877,6 +1962,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 6.7s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-38 {
@@ -1889,6 +1975,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 6.8s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-39 {
@@ -1901,6 +1988,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 6.9s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-40 {
@@ -1913,6 +2001,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 7s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-41 {
@@ -1925,6 +2014,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 7.1s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-42 {
@@ -1937,6 +2027,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 7.2s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-43 {
@@ -1949,6 +2040,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 7.3s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-44 {
@@ -1961,6 +2053,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 7.4s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-45 {
@@ -1973,6 +2066,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 7.5s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-46 {
@@ -1985,6 +2079,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 7.6s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-47 {
@@ -1997,6 +2092,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 2s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-48 {
@@ -2009,6 +2105,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 2s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-49 {
@@ -2021,6 +2118,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 2s;
+  animation-play-state: paused;
 }
 
 .letterbox-bottom-50 {
@@ -2033,6 +2131,7 @@ header.container.active {
   transform: translateY(0);
   animation: slideOutBottom 2s ease-in-out forwards;
   animation-delay: 2s;
+  animation-play-state: paused;
 }
 
 @keyframes slideOutTop {
@@ -2093,6 +2192,93 @@ html, body {
   overflow-y: auto;
   height: 10vh;
   overflow-x: auto;
+}
+
+.flash-white {
+  color: white !important;
+  transition: none !important;
+}
+
+.flash-black {
+  color: black !important;
+  transition: none !important;
+}
+
+.music-toggle-wrapper {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 9999;
+}
+
+.music-btn {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--color-grey-3);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  transition: background 0.3s ease-in-out;
+}
+
+.music-btn i {
+  font-size: 1.2rem;
+  color: var(--color-white);
+}
+
+.volume-panel {
+  position: absolute;
+  bottom: 60px;
+  left: 0;
+  background: var(--color-grey-3);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.2s ease-in-out;
+}
+
+.volume-panel.open {
+  transform: scaleY(1);
+}
+
+.volume-panel input[type=range] {
+  width: 100px;
+  accent-color: var(--color-secondary);
+}
+
+.mute-btn {
+  background: none;
+  border: none;
+  color: var(--color-white);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.enter-button {
+  position: absolute;
+  bottom: 10%;
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  background-color: var(--color-secondary);
+  border: none;
+  border-radius: 30px;
+  color: var(--color-white);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  z-index: 10100;
+}
+.enter-button:hover {
+  background-color: var(--color-grey-2);
+  color: var(--color-black);
 }
 
 .about-container .lvideoeft-about p {

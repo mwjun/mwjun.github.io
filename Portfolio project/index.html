@@ -11,9 +11,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
+<!-- Sound for theme toggle -->
+<audio id="bg-music" src="music/The Real Folk Blues (Instrumental).mp3" loop preload="auto"></audio>
+<!-- <audio id="bg-music" src="sounds/bg-music.mp3" loop preload="auto" autoplay></audio> -->
+<audio id="theme-sound" src="sounds/highpitch-chime.mp3" preload="auto"></audio>
+<audio id="nav-sound" src="sounds/warmsoft-chime.mp3" preload="auto"></audio>
+<!-- Sound for nav buttons -->
+<audio id="nav-sound" src="sounds/nav-chime.wav" preload="auto"></audio>
 <body class="main-content">
+    <!-- Sound cue for light/dark mode -->
     <div id="welcome-screen">
         <div class="welcome-text">Welcome</div>
+        <button id="enter-btn" class="enter-button">Enter</button>
         <div class="letterbox letterbox-top-1"></div>
         <div class="letterbox letterbox-top-2"></div>
         <div class="letterbox letterbox-top-3"></div>
@@ -232,7 +241,7 @@
                         <div class="progress-con">
                             <p class="prog-text"></p>
                             <div class="progress">
-                                <span class="javascript"></span>
+                                <span class="Javascript"></span>
                             </div>
                         </div>
                     </div>
@@ -337,34 +346,30 @@
                         Moving forward I toko the lessons from this company to heart and I truely appreciated everything they have done for me.
                     </p>
                 </div>
+
                 <div class="timeline-item">
                     <div class="tl-icon">
                         <i class="fas fa-briefcase"></i>
                     </div>
+                    <h6 class="tl-duration">2018 - 2019</h6>
+                    <h5>Web Developer<span> - JSL Benefits</span></h5>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe quasi vero fugit.
+                    </p>
+                </div>
 
-                    <div class="timeline-item">
-                        <div class="tl-icon">
-                            <i class="fas fa-briefcase"></i>
-                        </div>
-                        <h6 class="tl-duration">2018 - 2019</h6>
-                        <h5>Web Developer<span> - JSL Benefits</span></h5>
-                        <p>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe quasi vero fugit.
-                        </p>
+                <div class="timeline-item">
+                    <div class="tl-icon">
+                        <i class="fas fa-briefcase"></i>
                     </div>
-
-                    <div class="timeline-item">
-                        <div class="tl-icon">
-                            <i class="fas fa-briefcase"></i>
-                        </div>
-                        <h6 class="tl-duration">2019 - 2022</h6>
-                        <h5>Associate's of Science Degree in Computer Science<span> - Fullerton College</span></h5>
-                        <p>
-                                This was start of my college journey...again. I first attended community college in 2009, but I had no idea what I wanted to do. So I dropped out. During that time I really despised school and I was always told I was a failure growing up.  
+                    <h6 class="tl-duration">2019 - 2022</h6>
+                    <h5>Associate's of Science Degree in Computer Science<span> - Fullerton College</span></h5>
+                    <p>
+                            This was start of my college journey...again. I first attended community college in 2009, but I had no idea what I wanted to do. So I dropped out. During that time I really despised school and I was always told I was a failure growing up.  
                             I thought that going into business would be a better fit. I mostly made many decisions by myself with no guidance or help from family. What was worse is that I 
                             was too ashamed or embarassed to ask for help because I was always belittled. So naturally, this was a poor decision in my eyes looking backwards. I was always just 
                             trying the best that I could.
-                        <p>     However, you can't change the past and so moving forward, after years of being in business, and doing so many odd jobs, life had other plans for me. My mother passed from Pancreatic Cancer in 2018.
+                            However, you can't change the past and so moving forward, after years of being in business, and doing so many odd jobs, life had other plans for me. My mother passed from Pancreatic Cancer in 2018.
                             It was one of the most difficult times of my life.
                             I lost my job, had a failed engagement, lost my best friend(my dog), and now I lost my mother. It was a stressful time, but after some greiving and soul searching, I decided to go back to school. This time, things were different.
                             I was different. But one that that was not different was, I still had no idea what I wanted to do. This gave me time to explore a little bit. I took a few classes to see if it was good fit. I talked to countless people who were actually in the field, I did a lot of research, and this time I 
@@ -379,15 +384,20 @@
                             being a leader. It was an opporunity to learn about something I actually gave a shit about. It was an opporunity to prove to the ones who didn't believei in me that their opinions couldn't dictate my future. But most importantly, 
                             it was an opporunity to try hard to honor the ones that did matter. It was an opportunity to find what I loved in life and chase after my dreams. And it was an opportunity to at least finish what I started. 
                             I was happy to say I was no longer the guy from back then. I guess you could say this is my redemption story and this...is just another chapter in that book.
-                        </p>
-                    </div>
+                    </p>
                 </div>
+                
 
+
+                <div class="timeline-item">
+                    <div class="tl-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
                     <h6 class="tl-duration">2023 - 2024</h6>
                     <h5>Bachelor's Degree of Science in Computer Science<span> - California State University of Fullerton</span></h5>
                     <p>
                         This was my first and last year of my undergraduate program at California State University of Fullerton.  
-                        <p>I had many tell me that I couldn't do it. That I was someone who did not belong in Computer Science. A lot of the times, this kind of 
+                        I had many tell me that I couldn't do it. That I was someone who did not belong in Computer Science. A lot of the times, this kind of 
                             feedback came from family memebers or friends that I admired or looked up to. Then I had people look down on me for going here. I was well aware that this was not the most presteige school for Computer Science.
                             I did get accepted into better schools, but it was all I could realistically afford at the time given my situtaiton. However, none of that mattered. It was still a great education. And to me it didn't matter where you went, 
                             what mattered is how you make of the time spent there. All of my professors were very helpful and I learned so much from their experiences. To me it didn't matter what school I ended up in. What mattered is that I got an education. 
@@ -407,8 +417,6 @@
                             Monica. It was showing the type of environment that those employees worked in. I thought to myself, I wish I could work in a place like that. I wish I could work with people like that. But I remembered shutting myself down 
                             thinking, "but im not smart enough for that". I'm not saying I'm destined to work at google, but life is short. It's too short to not go after your dreams. I may not know where I'll end up, but one thing is for certain is 
                             that I will always keep fighting. And always, keep learning.
-                               
-                        </p>
                     </p>
                 </div>
                 
@@ -789,9 +797,22 @@
                   <i class="fas fa-envelope-open"></i>
                 </div>
             </div>
+
             <div class="theme-btn">
             <i class="fas fa-adjust"></i>
-    </div>
+            </div>
+
+            <div class="music-toggle-wrapper">
+            <button id="music-toggle" class="music-btn">
+              <i class="fas fa-music"></i>
+            </button>
+            <div class="volume-panel" id="volume-panel">
+              <input type="range" id="volume-range" min="0" max="1" step="0.01" value="0.3" />
+              <button id="mute-toggle" class="mute-btn">
+                <i class="fas fa-volume-mute"></i>
+              </button>
+            </div>
+          </div>
             
               <!-- SCRIPT REFERENCE -->
     <script src="app.js"></script>

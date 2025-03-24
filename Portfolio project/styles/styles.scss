@@ -192,30 +192,32 @@ header.container.active {
         position: relative;
     }
     .right-header {
-        -webkit-text-stroke: .5px #ffffff; // White outline for WebKit browsers
-        // text-stroke: 1px #ffffff;         // Standard property (if supported)
-        /* Optionally, add a text shadow for browsers that don’t support text stroke */
+        -webkit-text-stroke: .5px #ffffff;
         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
         display: flex;
         flex-direction: column;
         justify-content: center;
         padding-right: 13rem;
         color: var(--color-white-for-tl);
-        transition: color 1s ease-in-out, text-shadow 1s ease-in-out;
-
+        transition: color 0.2s ease-in-out, text-shadow 0.4s ease-in-out;
+      
         .name {
-            transition: color 0.4s ease-in-out, -webkit-text-stroke 0.4s ease-in-out;
-            font-size: 3rem;
-            span { color: var(--color-secondary); }
+          font-size: 3rem;
+          transition: color 0.4s ease-in-out, -webkit-text-stroke 0.4s ease-in-out;
+      
+          span {
+            color: var(--color-secondary);
+            transition: color 0.5s ease-in-out;
+          }
         }
+      
         p {
-            transition: color 0.2s ease-in-out;
-            margin: 1.5rem 0;
-            line-height: 2rem;
+          margin: 1.5rem 0;
+          line-height: 2rem;
+          transition: color 0.2s ease-in-out;
         }
+      }
     }
-}
-
 /*About*/
 .about-container {
     display: grid;
@@ -321,7 +323,7 @@ header.container.active {
                     .Python { width: 98%; }
                     .SQL{ width: 96%; }
                     .Cplusplus{ width: 87%; }
-                    .javascript { width: 93%; }
+                    .Javascript { width: 93%; }
                     .R {width: 87%; }
                     .AWS {width: 90%; }
                     .networking{ width: 87%; }
@@ -800,8 +802,10 @@ $letterboxWidth: 100% / $letterboxCount;
     animation: slideOutTop 2s ease-in-out forwards;
     @if $i >= 47 {
       animation-delay: 2s;
+      animation-play-state: paused;
     } @else {
       animation-delay: 3s + ($i * 0.1s);
+      animation-play-state: paused;
     }
   }
 }
@@ -815,10 +819,13 @@ $letterboxWidth: 100% / $letterboxCount;
     background-color: black;
     transform: translateY(0);
     animation: slideOutBottom 2s ease-in-out forwards;
+    
     @if $i >= 47 {
       animation-delay: 2s;
+      animation-play-state: paused;
     } @else {
       animation-delay: 3s + ($i * 0.1s);
+      animation-play-state: paused;
     }
   }
 }
@@ -862,5 +869,93 @@ html, body {
     height: 10vh;
     overflow-x:auto;
 }
+
+.flash-white {
+    color: white !important;
+    transition: none !important;
+  }
+  
+.flash-black {
+    color: black !important;
+    transition: none !important;
+}
+
+.music-toggle-wrapper {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 9999;
+  }
+  
+  .music-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--color-grey-3);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    transition: background 0.3s ease-in-out;
+  }
+  
+  .music-btn i {
+    font-size: 1.2rem;
+    color: var(--color-white);
+  }
+  
+  .volume-panel {
+    position: absolute;
+    bottom: 60px;
+    left: 0;
+    background: var(--color-grey-3);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .volume-panel.open {
+    transform: scaleY(1);
+  }
+  
+  .volume-panel input[type="range"] {
+    width: 100px;
+    accent-color: var(--color-secondary);
+  }
+  
+  .mute-btn {
+    background: none;
+    border: none;
+    color: var(--color-white);
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  .enter-button {
+    position: absolute;
+    bottom: 10%;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    background-color: var(--color-secondary);
+    border: none;
+    border-radius: 30px;
+    color: var(--color-white);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    z-index: 10100;
+  
+    &:hover {
+      background-color: var(--color-grey-2);
+      color: var(--color-black);
+    }
+  }
 
 @import './media';
