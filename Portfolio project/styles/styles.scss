@@ -109,7 +109,7 @@ header.container.active {
     position: absolute;
     top: 0;
     left: 0;
-    width: 92%;
+    width: 100%;
     height: 100%;
     object-fit: cover; /* Ensures video covers the entire background */
     z-index: -1; /* Pushes video behind text content */
@@ -200,11 +200,16 @@ header.container.active {
         flex-direction: column;
         justify-content: center;
         padding-right: 13rem;
+        color: var(--color-white-for-tl);
+        transition: color 1s ease-in-out, text-shadow 1s ease-in-out;
+
         .name {
+            transition: color 0.4s ease-in-out, -webkit-text-stroke 0.4s ease-in-out;
             font-size: 3rem;
             span { color: var(--color-secondary); }
         }
         p {
+            transition: color 0.2s ease-in-out;
             margin: 1.5rem 0;
             line-height: 2rem;
         }
@@ -316,7 +321,7 @@ header.container.active {
                     .Python { width: 98%; }
                     .SQL{ width: 96%; }
                     .Cplusplus{ width: 87%; }
-                    .js { width: 93%; }
+                    .javascript { width: 93%; }
                     .R {width: 87%; }
                     .AWS {width: 90%; }
                     .networking{ width: 87%; }
@@ -412,9 +417,10 @@ header.container.active {
   p {
     max-height: 0;
     opacity: 0;
-    overflow: hidden;
+    overflow: auto;
     transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
     margin: 0;
+    
   }
   &.active p {
     max-height: 500px;
@@ -741,8 +747,8 @@ header.container.active {
     opacity: 50%;
     z-index: -1;
     transform: translate(-50%, -50%);
-    font-weight: 1200;
-    font-size: 5rem;
+    font-weight: 1500;
+    font-size: 9rem;
 }
 
 /* Welcome Screen Overlay */
@@ -844,14 +850,17 @@ html, body {
 #about {
   overflow-y: auto;
   height: 100vh;
+  overflow-x:auto;
 }
 #contact {
   overflow-y: auto;
-  height: 10vh
+  height: 10vh;
+  overflow-x:auto;
 }
 #portfolio {
     overflow-y: auto;
-    height: 10vh
+    height: 10vh;
+    overflow-x:auto;
 }
 
 @import './media';

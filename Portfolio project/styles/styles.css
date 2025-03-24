@@ -109,7 +109,7 @@ header.container.active {
   position: absolute;
   top: 0;
   left: 0;
-  width: 92%;
+  width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover; /* Ensures video covers the entire background */
@@ -204,14 +204,18 @@ header.container.active {
   flex-direction: column;
   justify-content: center;
   padding-right: 13rem;
+  color: var(--color-white-for-tl);
+  transition: color 1s ease-in-out, text-shadow 1s ease-in-out;
 }
 .header-content .right-header .name {
+  transition: color 0.4s ease-in-out, -webkit-text-stroke 0.4s ease-in-out;
   font-size: 3rem;
 }
 .header-content .right-header .name span {
   color: var(--color-secondary);
 }
 .header-content .right-header p {
+  transition: color 0.2s ease-in-out;
   margin: 1.5rem 0;
   line-height: 2rem;
 }
@@ -334,7 +338,7 @@ header.container.active {
 .about-stats .progress-bars .progress-bar .progress-con .progress .Cplusplus {
   width: 87%;
 }
-.about-stats .progress-bars .progress-bar .progress-con .progress .js {
+.about-stats .progress-bars .progress-bar .progress-con .progress .javascript {
   width: 93%;
 }
 .about-stats .progress-bars .progress-bar .progress-con .progress .R {
@@ -433,7 +437,7 @@ header.container.active {
 .timeline .timeline-item p {
   max-height: 0;
   opacity: 0;
-  overflow: hidden;
+  overflow: auto;
   transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
   margin: 0;
 }
@@ -785,8 +789,8 @@ header.container.active {
   opacity: 50%;
   z-index: -1;
   transform: translate(-50%, -50%);
-  font-weight: 1200;
-  font-size: 5rem;
+  font-weight: 1500;
+  font-size: 9rem;
 }
 
 /* Welcome Screen Overlay */
@@ -2076,16 +2080,19 @@ html, body {
 #about {
   overflow-y: auto;
   height: 100vh;
+  overflow-x: auto;
 }
 
 #contact {
   overflow-y: auto;
   height: 10vh;
+  overflow-x: auto;
 }
 
 #portfolio {
   overflow-y: auto;
   height: 10vh;
+  overflow-x: auto;
 }
 
 .about-container .lvideoeft-about p {
