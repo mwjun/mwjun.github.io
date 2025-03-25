@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // === Fade bgMusic volume based on section ===
       const targetId = button.dataset.id;
       if (bgMusic) {
-        const fadeTo = targetId === "home" ? 0.25 : 0.05;
+        const fadeTo = targetId === "home" ? 0.10 : 0.05;
         const steps = 30;
         const fadeTime = 1500;
         const stepTime = fadeTime / steps;
@@ -80,8 +80,8 @@ if (lightningName && lightningSound) {
   });
 }
   if (bgMusic && volumeSlider) {
-    bgMusic.volume = 0.25;
-    volumeSlider.value = 0.25;
+    bgMusic.volume = 0.15;
+    volumeSlider.value = 0.15;
 
     volumeSlider.addEventListener("input", (e) => {
       bgMusic.volume = parseFloat(e.target.value);
@@ -221,8 +221,8 @@ timelineContainer?.addEventListener("click", () => {
       }, 3000);
 
       if (bgMusic && volumeSlider) {
-        bgMusic.volume = 0.25;
-        volumeSlider.value = 0.25;
+        bgMusic.volume = 0.15;
+        volumeSlider.value = 0.15;
       }
 
       if (bgMusic && bgMusic.paused) {
@@ -281,5 +281,22 @@ timelineContainer?.addEventListener("click", () => {
 document.querySelector('.name').addEventListener('mouseenter', () => {
   electricSound.currentTime = 0;
   electricSound.play();
+});
+
+// === 8) Expandable Portfolio Items ===
+
+portfolioItems.forEach((item) => {
+  item.addEventListener("click", (e) => {
+    // Prevent clicks on inner buttons from triggering expand
+    if (e.target.closest(".icon")) return;
+
+    // Remove expanded from all others
+    portfolioItems.forEach((el) => {
+      if (el !== item) el.classList.remove("expanded");
+    });
+
+    // Toggle this one
+    item.classList.toggle("expanded");
+  });
 });
 });
