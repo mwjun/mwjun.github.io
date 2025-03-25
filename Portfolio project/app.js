@@ -149,47 +149,42 @@ if (lightningName && lightningSound) {
   }
 
   // === 5) Timeline Toggle ===
-  const timelineSound = document.getElementById("timeline-icon-sound");
+ // === 5) Timeline Toggle ===
+const timelineItems = document.querySelectorAll(".timeline-item");
+const timelineSound = document.getElementById("timeline-icon-sound");
 
 timelineItems.forEach((item) => {
   const icon = item.querySelector(".tl-icon");
   const content = item.querySelector("p");
 
-  icon?.addEventListener("click", (e) => {
-    e.stopPropagation();
-
-    // 🔊 Play sound on icon click
-    if (timelineSound) {
-      timelineSound.currentTime = 0;
-      timelineSound.play();
-    }
-
-    timelineItems.forEach((el) => el.classList.remove("active"));
-    item.classList.add("active");
-  });
-
-  content?.addEventListener("click", (e) => {
-    e.stopPropagation();
-    item.classList.remove("active");
-  });
-});
-
-    icon?.addEventListener("click", (e) => {
+  if (icon) {
+    icon.addEventListener("click", (e) => {
       e.stopPropagation();
+
+      // 🔊 Play sound on icon click
+      if (timelineSound) {
+        timelineSound.currentTime = 0;
+        timelineSound.play();
+      }
+
       timelineItems.forEach((el) => el.classList.remove("active"));
       item.classList.add("active");
     });
+  }
 
-    content?.addEventListener("click", (e) => {
+  if (content) {
+    content.addEventListener("click", (e) => {
       e.stopPropagation();
       item.classList.remove("active");
     });
-  });
+  }
+});
 
-  const timelineContainer = document.querySelector(".timeline");
-  timelineContainer?.addEventListener("click", () => {
-    timelineItems.forEach((item) => item.classList.remove("active"));
-  });
+// Collapse all if timeline background is clicked
+const timelineContainer = document.querySelector(".timeline");
+timelineContainer?.addEventListener("click", () => {
+  timelineItems.forEach((item) => item.classList.remove("active"));
+});
 
   // === 6) Portfolio Video Speed ===
   const portfolioItems = document.querySelectorAll(".portfolio-item");
