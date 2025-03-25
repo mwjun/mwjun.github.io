@@ -21,9 +21,11 @@
 <audio id="nav-sound" src="sounds/aboutsoft.mp3" preload="auto"></audio>
 <audio id="about-hover-sound" src="sounds/aboutstatding.mp3" preload="auto"></audio>
 <!-- enter sound -->
-<audio id="enter-sound" src="sounds/enter-sound.wav" preload="auto"></audio>
+<audio id="cv-click-sound" src="sounds/enter-sound.wav" preload="auto"></audio>
 <!-- sound for download and send button -->
 <audio id="cv-hover-sound" src="sounds/swoosh.mp3" preload="auto"></audio>
+<audio id="electric-hover-sound" src="sounds/electric-crackle.mp3" preload="auto"></audio>
+
 <body class="main-content">
     <!-- Sound cue for light/dark mode -->
     <div id="welcome-screen">
@@ -148,13 +150,15 @@
                 </div> -->
             </div>
             <div class="right-header">
-                <h1 class="name">
-                    Hi, I'm <span> Matthew Jun. </span>
-                    A Computer Scientist.
-                </h1>
-                <p>
-                    Welcome to my portfolio.
-                </p>
+                <h1 class="name lightning-container">
+                    Hi, I'm
+                    <span class="lightning-wrapper">
+                      <span class="lightning-text" id="lightning-name">Matthew Jun.</span>
+                      <video class="electric-overlay" autoplay muted loop playsinline>
+                        <source src="Videos/electric.mp4" type="video/mp4">
+                      </video>
+                    </span>
+                  </h1>
                 <!-- <div class="btn-con">
                     <a href="" class="main-btn">
                         <span class="btn-text">Download CV</span>
@@ -369,7 +373,7 @@
                         <i class="fas fa-briefcase"></i>
                     </div>
                     <h6 class="tl-duration">2019 - 2022</h6>
-                    <h5>Associate's of Science Degree in Computer Science<span> - Fullerton College</span></h5>
+                    <h5>A.S. Computer Science<span> - Fullerton College</span></h5>
                     <p>
                             This was start of my college journey...again. I first attended community college in 2009, but I had no idea what I wanted to do. So I dropped out. During that time I really despised school and I was always told I was a failure growing up.  
                             I thought that going into business would be a better fit. I mostly made many decisions by myself with no guidance or help from family. What was worse is that I 
@@ -400,7 +404,7 @@
                         <i class="fas fa-briefcase"></i>
                     </div>
                     <h6 class="tl-duration">2023 - 2024</h6>
-                    <h5>Bachelor's Degree of Science in Computer Science<span> - California State University of Fullerton</span></h5>
+                    <h5>B.S. in Computer Science<span> - California State University of Fullerton</span></h5>
                     <p>
                         This was my first and last year of my undergraduate program at California State University of Fullerton.  
                         I had many tell me that I couldn't do it. That I was someone who did not belong in Computer Science. A lot of the times, this kind of 
