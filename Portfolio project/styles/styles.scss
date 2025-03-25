@@ -1159,11 +1159,11 @@ html, body {
   }
 
   .flash-white {
-    animation: flashWhite 2s ease-in-out forwards;
+    animation: flashWhite .8s ease-in-out forwards;
   }
   
   .flash-black {
-    animation: flashBlack 2s ease-in-out forwards;
+    animation: flashBlack .8s ease-in-out forwards;
   }
   
   @keyframes flashWhite {
