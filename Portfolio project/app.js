@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const bgMusic = document.getElementById("bg-music");
   const navSound = document.getElementById("nav-sound");
   const themeSound = document.getElementById("theme-sound");
-  const enterSound = document.getElementById("enter-sound");
+  const enterSound = document.getElementById("theme-sound");
   // === 1) Nav Controls ===
   [...document.querySelectorAll(".control")].forEach((button) => {
     button.addEventListener("click", function () {
@@ -161,14 +161,21 @@ document.addEventListener("DOMContentLoaded", () => {
 const welcomeScreen = document.getElementById("welcome-screen");
 const enterBtn = document.getElementById("enter-btn");
 const welcomeText = document.querySelector(".welcome-text");
+bgMusic.volume = 0.25; // 25% volume
 
 if (enterBtn && welcomeScreen) {
   enterBtn.addEventListener("click", () => {
+
+    if (enterSound) {
+      enterSound.pause();
+      enterSound.currentTime = 0;
+      enterSound.play();
+    }
     // Fade out the welcome text
     if (welcomeText) {
       welcomeText.classList.add("fade-out");
     }
-  
+    
     // Fade out the button itself
     enterBtn.classList.add("fade-out");
   
@@ -194,6 +201,39 @@ if (enterBtn && welcomeScreen) {
     setTimeout(() => {
       welcomeScreen.style.display = "none";
     }, 9300);
+  });
+}
+
+// === Hover Sound for About Items ===
+const aboutHoverSound = document.getElementById("about-hover-sound");
+const aboutItems = document.querySelectorAll(".about-item");
+
+aboutHoverSound.volume = 0.25; // 50% volume
+
+if (aboutHoverSound && aboutItems.length) {
+  aboutItems.forEach((item) => {
+    item.addEventListener("mouseenter", () => {
+      aboutHoverSound.currentTime = 0; // rewind
+      aboutHoverSound.play();
+    });
+  });
+}
+// === Hover or Click Sound for "Download CV" Button ===
+const cvSound = document.getElementById("cv-hover-sound");
+const cvClickSound = document.getElementById("enter-sound")
+const cvButton = document.querySelector(".main-btn");
+
+
+if (cvSound && cvButton) {
+  cvButton.addEventListener("mouseenter", () => {
+    cvSound.currentTime = 0;
+    cvSound.play();
+  });
+
+  // Optional: play sound on click too
+  cvButton.addEventListener("click", () => {
+    cvClickSound.currentTime = 0;
+    cvClickSound.play();
   });
 }
 });
