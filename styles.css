@@ -211,7 +211,7 @@ header.container.active {
 }
 .header-content .right-header .name span {
   color: var(--color-secondary);
-  font-size: 8rem;
+  font-size: 5rem;
   transition: color 0.5s ease-in-out;
 }
 .header-content .right-header p {
@@ -747,6 +747,13 @@ header.container.active {
 .contact-content-con .i-c-2 {
   display: flex;
   gap: 0.5rem;
+}
+
+input:-webkit-autofill,
+textarea:-webkit-autofill {
+  -webkit-transition: background-color 9999s ease-in-out 0s;
+  transition: background-color 9999s ease-in-out 0s;
+  -webkit-text-fill-color: var(--color-white-for-tl);
 }
 
 /*Independed components*/

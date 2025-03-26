@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // === AUDIO ELEMENTS ===
   const bgMusic = document.getElementById("bg-music");
   const navSound = document.getElementById("nav-sound");
   const themeSound = document.getElementById("theme-sound");
@@ -7,87 +6,67 @@ document.addEventListener("DOMContentLoaded", () => {
   const cvSound = document.getElementById("cv-hover-sound");
   const cvClickSound = document.getElementById("cv-click-sound");
 
-  // === 1) Nav Controls ===
-  [...document.querySelectorAll(".control")].forEach((button) => {
-    button.addEventListener("click", function () {
-      if (navSound) {
-        navSound.pause();
-        navSound.currentTime = 0;
-        navSound.play();
-      }
-
-      document.querySelector(".active-btn")?.classList.remove("active-btn");
-      this.classList.add("active-btn");
-
-      document.querySelector(".active")?.classList.remove("active");
-      const target = document.getElementById(button.dataset.id);
-      target?.classList.add("active");
-
-      // === Fade bgMusic volume based on section ===
-      const targetId = button.dataset.id;
-      if (bgMusic) {
-        const fadeTo = targetId === "home" ? 0.10 : 0.05;
-        const steps = 30;
-        const fadeTime = 1500;
-        const stepTime = fadeTime / steps;
-        const startVol = bgMusic.volume;
-        const stepAmount = (fadeTo - startVol) / steps;
-        let currentStep = 0;
-
-        const fadeInterval = setInterval(() => {
-          currentStep++;
-          bgMusic.volume = Math.max(0, Math.min(1, bgMusic.volume + stepAmount));
-          if (currentStep >= steps) clearInterval(fadeInterval);
-        }, stepTime);
-      }
-    });
-  });
-
-  // === 2) Theme Toggle ===
+  const lightningName = document.getElementById("lightning-name");
+  const lightningSound = document.getElementById("electric-hover-sound");
   const themeBtn = document.querySelector(".theme-btn");
-  const spanText = document.getElementById("lightning-name");
-
-  if (themeBtn && spanText) {
-    themeBtn.addEventListener("click", () => {
-      const isLightMode = document.body.classList.contains("light-mode");
-
-      spanText.classList.add(isLightMode ? "flash-black" : "flash-white");
-      document.body.classList.toggle("light-mode");
-
-      setTimeout(() => {
-        spanText.classList.remove("flash-black", "flash-white");
-      }, 2100); // slightly more than the 2s animation
-
-      if (themeSound) {
-        themeSound.currentTime = 0;
-        themeSound.play();
-      }
-    });
-  }
-
-  // === 3) Music Toggle + Volume Panel ===
   const musicBtn = document.getElementById("music-toggle");
   const volumePanel = document.getElementById("volume-panel");
   const volumeSlider = document.getElementById("volume-range");
   const muteBtn = document.getElementById("mute-toggle");
-  const lightningName = document.getElementById("lightning-name");
-  const lightningSound = document.getElementById("electric-hover-sound");
 
-if (lightningName && lightningSound) {
-  lightningName.addEventListener("mouseenter", () => {
-    lightningSound.currentTime = 0;
-    lightningSound.play();
+  const welcomeScreen = document.getElementById("welcome-screen");
+  const enterBtn = document.getElementById("enter-btn");
+  const welcomeText = document.querySelector(".welcome-text");
+  const rightHeader = document.querySelector(".right-header");
+
+  const timelineItems = document.querySelectorAll(".timeline-item");
+  const timelineSound = document.getElementById("timeline-icon-sound");
+  const portfolioItems = document.querySelectorAll(".portfolio-item");
+
+  // Navigation controls
+  document.querySelectorAll(".control").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      navSound?.play();
+      document.querySelector(".active-btn")?.classList.remove("active-btn");
+      btn.classList.add("active-btn");
+
+      document.querySelector(".active")?.classList.remove("active");
+      document.getElementById(btn.dataset.id)?.classList.add("active");
+
+      // Fade background music
+      if (bgMusic) {
+        const targetVol = btn.dataset.id === "home" ? 0.1 : 0.05;
+        const steps = 30;
+        const step = (targetVol - bgMusic.volume) / steps;
+        let currentStep = 0;
+        const interval = setInterval(() => {
+          currentStep++;
+          bgMusic.volume = Math.min(1, Math.max(0, bgMusic.volume + step));
+          if (currentStep >= steps) clearInterval(interval);
+        }, 1500 / steps);
+      }
+    });
   });
-}
+
+  // Theme Toggle
+  themeBtn?.addEventListener("click", () => {
+    const isLight = document.body.classList.contains("light-mode");
+    lightningName?.classList.add(isLight ? "flash-black" : "flash-white");
+    document.body.classList.toggle("light-mode");
+    setTimeout(() => lightningName?.classList.remove("flash-black", "flash-white"), 2100);
+    themeSound?.play();
+  });
+
+  // Music toggle + volume slider
   if (bgMusic && volumeSlider) {
     bgMusic.volume = 0.15;
     volumeSlider.value = 0.15;
 
-    volumeSlider.addEventListener("input", (e) => {
+    volumeSlider.addEventListener("input", e => {
       bgMusic.volume = parseFloat(e.target.value);
     });
 
-    muteBtn.addEventListener("click", () => {
+    muteBtn?.addEventListener("click", () => {
       bgMusic.muted = !bgMusic.muted;
       muteBtn.innerHTML = bgMusic.muted
         ? '<i class="fas fa-volume-up"></i>'
@@ -95,101 +74,50 @@ if (lightningName && lightningSound) {
     });
   }
 
-  if (musicBtn && volumePanel) {
-    musicBtn.addEventListener("click", (e) => {
+  musicBtn?.addEventListener("click", e => {
+    e.stopPropagation();
+    volumePanel?.classList.toggle("open");
+  });
+
+  document.addEventListener("click", e => {
+    if (!volumePanel?.contains(e.target) && !musicBtn?.contains(e.target)) {
+      volumePanel?.classList.remove("open");
+    }
+  });
+
+  // Timeline interaction
+  timelineItems.forEach(item => {
+    const icon = item.querySelector(".tl-icon");
+    const content = item.querySelector("p");
+
+    icon?.addEventListener("click", e => {
       e.stopPropagation();
-      volumePanel.classList.toggle("open");
-    });
-
-    document.addEventListener("click", (e) => {
-      if (!volumePanel.contains(e.target) && !musicBtn.contains(e.target)) {
-        volumePanel.classList.remove("open");
-      }
-    });
-  }
-
-  // === 4) Form Submission ===
-  const FORM_ENDPOINT = "https://formspree.io/f/mldjdlop";
-  const contactForm = document.getElementById("contactForm");
-  const formSuccess = document.getElementById("formSuccess");
-  const formError = document.getElementById("formError");
-
-  if (contactForm) {
-    contactForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      formSuccess.style.display = "none";
-      formError.style.display = "none";
-
-      const name = document.getElementById("contactName").value;
-      const email = document.getElementById("contactEmail").value;
-      const subject = document.getElementById("contactSubject").value;
-      const message = document.getElementById("contactMessage").value;
-
-      try {
-        const response = await fetch(FORM_ENDPOINT, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({ name, email, subject, message }),
-        });
-
-        if (response.ok) {
-          formSuccess.style.display = "block";
-          contactForm.reset();
-        } else {
-          formError.style.display = "block";
-        }
-      } catch (error) {
-        console.error(error);
-        formError.style.display = "block";
-      }
-    });
-  }
-
-  // === 5) Timeline Toggle ===
- // === 5) Timeline Toggle ===
-const timelineItems = document.querySelectorAll(".timeline-item");
-const timelineSound = document.getElementById("timeline-icon-sound");
-
-timelineItems.forEach((item) => {
-  const icon = item.querySelector(".tl-icon");
-  const content = item.querySelector("p");
-
-  if (icon) {
-    icon.addEventListener("click", (e) => {
-      e.stopPropagation();
-
-      // 🔊 Play sound on icon click
-      if (timelineSound) {
-        timelineSound.currentTime = 0;
-        timelineSound.play();
-      }
-
-      timelineItems.forEach((el) => el.classList.remove("active"));
+      timelineSound?.play();
+      timelineItems.forEach(el => el.classList.remove("active"));
       item.classList.add("active");
     });
-  }
 
-  if (content) {
-    content.addEventListener("click", (e) => {
+    content?.addEventListener("click", e => {
       e.stopPropagation();
       item.classList.remove("active");
     });
-  }
-});
+  });
 
-// Collapse all if timeline background is clicked
-const timelineContainer = document.querySelector(".timeline");
-timelineContainer?.addEventListener("click", () => {
-  timelineItems.forEach((item) => item.classList.remove("active"));
-});
+  document.querySelector(".timeline")?.addEventListener("click", () => {
+    timelineItems.forEach(item => item.classList.remove("active"));
+  });
 
-  // === 6) Portfolio Video Speed ===
-  const portfolioItems = document.querySelectorAll(".portfolio-item");
-  portfolioItems.forEach((item) => {
+  // Portfolio expand/collapse
+  portfolioItems.forEach(item => {
     const video = item.querySelector(".hover-video");
+    item.addEventListener("click", e => {
+      if (e.target.closest(".icon")) return;
+      portfolioItems.forEach(el => {
+        if (el !== item) el.classList.remove("expanded");
+      });
+      item.classList.toggle("expanded");
+    });
+
     if (video) {
       video.playbackRate = 0.0;
       item.addEventListener("mouseenter", () => (video.playbackRate = 1));
@@ -197,79 +125,66 @@ timelineContainer?.addEventListener("click", () => {
     }
   });
 
-  // === 7) Welcome Screen ===
-  const welcomeScreen = document.getElementById("welcome-screen");
-  const enterBtn = document.getElementById("enter-btn");
-  const welcomeText = document.querySelector(".welcome-text");
+ // === WELCOME SCREEN ===
+if (enterBtn && welcomeScreen) {
+  enterBtn.addEventListener("click", () => {
+    enterSound?.play();
 
-  if (enterBtn && welcomeScreen) {
-    enterBtn.addEventListener("click", () => {
-      if (enterSound) {
-        enterSound.pause();
-        enterSound.currentTime = 0;
-        enterSound.play();
-      }
+    welcomeText?.classList.add("fade-out");
+    enterBtn.classList.add("fade-out");
+    enterBtn.disabled = true;
 
-      if (welcomeText) {
-        welcomeText.classList.add("fade-out");
-      }
+    // Hide Enter button after 3 seconds
+    setTimeout(() => {
+      enterBtn.style.display = "none";
+    }, 3000);
 
-      enterBtn.classList.add("fade-out");
+    // Start background music
+    if (bgMusic?.paused) {
+      bgMusic.play().catch(() => console.warn("Autoplay blocked"));
+    }
 
-      setTimeout(() => {
-        enterBtn.style.display = "none";
-      }, 3000);
-
-      if (bgMusic && volumeSlider) {
-        bgMusic.volume = 0.15;
-        volumeSlider.value = 0.15;
-      }
-
-      if (bgMusic && bgMusic.paused) {
-        bgMusic.play().catch(() => console.warn("Autoplay blocked"));
-      }
-
-      document.querySelectorAll("[class^='letterbox']").forEach((el) => {
-        el.style.animationPlayState = "running";
-      });
-
-      enterBtn.disabled = true;
-
-      setTimeout(() => {
-        welcomeScreen.style.display = "none";
-      }, 9300);
+    // Trigger letterbox animation
+    document.querySelectorAll("[class^='letterbox']").forEach((el) => {
+      el.style.animationPlayState = "running";
     });
-  }
 
-  // === Hover Sound for About Items ===
+    // After full welcome animation (9.3s), remove screen and fade in header
+    setTimeout(() => {
+      welcomeScreen.style.display = "none";
+
+      const rightHeader = document.getElementById("animated-header");
+      if (rightHeader && !sessionStorage.getItem("hasAnimatedHeader")) {
+        requestAnimationFrame(() => {
+          rightHeader.classList.add("fade-in-once");
+          sessionStorage.setItem("hasAnimatedHeader", "true");
+        });
+      }
+    }, 9300);
+  });
+}
+  // About hover sound
   const aboutHoverSound = document.getElementById("about-hover-sound");
-  const aboutItems = document.querySelectorAll(".about-item");
-
-  if (aboutHoverSound && aboutItems.length) {
-    aboutHoverSound.volume = 0.25;
-    aboutItems.forEach((item) => {
-      item.addEventListener("mouseenter", () => {
+  document.querySelectorAll(".about-item").forEach(item => {
+    item.addEventListener("mouseenter", () => {
+      if (aboutHoverSound) {
         aboutHoverSound.currentTime = 0;
+        aboutHoverSound.volume = 0.25;
         aboutHoverSound.play();
-      });
+      }
     });
-  }
+  });
 
-  // === Hover + Click Sound for Buttons ===
+  // Download and Send buttons
   const cvButton = document.querySelector(".about .btn-con .main-btn");
   const sendBtn = document.querySelector("#contactForm .main-btn");
-
-  const buttonsWithSound = [cvButton, sendBtn];
-  buttonsWithSound.forEach((btn) => {
+  [cvButton, sendBtn].forEach(btn => {
     if (btn && cvSound && cvClickSound) {
       btn.addEventListener("mouseenter", () => {
         cvSound.currentTime = 0;
         cvSound.play();
-      
         btn.classList.add("flash-animate");
-        setTimeout(() => {
-          btn.classList.remove("flash-animate");
-        }, 800);
+        setTimeout(() => btn.classList.remove("flash-animate"), 800);
       });
       btn.addEventListener("click", () => {
         cvClickSound.currentTime = 0;
@@ -277,26 +192,12 @@ timelineContainer?.addEventListener("click", () => {
       });
     }
   });
-  const electricSound = document.getElementById('electric-hover-sound');
-document.querySelector('.name').addEventListener('mouseenter', () => {
-  electricSound.currentTime = 0;
-  electricSound.play();
-});
 
-// === 8) Expandable Portfolio Items ===
-
-portfolioItems.forEach((item) => {
-  item.addEventListener("click", (e) => {
-    // Prevent clicks on inner buttons from triggering expand
-    if (e.target.closest(".icon")) return;
-
-    // Remove expanded from all others
-    portfolioItems.forEach((el) => {
-      if (el !== item) el.classList.remove("expanded");
-    });
-
-    // Toggle this one
-    item.classList.toggle("expanded");
+  // Lightning hover sound
+  lightningName?.addEventListener("mouseenter", () => {
+    if (lightningSound) {
+      lightningSound.currentTime = 0;
+      lightningSound.play();
+    }
   });
-});
 });

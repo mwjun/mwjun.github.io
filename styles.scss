@@ -207,7 +207,7 @@ header.container.active {
       
           span {
             color: var(--color-secondary);
-            font-size: 8rem;
+            font-size: 5rem;
             transition: color 0.5s ease-in-out;
           }
         }
@@ -725,6 +725,7 @@ header.container.active {
         .input-control {
           margin: 1.5rem 0;
           color: var(white);
+          
           input, textarea {
             border-radius: 30px;
             font-weight: inherit;
@@ -760,7 +761,11 @@ header.container.active {
         }
       }
     
-
+      input:-webkit-autofill,
+      textarea:-webkit-autofill {
+        transition: background-color 9999s ease-in-out 0s;
+        -webkit-text-fill-color: var(--color-white-for-tl); // keep text color consistent
+      }
 
 /*Independed components*/
 .btn-con {
@@ -1282,6 +1287,7 @@ html, body {
       text-shadow: none;
     }
   }
+  
   
 
 
