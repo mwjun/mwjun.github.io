@@ -433,7 +433,7 @@ header.container.active {
 }
 
 
-/* Portfolios */
+
 /* Portfolios */
 .port-text {
   padding: 2rem 0;
@@ -441,23 +441,26 @@ header.container.active {
 }
 
 .portfolios {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
   margin-top: 3rem;
 
   .portfolio-item {
+    flex: 1 1 calc(33.333% - 1.33rem); // 3 items per row with gap considered
+    box-sizing: border-box;
     position: relative;
     border-radius: 15px;
     overflow: hidden;
     background-color: var(--color-grey-5);
     cursor: pointer;
     transition:
-      transform 1s ease-in-out,
-      opacity 1s ease-in-out,
-      max-height 1s ease-in-out,
-      padding 1s ease-in-out,
-      order 1s ease-in-out;
+      transform 0.8s ease-in-out,
+      opacity 0.8s ease-in-out,
+      max-height 0.8s ease-in-out,
+      padding 0.8s ease-in-out,
+      order 0.8s ease-in-out,
+      flex-basis 0.8s ease-in-out;
 
     opacity: 1;
     transform: scale(1);
@@ -501,16 +504,18 @@ header.container.active {
       transition: all 0.6s ease-in-out;
       pointer-events: none;
 
-      h3 {
-        font-size: 1.5rem;
+      h3,
+      h4 {
         color: var(--color-white-for-tl);
         margin-bottom: 1.5rem;
       }
 
+      h3 {
+        font-size: 1.5rem;
+      }
+
       h4 {
         font-size: 1rem;
-        color: var(--color-white-for-tl);
-        margin-bottom: 1.5rem;
       }
 
       .icons {
@@ -565,14 +570,14 @@ header.container.active {
     }
 
     &.expanded {
-      grid-column: 1 / -1;
+      flex: 1 1 100%;
       order: -1;
       z-index: 10;
       transform: scale(1.02);
       background-color: var(--color-grey-5);
       padding: 2rem;
       max-height: 1000px;
-      animation: fadeExpand 1s ease-in-out;
+      animation: fadeExpand 0.8s ease-in-out;
 
       .hover-items {
         opacity: 1;
@@ -586,17 +591,6 @@ header.container.active {
         transform: translateY(0);
       }
     }
-  }
-}
-
-@keyframes fadeExpand {
-  from {
-    opacity: 0;
-    transform: scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1.02);
   }
 }
 
