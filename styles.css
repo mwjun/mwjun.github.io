@@ -2295,7 +2295,7 @@ html, body {
   border-radius: 30px;
   color: var(--color-white);
   cursor: pointer;
-  transition: all 2s ease-in-out;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
   z-index: 10100;
 }
 .enter-button:hover {
