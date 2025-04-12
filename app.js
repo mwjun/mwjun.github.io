@@ -15,14 +15,21 @@ document.addEventListener("DOMContentLoaded", () => {
         navSound.currentTime = 0;
         navSound.play();
       }
-
+  
       document.querySelector(".active-btn")?.classList.remove("active-btn");
       this.classList.add("active-btn");
-
+  
       document.querySelector(".active")?.classList.remove("active");
       const target = document.getElementById(button.dataset.id);
       target?.classList.add("active");
+  
+      // --- Scroll the new section to the top ---
+      document.querySelectorAll('.container').forEach(sec => (sec.scrollTop = 0));
 
+/* If you ever re‑enable window scrolling, keep this line too
+   window.scrollTo({ top: 0, behavior: 'instant' });
+*/
+  
       // === Fade bgMusic volume based on section ===
       const targetId = button.dataset.id;
       if (bgMusic) {
@@ -33,7 +40,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const startVol = bgMusic.volume;
         const stepAmount = (fadeTo - startVol) / steps;
         let currentStep = 0;
-
+  
         const fadeInterval = setInterval(() => {
           currentStep++;
           bgMusic.volume = Math.max(0, Math.min(1, bgMusic.volume + stepAmount));
