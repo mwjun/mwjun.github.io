@@ -1,7 +1,8 @@
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   list-style: none;
 }
 
@@ -44,11 +45,13 @@
 
 body {
   background-color: var(--color-primary);
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 1.1rem;
   color: var(--color-white);
-  transition: all 0.4s ease-in-out;
-  overflow-x: hidden; /* Prevent horizontal scrolling */
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+  overflow-x: hidden;
+  /* Prevent horizontal scrolling */
   overflow-y: auto;
 }
 
@@ -82,6 +85,7 @@ section {
 header.container {
   opacity: 0;
   visibility: hidden;
+  -webkit-transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
   transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
 }
 
@@ -92,14 +96,19 @@ header.container.active {
 
 /* All other pages slide in from the top */
 .container:not(header) {
-  transform: translateX(100%);
+  -webkit-transform: translateX(100%);
+          transform: translateX(100%);
   opacity: 0;
   visibility: hidden;
+  -webkit-transition: opacity 1s ease-in-out, visibility 1s ease-in-out, -webkit-transform 1s ease-in-out;
+  transition: opacity 1s ease-in-out, visibility 1s ease-in-out, -webkit-transform 1s ease-in-out;
   transition: transform 1s ease-in-out, opacity 1s ease-in-out, visibility 1s ease-in-out;
+  transition: transform 1s ease-in-out, opacity 1s ease-in-out, visibility 1s ease-in-out, -webkit-transform 1s ease-in-out;
 }
 
 .container:not(header).active {
-  transform: translateY(0);
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
   opacity: 1;
   visibility: visible;
 }
@@ -111,10 +120,14 @@ header.container.active {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
-     object-fit: cover; /* Ensures video covers the entire background */
-  z-index: -1; /* Pushes video behind text content */
-  opacity: 1; /* Optional: Adjust transparency */
-  pointer-events: none; /* Prevents users from interacting with the video */
+     object-fit: cover;
+  /* Ensures video covers the entire background */
+  z-index: -1;
+  /* Pushes video behind text content */
+  opacity: 1;
+  /* Optional: Adjust transparency */
+  pointer-events: none;
+  /* Prevents users from interacting with the video */
 }
 
 .controls {
@@ -122,11 +135,21 @@ header.container.active {
   z-index: 10;
   top: 50%;
   right: 3%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transform: translateY(-50%);
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
 }
 
 .controls .control {
@@ -136,11 +159,18 @@ header.container.active {
   width: 55px;
   height: 55px;
   border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0.7rem 0;
-  box-shadow: var(--box-shadow-1);
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: .7rem 0;
+  -webkit-box-shadow: var(--box-shadow-1);
+          box-shadow: var(--box-shadow-1);
 }
 
 .controls .control i {
@@ -151,7 +181,8 @@ header.container.active {
 
 .controls .active-btn {
   background-color: var(--color-secondary);
-  transition: all 0.4s ease-in-out;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
 }
 
 .controls .active-btn i {
@@ -167,15 +198,24 @@ header.container.active {
   background-color: var(--color-grey-1);
   cursor: pointer;
   position: fixed;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
-  transition: all 0.4s ease-in-out;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
 }
 
 .theme-btn:active {
-  transform: translateY(-3px);
+  -webkit-transform: translateY(-3px);
+          transform: translateY(-3px);
 }
 
 .theme-btn i {
@@ -186,84 +226,125 @@ header.container.active {
 
 /*Header-content*/
 .header-content {
+  display: -ms-grid;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  -ms-grid-columns: (1fr)[2];
+      grid-template-columns: repeat(2, 1fr);
   min-height: 100vh;
 }
+
 .header-content .left-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   position: relative;
 }
+
 .header-content .right-header {
-  -webkit-text-stroke: 0.5px #ffffff;
+  -webkit-text-stroke: .5px #ffffff;
   text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   padding-right: 13rem;
   color: var(--color-white-for-tl);
+  -webkit-transition: color 0.2s ease-in-out, text-shadow 0.4s ease-in-out;
   transition: color 0.2s ease-in-out, text-shadow 0.4s ease-in-out;
 }
+
 .header-content .right-header .name {
   font-size: 3rem;
   transition: color 0.4s ease-in-out, -webkit-text-stroke 0.4s ease-in-out;
 }
+
 .header-content .right-header .name span {
   color: var(--color-secondary);
   font-size: 5rem;
+  -webkit-transition: color 0.5s ease-in-out;
   transition: color 0.5s ease-in-out;
 }
+
 .header-content .right-header p {
   margin: 1.5rem 0;
   line-height: 2rem;
+  -webkit-transition: color 0.2s ease-in-out;
   transition: color 0.2s ease-in-out;
 }
 
 /*About*/
 .about-container {
+  display: -ms-grid;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  -ms-grid-columns: (1fr)[2];
+      grid-template-columns: repeat(2, 1fr);
   padding-top: 3.5rem;
   padding-bottom: 5rem;
 }
+
 .about-container .right-about {
+  display: -ms-grid;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  -ms-grid-columns: (1fr)[2];
+      grid-template-columns: repeat(2, 1fr);
   grid-gap: 2rem;
 }
+
 .about-container .right-about .about-item {
   border: 1px solid var(--color-white);
   border-radius: 25px;
-  transition: all 0.4s ease-in-out;
-  box-shadow: 1px 2px 15px rgba(0, 0, 0, 0.1);
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+  -webkit-box-shadow: 1px 2px 15px rgba(0, 0, 0, 0.1);
+          box-shadow: 1px 2px 15px rgba(0, 0, 0, 0.1);
 }
+
 .about-container .right-about .about-item:hover {
   cursor: default;
-  transform: translateY(-5px);
+  -webkit-transform: translateY(-5px);
+          transform: translateY(-5px);
   border: 1px solid var(--color-secondary);
-  box-shadow: 1px 4px 15px rgba(2, 255, 179, 0.945);
+  -webkit-box-shadow: 1px 4px 15px rgba(2, 255, 179, 0.945);
+          box-shadow: 1px 4px 15px rgba(2, 255, 179, 0.945);
 }
+
 .about-container .right-about .about-item .abt-text {
   padding: 1.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
+
 .about-container .right-about .about-item .abt-text .large-text {
   font-size: 3rem;
   font-weight: 700;
   color: var(--color-secondary);
 }
+
 .about-container .right-about .about-item .abt-text .small-text {
   padding-left: 3rem;
   position: relative;
   text-transform: uppercase;
-  font-size: 0.9rem;
+  font-size: .9rem;
   color: var(--color-white);
   letter-spacing: 1px;
 }
+
 .about-container .right-about .about-item .abt-text .small-text::before {
-  content: "";
+  content: '';
   position: absolute;
   left: 0;
   top: 15px;
@@ -271,14 +352,17 @@ header.container.active {
   height: 2px;
   background-color: var(--color-white);
 }
+
 .about-container .left-about {
   padding-right: 5rem;
 }
+
 .about-container .left-about p {
   line-height: 2rem;
   padding: 1rem;
   color: var(--color-white);
 }
+
 .about-container .left-about h4 {
   font-size: 2rem;
   text-transform: uppercase;
@@ -287,69 +371,98 @@ header.container.active {
 .about-stats {
   padding-bottom: 4rem;
 }
+
 .about-stats .progress-bars {
+  display: -ms-grid;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  -ms-grid-columns: (1fr)[2];
+      grid-template-columns: repeat(2, 1fr);
   grid-gap: 2rem;
 }
+
 .about-stats .progress-bars .progress-bar {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
+
 .about-stats .progress-bars .progress-bar .prog-title {
   text-transform: uppercase;
   font-weight: 500;
 }
+
 .about-stats .progress-bars .progress-bar .progress-con {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
+
 .about-stats .progress-bars .progress-bar .progress-con .prog-text {
   color: var(--color-white);
 }
+
 .about-stats .progress-bars .progress-bar .progress-con .progress {
   width: 100%;
-  height: 0.45rem;
+  height: .45rem;
   background-color: var(--color-grey-4);
   margin-left: 1rem;
   position: relative;
 }
+
 .about-stats .progress-bars .progress-bar .progress-con .progress span {
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
   background-color: var(--color-secondary);
-  transition: all 0.4s ease-in-out;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
   width: 60%;
 }
+
 .about-stats .progress-bars .progress-bar .progress-con .progress .html5andcss {
   width: 92%;
 }
+
 .about-stats .progress-bars .progress-bar .progress-con .progress .C {
   width: 91%;
 }
+
 .about-stats .progress-bars .progress-bar .progress-con .progress .Python {
   width: 98%;
 }
+
 .about-stats .progress-bars .progress-bar .progress-con .progress .SQL {
   width: 96%;
 }
+
 .about-stats .progress-bars .progress-bar .progress-con .progress .Cplusplus {
   width: 87%;
 }
+
 .about-stats .progress-bars .progress-bar .progress-con .progress .Javascript {
   width: 93%;
 }
+
 .about-stats .progress-bars .progress-bar .progress-con .progress .R {
   width: 87%;
 }
+
 .about-stats .progress-bars .progress-bar .progress-con .progress .AWS {
   width: 90%;
 }
+
 .about-stats .progress-bars .progress-bar .progress-con .progress .networking {
   width: 87%;
 }
+
 .about-stats .progress-bars .progress-bar .progress-con .progress .AI {
   width: 96%;
 }
@@ -361,22 +474,29 @@ header.container.active {
   padding: 3.5rem 0;
   position: relative;
 }
+
 .stat-title::before {
-  content: "";
+  content: '';
   position: absolute;
   left: 50%;
   top: 0;
   width: 80%;
   height: 1px;
   background-color: var(--color-grey-5);
-  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
 }
 
 /*Timeline*/
 /* Timeline (vertical accordion style) */
 .timeline {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-direction: column;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   gap: 0.5rem;
   padding-bottom: 3rem;
 }
@@ -387,6 +507,7 @@ header.container.active {
   border-left: 1px solid var(--color-grey-3);
   cursor: pointer;
 }
+
 .timeline .timeline-item .tl-icon {
   position: absolute;
   left: -27px;
@@ -395,22 +516,34 @@ header.container.active {
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
 }
+
 .timeline .timeline-item .tl-icon i {
   font-size: 1.3rem;
   color: var(--color-grey-2);
+  -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
 }
+
 .timeline .timeline-item.active .tl-icon {
   background-color: var(--color-secondary);
 }
+
 .timeline .timeline-item.active .tl-icon i {
   color: var(--color-white-for-tl);
 }
+
 .timeline .timeline-item .tl-duration {
   padding: 0.2rem 0.6rem;
   background-color: var(--color-grey-5);
@@ -420,27 +553,33 @@ header.container.active {
   text-transform: uppercase;
   font-weight: 500;
 }
+
 .timeline .timeline-item h5 {
   padding: 0.5rem 0;
   text-transform: uppercase;
   font-size: 1.3rem;
   font-weight: 600;
 }
+
 .timeline .timeline-item h5 span {
   color: var(--color-secondary);
   font-weight: 500;
   font-size: 1.2rem;
 }
+
 .timeline .timeline-item h6 {
   color: #ffffff;
 }
+
 .timeline .timeline-item p {
   max-height: 0;
   opacity: 0;
   overflow: auto;
+  -webkit-transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
   transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
   margin: 0;
 }
+
 .timeline .timeline-item.active p {
   max-height: 500px;
   opacity: 1;
@@ -454,26 +593,40 @@ header.container.active {
 }
 
 .portfolios {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   gap: 2rem;
   margin-top: 3rem;
 }
+
 .portfolios .portfolio-item {
-  flex: 1 1 calc(33.333% - 1.33rem);
-  box-sizing: border-box;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 calc(33.333% - 1.33rem);
+          flex: 1 1 calc(33.333% - 1.33rem);
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   position: relative;
   border-radius: 15px;
   overflow: hidden;
   background-color: var(--color-grey-5);
   cursor: pointer;
+  -webkit-transition: opacity 0.8s ease-in-out, max-height 0.8s ease-in-out, padding 0.8s ease-in-out, -webkit-transform 0.8s ease-in-out, -webkit-box-ordinal-group 0.8s ease-in-out, -webkit-flex-basis 0.8s ease-in-out;
+  transition: opacity 0.8s ease-in-out, max-height 0.8s ease-in-out, padding 0.8s ease-in-out, -webkit-transform 0.8s ease-in-out, -webkit-box-ordinal-group 0.8s ease-in-out, -webkit-flex-basis 0.8s ease-in-out;
   transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out, max-height 0.8s ease-in-out, padding 0.8s ease-in-out, order 0.8s ease-in-out, flex-basis 0.8s ease-in-out;
+  transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out, max-height 0.8s ease-in-out, padding 0.8s ease-in-out, order 0.8s ease-in-out, flex-basis 0.8s ease-in-out, -webkit-transform 0.8s ease-in-out, -webkit-box-ordinal-group 0.8s ease-in-out, -ms-flex-order 0.8s ease-in-out, -webkit-flex-basis 0.8s ease-in-out, -ms-flex-preferred-size 0.8s ease-in-out;
   opacity: 1;
-  transform: scale(1);
+  -webkit-transform: scale(1);
+          transform: scale(1);
   max-height: 350px;
   padding: 0;
-  order: 1;
+  -webkit-box-ordinal-group: 2;
+      -ms-flex-order: 1;
+          order: 1;
 }
+
 .portfolios .portfolio-item img,
 .portfolios .portfolio-item .hover-video {
   width: 100%;
@@ -481,16 +634,22 @@ header.container.active {
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 15px;
+  -webkit-transition: all 0.6s ease-in-out;
   transition: all 0.6s ease-in-out;
 }
+
 .portfolios .portfolio-item .hover-video {
   display: block;
-  filter: grayscale(100%);
+  -webkit-filter: grayscale(100%);
+          filter: grayscale(100%);
   will-change: filter;
 }
+
 .portfolios .portfolio-item:hover .hover-video {
-  filter: grayscale(0%);
+  -webkit-filter: grayscale(0%);
+          filter: grayscale(0%);
 }
+
 .portfolios .portfolio-item .hover-items {
   width: 100%;
   height: 100%;
@@ -499,88 +658,138 @@ header.container.active {
   left: 0;
   top: 0;
   border-radius: 15px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   opacity: 0;
-  transform: scale(0);
+  -webkit-transform: scale(0);
+          transform: scale(0);
+  -webkit-transition: all 0.6s ease-in-out;
   transition: all 0.6s ease-in-out;
   pointer-events: none;
 }
+
 .portfolios .portfolio-item .hover-items h3,
 .portfolios .portfolio-item .hover-items h4 {
   color: var(--color-white-for-tl);
   margin-bottom: 1.5rem;
 }
+
 .portfolios .portfolio-item .hover-items h3 {
   font-size: 1.5rem;
 }
+
 .portfolios .portfolio-item .hover-items h4 {
   font-size: 1rem;
 }
+
 .portfolios .portfolio-item .hover-items .icons {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
+
 .portfolios .portfolio-item .hover-items .icons .icon {
   background-color: var(--color-primary);
   border-radius: 50%;
   width: 50px;
   height: 50px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   margin: 0 1rem;
+  -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
 }
+
 .portfolios .portfolio-item .hover-items .icons .icon i {
   font-size: 1.5rem;
   color: var(--color-white);
 }
+
 .portfolios .portfolio-item .hover-items .icons .icon:hover {
   background-color: var(--color-white);
 }
+
 .portfolios .portfolio-item .hover-items .icons .icon:hover i {
   color: var(--color-primary);
 }
+
 .portfolios .portfolio-item:hover .hover-items {
   opacity: 1;
-  transform: scale(1);
+  -webkit-transform: scale(1);
+          transform: scale(1);
   pointer-events: auto;
 }
+
 .portfolios .portfolio-item .project-details {
   display: none;
   opacity: 0;
-  transform: translateY(10px);
+  -webkit-transform: translateY(10px);
+          transform: translateY(10px);
+  -webkit-transition: opacity 0.6s ease, -webkit-transform 0.6s ease;
+  transition: opacity 0.6s ease, -webkit-transform 0.6s ease;
   transition: opacity 0.6s ease, transform 0.6s ease;
+  transition: opacity 0.6s ease, transform 0.6s ease, -webkit-transform 0.6s ease;
   font-size: 1rem;
   padding: 1rem 1.5rem;
-  color: var(--color-white);
+  color: var(--color-white-for-tl);
   background-color: var(--color-grey-6);
   border-radius: 10px;
   margin-top: 1rem;
 }
+
 .portfolios .portfolio-item.expanded {
-  flex: 1 1 100%;
-  order: -1;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 100%;
+          flex: 1 1 100%;
+  -webkit-box-ordinal-group: 0;
+      -ms-flex-order: -1;
+          order: -1;
   z-index: 10;
-  transform: scale(1.02);
+  -webkit-transform: scale(1.02);
+          transform: scale(1.02);
   background-color: var(--color-grey-5);
   padding: 2rem;
   max-height: 1000px;
-  animation: fadeExpand 0.8s ease-in-out;
+  -webkit-animation: fadeExpand 0.8s ease-in-out;
+          animation: fadeExpand 0.8s ease-in-out;
 }
+
 .portfolios .portfolio-item.expanded .hover-items {
   opacity: 1;
-  transform: scale(1);
+  -webkit-transform: scale(1);
+          transform: scale(1);
   pointer-events: auto;
 }
+
 .portfolios .portfolio-item.expanded .project-details {
   display: block;
   opacity: 1;
-  transform: translateY(0);
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
 }
 
 /*Blogs Section*/
@@ -635,80 +844,128 @@ header.container.active {
 } */
 /*Contact section*/
 .contact-content-con {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   overflow-y: auto;
   padding-top: 3.5rem;
 }
+
 .contact-content-con .left-contact {
-  flex: 2;
+  -webkit-box-flex: 2;
+      -ms-flex: 2;
+          flex: 2;
 }
+
 .contact-content-con .left-contact h4 {
   margin-top: 1rem;
   font-size: 2rem;
   text-transform: uppercase;
 }
+
 .contact-content-con .left-contact p {
   margin: 1rem 0;
   line-height: 2rem;
 }
+
 .contact-content-con .left-contact .contact-info .contact-item {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
+
 .contact-content-con .left-contact .contact-info .contact-item p {
   margin: 0.3rem 0 !important;
   padding: 0 !important;
 }
+
 .contact-content-con .left-contact .contact-info .contact-item .icon {
+  display: -ms-grid;
   display: grid;
-  grid-template-columns: 40px 1fr;
+  -ms-grid-columns: 40px 1fr;
+      grid-template-columns: 40px 1fr;
 }
+
 .contact-content-con .left-contact .contact-info .contact-item .icon i {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   font-size: 1.3rem;
 }
+
 .contact-content-con .left-contact .contact-icon {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   margin-top: 2rem;
 }
+
 .contact-content-con .left-contact .contact-icon a {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   color: var(--color-white);
   background-color: var(--color-grey-5);
   cursor: pointer;
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   width: 50px;
   height: 50px;
   border-radius: 50%;
   margin: 0 0.4rem;
+  -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
 }
+
 .contact-content-con .left-contact .contact-icon a:hover {
   background-color: var(--color-secondary);
 }
+
 .contact-content-con .left-contact .contact-icon a:hover i {
   color: var(--color-primary);
 }
+
 .contact-content-con .left-contact .contact-icon a i {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   font-size: 1.3rem;
 }
+
 .contact-content-con .right-contact {
-  flex: 3;
+  -webkit-box-flex: 3;
+      -ms-flex: 3;
+          flex: 3;
   margin-left: 3rem;
   position: relative;
   min-height: 100vh;
   overflow-y: auto;
 }
+
 .contact-content-con .right-contact .input-control {
   margin: 1.5rem 0;
   color: var(white);
 }
+
 .contact-content-con .right-contact .input-control input, .contact-content-con .right-contact .input-control textarea {
   border-radius: 30px;
   font-weight: inherit;
@@ -722,23 +979,44 @@ header.container.active {
   color: var(--color-white-for-tl);
   resize: none;
 }
-.contact-content-con .right-contact .input-control input::-moz-placeholder, .contact-content-con .right-contact .input-control textarea::-moz-placeholder {
+
+.contact-content-con .right-contact .input-control input::-webkit-input-placeholder,
+.contact-content-con .right-contact .input-control textarea::-webkit-input-placeholder {
   color: var(--color-white-for-tl);
 }
+
+.contact-content-con .right-contact .input-control input:-ms-input-placeholder,
+.contact-content-con .right-contact .input-control textarea:-ms-input-placeholder {
+  color: var(--color-white-for-tl);
+}
+
+.contact-content-con .right-contact .input-control input::-ms-input-placeholder,
+.contact-content-con .right-contact .input-control textarea::-ms-input-placeholder {
+  color: var(--color-white-for-tl);
+}
+
 .contact-content-con .right-contact .input-control input::placeholder,
 .contact-content-con .right-contact .input-control textarea::placeholder {
   color: var(--color-white-for-tl);
 }
+
 .contact-content-con .right-contact .submit-btn {
   overflow: visible;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: flex-start;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
   margin-top: 1rem;
   margin-left: 2rem;
 }
+
 .contact-content-con .i-c-2 {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  gap: 0.5rem;
+  gap: .5rem;
 }
 
 input:-webkit-autofill,
@@ -750,8 +1028,11 @@ textarea:-webkit-autofill {
 
 /*Independed components*/
 .btn-con {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-self: flex-start;
+  -ms-flex-item-align: start;
+      align-self: flex-start;
 }
 
 .main-btn {
@@ -760,11 +1041,16 @@ textarea:-webkit-autofill {
   font-weight: 600;
   position: relative;
   border: 1px solid var(--color-secondary);
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   cursor: pointer;
   overflow: hidden;
   background: none;
+  -webkit-transition: all 0.4s ease-out;
   transition: all 0.4s ease-out;
 }
 
@@ -775,30 +1061,39 @@ textarea:-webkit-autofill {
 
 .main-btn .btn-icon {
   background-color: var(--color-secondary);
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   border-radius: 50%;
   padding: 1rem;
   z-index: 1;
 }
 
 .main-btn::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   right: 0;
   width: 0%;
   height: 100%;
   background-color: var(--color-secondary);
-  transform: translateX(100%);
+  -webkit-transform: translateX(100%);
+          transform: translateX(100%);
+  -webkit-transition: all 0.4s ease-out;
   transition: all 0.4s ease-out;
   z-index: -1;
 }
 
 .main-btn:hover::before {
   width: 100%;
-  transform: translateX(0);
+  -webkit-transform: translateX(0);
+          transform: translateX(0);
 }
 
 .main-title {
@@ -821,10 +1116,12 @@ textarea:-webkit-autofill {
   top: 50%;
   left: 50%;
   color: var(--color-grey-4);
+  -webkit-transition: all 0.4s ease-in-out;
   transition: all 0.4s ease-in-out;
   opacity: 50%;
   z-index: -1;
-  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
   font-weight: 1500;
   font-size: 9rem;
 }
@@ -838,9 +1135,15 @@ textarea:-webkit-autofill {
   height: 100%;
   background-color: transparent;
   z-index: 9999;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   overflow: hidden;
 }
 
@@ -851,6 +1154,7 @@ textarea:-webkit-autofill {
   color: white;
   background-color: transparent;
   opacity: 1;
+  -webkit-transition: opacity 2s ease-in-out;
   transition: opacity 2s ease-in-out;
 }
 
@@ -873,10 +1177,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 3.1s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 3.1s;
+          animation-delay: 3.1s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-2 {
@@ -886,10 +1194,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 3.2s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 3.2s;
+          animation-delay: 3.2s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-3 {
@@ -899,10 +1211,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 3.3s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 3.3s;
+          animation-delay: 3.3s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-4 {
@@ -912,10 +1228,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 3.4s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 3.4s;
+          animation-delay: 3.4s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-5 {
@@ -925,10 +1245,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 3.5s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 3.5s;
+          animation-delay: 3.5s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-6 {
@@ -938,10 +1262,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 3.6s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 3.6s;
+          animation-delay: 3.6s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-7 {
@@ -951,10 +1279,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 3.7s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 3.7s;
+          animation-delay: 3.7s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-8 {
@@ -964,10 +1296,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 3.8s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 3.8s;
+          animation-delay: 3.8s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-9 {
@@ -977,10 +1313,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 3.9s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 3.9s;
+          animation-delay: 3.9s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-10 {
@@ -990,10 +1330,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 4s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 4s;
+          animation-delay: 4s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-11 {
@@ -1003,10 +1347,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 4.1s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 4.1s;
+          animation-delay: 4.1s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-12 {
@@ -1016,10 +1364,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 4.2s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 4.2s;
+          animation-delay: 4.2s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-13 {
@@ -1029,10 +1381,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 4.3s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 4.3s;
+          animation-delay: 4.3s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-14 {
@@ -1042,10 +1398,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 4.4s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 4.4s;
+          animation-delay: 4.4s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-15 {
@@ -1055,10 +1415,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 4.5s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 4.5s;
+          animation-delay: 4.5s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-16 {
@@ -1068,10 +1432,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 4.6s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 4.6s;
+          animation-delay: 4.6s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-17 {
@@ -1081,10 +1449,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 4.7s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 4.7s;
+          animation-delay: 4.7s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-18 {
@@ -1094,10 +1466,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 4.8s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 4.8s;
+          animation-delay: 4.8s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-19 {
@@ -1107,10 +1483,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 4.9s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 4.9s;
+          animation-delay: 4.9s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-20 {
@@ -1120,10 +1500,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 5s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 5s;
+          animation-delay: 5s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-21 {
@@ -1133,10 +1517,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 5.1s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 5.1s;
+          animation-delay: 5.1s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-22 {
@@ -1146,10 +1534,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 5.2s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 5.2s;
+          animation-delay: 5.2s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-23 {
@@ -1159,10 +1551,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 5.3s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 5.3s;
+          animation-delay: 5.3s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-24 {
@@ -1172,10 +1568,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 5.4s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 5.4s;
+          animation-delay: 5.4s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-25 {
@@ -1185,10 +1585,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 5.5s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 5.5s;
+          animation-delay: 5.5s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-26 {
@@ -1198,10 +1602,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 5.6s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 5.6s;
+          animation-delay: 5.6s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-27 {
@@ -1211,10 +1619,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 5.7s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 5.7s;
+          animation-delay: 5.7s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-28 {
@@ -1224,10 +1636,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 5.8s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 5.8s;
+          animation-delay: 5.8s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-29 {
@@ -1237,10 +1653,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 5.9s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 5.9s;
+          animation-delay: 5.9s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-30 {
@@ -1250,10 +1670,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 6s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 6s;
+          animation-delay: 6s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-31 {
@@ -1263,10 +1687,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 6.1s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 6.1s;
+          animation-delay: 6.1s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-32 {
@@ -1276,10 +1704,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 6.2s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 6.2s;
+          animation-delay: 6.2s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-33 {
@@ -1289,10 +1721,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 6.3s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 6.3s;
+          animation-delay: 6.3s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-34 {
@@ -1302,10 +1738,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 6.4s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 6.4s;
+          animation-delay: 6.4s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-35 {
@@ -1315,10 +1755,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 6.5s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 6.5s;
+          animation-delay: 6.5s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-36 {
@@ -1328,10 +1772,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 6.6s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 6.6s;
+          animation-delay: 6.6s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-37 {
@@ -1341,10 +1789,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 6.7s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 6.7s;
+          animation-delay: 6.7s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-38 {
@@ -1354,10 +1806,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 6.8s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 6.8s;
+          animation-delay: 6.8s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-39 {
@@ -1367,10 +1823,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 6.9s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 6.9s;
+          animation-delay: 6.9s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-40 {
@@ -1380,10 +1840,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 7s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 7s;
+          animation-delay: 7s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-41 {
@@ -1393,10 +1857,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 7.1s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 7.1s;
+          animation-delay: 7.1s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-42 {
@@ -1406,10 +1874,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 7.2s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 7.2s;
+          animation-delay: 7.2s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-43 {
@@ -1419,10 +1891,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 7.3s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 7.3s;
+          animation-delay: 7.3s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-44 {
@@ -1432,10 +1908,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 7.4s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 7.4s;
+          animation-delay: 7.4s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-45 {
@@ -1445,10 +1925,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 7.5s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 7.5s;
+          animation-delay: 7.5s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-46 {
@@ -1458,10 +1942,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 7.6s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 7.6s;
+          animation-delay: 7.6s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-47 {
@@ -1471,10 +1959,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 2s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 2s;
+          animation-delay: 2s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-48 {
@@ -1484,10 +1976,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 2s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 2s;
+          animation-delay: 2s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-49 {
@@ -1497,10 +1993,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 2s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 2s;
+          animation-delay: 2s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-top-50 {
@@ -1510,10 +2010,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutTop 2s ease-in-out forwards;
-  animation-delay: 2s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutTop 2s ease-in-out forwards;
+          animation: slideOutTop 2s ease-in-out forwards;
+  -webkit-animation-delay: 2s;
+          animation-delay: 2s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-1 {
@@ -1523,10 +2027,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 3.1s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 3.1s;
+          animation-delay: 3.1s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-2 {
@@ -1536,10 +2044,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 3.2s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 3.2s;
+          animation-delay: 3.2s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-3 {
@@ -1549,10 +2061,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 3.3s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 3.3s;
+          animation-delay: 3.3s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-4 {
@@ -1562,10 +2078,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 3.4s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 3.4s;
+          animation-delay: 3.4s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-5 {
@@ -1575,10 +2095,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 3.5s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 3.5s;
+          animation-delay: 3.5s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-6 {
@@ -1588,10 +2112,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 3.6s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 3.6s;
+          animation-delay: 3.6s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-7 {
@@ -1601,10 +2129,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 3.7s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 3.7s;
+          animation-delay: 3.7s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-8 {
@@ -1614,10 +2146,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 3.8s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 3.8s;
+          animation-delay: 3.8s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-9 {
@@ -1627,10 +2163,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 3.9s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 3.9s;
+          animation-delay: 3.9s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-10 {
@@ -1640,10 +2180,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 4s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 4s;
+          animation-delay: 4s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-11 {
@@ -1653,10 +2197,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 4.1s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 4.1s;
+          animation-delay: 4.1s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-12 {
@@ -1666,10 +2214,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 4.2s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 4.2s;
+          animation-delay: 4.2s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-13 {
@@ -1679,10 +2231,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 4.3s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 4.3s;
+          animation-delay: 4.3s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-14 {
@@ -1692,10 +2248,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 4.4s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 4.4s;
+          animation-delay: 4.4s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-15 {
@@ -1705,10 +2265,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 4.5s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 4.5s;
+          animation-delay: 4.5s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-16 {
@@ -1718,10 +2282,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 4.6s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 4.6s;
+          animation-delay: 4.6s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-17 {
@@ -1731,10 +2299,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 4.7s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 4.7s;
+          animation-delay: 4.7s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-18 {
@@ -1744,10 +2316,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 4.8s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 4.8s;
+          animation-delay: 4.8s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-19 {
@@ -1757,10 +2333,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 4.9s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 4.9s;
+          animation-delay: 4.9s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-20 {
@@ -1770,10 +2350,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 5s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 5s;
+          animation-delay: 5s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-21 {
@@ -1783,10 +2367,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 5.1s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 5.1s;
+          animation-delay: 5.1s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-22 {
@@ -1796,10 +2384,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 5.2s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 5.2s;
+          animation-delay: 5.2s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-23 {
@@ -1809,10 +2401,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 5.3s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 5.3s;
+          animation-delay: 5.3s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-24 {
@@ -1822,10 +2418,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 5.4s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 5.4s;
+          animation-delay: 5.4s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-25 {
@@ -1835,10 +2435,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 5.5s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 5.5s;
+          animation-delay: 5.5s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-26 {
@@ -1848,10 +2452,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 5.6s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 5.6s;
+          animation-delay: 5.6s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-27 {
@@ -1861,10 +2469,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 5.7s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 5.7s;
+          animation-delay: 5.7s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-28 {
@@ -1874,10 +2486,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 5.8s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 5.8s;
+          animation-delay: 5.8s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-29 {
@@ -1887,10 +2503,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 5.9s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 5.9s;
+          animation-delay: 5.9s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-30 {
@@ -1900,10 +2520,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 6s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 6s;
+          animation-delay: 6s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-31 {
@@ -1913,10 +2537,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 6.1s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 6.1s;
+          animation-delay: 6.1s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-32 {
@@ -1926,10 +2554,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 6.2s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 6.2s;
+          animation-delay: 6.2s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-33 {
@@ -1939,10 +2571,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 6.3s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 6.3s;
+          animation-delay: 6.3s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-34 {
@@ -1952,10 +2588,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 6.4s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 6.4s;
+          animation-delay: 6.4s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-35 {
@@ -1965,10 +2605,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 6.5s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 6.5s;
+          animation-delay: 6.5s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-36 {
@@ -1978,10 +2622,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 6.6s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 6.6s;
+          animation-delay: 6.6s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-37 {
@@ -1991,10 +2639,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 6.7s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 6.7s;
+          animation-delay: 6.7s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-38 {
@@ -2004,10 +2656,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 6.8s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 6.8s;
+          animation-delay: 6.8s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-39 {
@@ -2017,10 +2673,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 6.9s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 6.9s;
+          animation-delay: 6.9s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-40 {
@@ -2030,10 +2690,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 7s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 7s;
+          animation-delay: 7s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-41 {
@@ -2043,10 +2707,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 7.1s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 7.1s;
+          animation-delay: 7.1s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-42 {
@@ -2056,10 +2724,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 7.2s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 7.2s;
+          animation-delay: 7.2s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-43 {
@@ -2069,10 +2741,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 7.3s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 7.3s;
+          animation-delay: 7.3s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-44 {
@@ -2082,10 +2758,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 7.4s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 7.4s;
+          animation-delay: 7.4s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-45 {
@@ -2095,10 +2775,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 7.5s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 7.5s;
+          animation-delay: 7.5s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-46 {
@@ -2108,10 +2792,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 7.6s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 7.6s;
+          animation-delay: 7.6s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-47 {
@@ -2121,10 +2809,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 2s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 2s;
+          animation-delay: 2s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-48 {
@@ -2134,10 +2826,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 2s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 2s;
+          animation-delay: 2s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-49 {
@@ -2147,10 +2843,14 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 2s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 2s;
+          animation-delay: 2s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
 }
 
 .letterbox-bottom-50 {
@@ -2160,28 +2860,75 @@ textarea:-webkit-autofill {
   width: 2%;
   height: 50%;
   background-color: black;
-  transform: translateY(0);
-  animation: slideOutBottom 2s ease-in-out forwards;
-  animation-delay: 2s;
-  animation-play-state: paused;
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  -webkit-animation: slideOutBottom 2s ease-in-out forwards;
+          animation: slideOutBottom 2s ease-in-out forwards;
+  -webkit-animation-delay: 2s;
+          animation-delay: 2s;
+  -webkit-animation-play-state: paused;
+          animation-play-state: paused;
+}
+
+@-webkit-keyframes slideOutTop {
+  0% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+  100% {
+    -webkit-transform: translateY(-100%);
+            transform: translateY(-100%);
+  }
 }
 
 @keyframes slideOutTop {
   0% {
-    transform: translateY(0);
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
   }
   100% {
-    transform: translateY(-100%);
+    -webkit-transform: translateY(-100%);
+            transform: translateY(-100%);
   }
 }
+
+@-webkit-keyframes slideOutBottom {
+  0% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+  100% {
+    -webkit-transform: translateY(100%);
+            transform: translateY(100%);
+  }
+}
+
 @keyframes slideOutBottom {
   0% {
-    transform: translateY(0);
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
   }
   100% {
-    transform: translateY(100%);
+    -webkit-transform: translateY(100%);
+            transform: translateY(100%);
   }
 }
+
+@-webkit-keyframes fadeInOutText {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 @keyframes fadeInOutText {
   0% {
     opacity: 0;
@@ -2196,6 +2943,7 @@ textarea:-webkit-autofill {
     opacity: 0;
   }
 }
+
 /* GLOBAL SCROLL SETTINGS */
 /* Prevent scrolling globally */
 html, body {
@@ -2240,10 +2988,18 @@ html, body {
   background: var(--color-grey-3);
   border: none;
   cursor: pointer;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  -webkit-transition: background 0.3s ease-in-out;
   transition: background 0.3s ease-in-out;
 }
 
@@ -2259,20 +3015,31 @@ html, body {
   background: var(--color-grey-3);
   padding: 0.5rem 1rem;
   border-radius: 20px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   gap: 0.5rem;
-  align-items: center;
-  transform: scaleY(0);
-  transform-origin: bottom;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-transform: scaleY(0);
+          transform: scaleY(0);
+  -webkit-transform-origin: bottom;
+          transform-origin: bottom;
+  -webkit-transition: -webkit-transform 0.2s ease-in-out;
+  transition: -webkit-transform 0.2s ease-in-out;
   transition: transform 0.2s ease-in-out;
+  transition: transform 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
 }
 
 .volume-panel.open {
-  transform: scaleY(1);
+  -webkit-transform: scaleY(1);
+          transform: scaleY(1);
 }
 
-.volume-panel input[type=range] {
+.volume-panel input[type="range"] {
   width: 200px;
   accent-color: var(--color-secondary);
 }
@@ -2295,34 +3062,65 @@ html, body {
   border-radius: 30px;
   color: var(--color-white);
   cursor: pointer;
+  -webkit-transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
   z-index: 10100;
 }
+
 .enter-button:hover {
   background-color: var(--color-grey-2);
   color: var(--color-black);
 }
+
 .enter-button.fade-out {
   opacity: 0;
+  -webkit-transition: opacity 2s ease-in-out;
   transition: opacity 2s ease-in-out;
+}
+
+@-webkit-keyframes flash-glow {
+  0% {
+    -webkit-box-shadow: 0 0 0px rgba(255, 255, 255, 0);
+            box-shadow: 0 0 0px rgba(255, 255, 255, 0);
+  }
+  40% {
+    -webkit-box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+  }
+  80% {
+    -webkit-box-shadow: 0 0 18px rgba(0, 255, 200, 0.9);
+            box-shadow: 0 0 18px rgba(0, 255, 200, 0.9);
+    /* Teal glow trail */
+  }
+  100% {
+    -webkit-box-shadow: 0 0 0px rgba(0, 255, 200, 0);
+            box-shadow: 0 0 0px rgba(0, 255, 200, 0);
+  }
 }
 
 @keyframes flash-glow {
   0% {
-    box-shadow: 0 0 0px rgba(255, 255, 255, 0);
+    -webkit-box-shadow: 0 0 0px rgba(255, 255, 255, 0);
+            box-shadow: 0 0 0px rgba(255, 255, 255, 0);
   }
   40% {
-    box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+    -webkit-box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
   }
   80% {
-    box-shadow: 0 0 18px rgba(0, 255, 200, 0.9); /* Teal glow trail */
+    -webkit-box-shadow: 0 0 18px rgba(0, 255, 200, 0.9);
+            box-shadow: 0 0 18px rgba(0, 255, 200, 0.9);
+    /* Teal glow trail */
   }
   100% {
-    box-shadow: 0 0 0px rgba(0, 255, 200, 0);
+    -webkit-box-shadow: 0 0 0px rgba(0, 255, 200, 0);
+            box-shadow: 0 0 0px rgba(0, 255, 200, 0);
   }
 }
+
 .flash-animate {
-  animation: flash-glow 0.8s ease-in-out;
+  -webkit-animation: flash-glow 0.8s ease-in-out;
+          animation: flash-glow 0.8s ease-in-out;
 }
 
 .holo-name {
@@ -2332,7 +3130,17 @@ html, body {
   background-size: 200% 100%;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: shimmer 3s infinite linear;
+  -webkit-animation: shimmer 3s infinite linear;
+          animation: shimmer 3s infinite linear;
+}
+
+@-webkit-keyframes shimmer {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 
 @keyframes shimmer {
@@ -2343,8 +3151,22 @@ html, body {
     background-position: 200% 0;
   }
 }
+
 .sunray-pulse {
-  animation: pulse-glow 2s ease-in-out infinite;
+  -webkit-animation: pulse-glow 2s ease-in-out infinite;
+          animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@-webkit-keyframes pulse-glow {
+  0% {
+    text-shadow: 0 0 5px rgba(0, 255, 200, 0.3);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(0, 255, 200, 0.8);
+  }
+  100% {
+    text-shadow: 0 0 5px rgba(0, 255, 200, 0.3);
+  }
 }
 
 @keyframes pulse-glow {
@@ -2358,12 +3180,23 @@ html, body {
     text-shadow: 0 0 5px rgba(0, 255, 200, 0.3);
   }
 }
+
 .lightning-text {
   position: relative;
   font-weight: 800;
   color: #00fff0;
   text-shadow: 0 0 5px #00fff0, 0 0 10px #00fff0, 0 0 20px #00fff0, 0 0 40px #00fff0;
-  animation: lightningPulse 1.5s infinite;
+  -webkit-animation: lightningPulse 1.5s infinite;
+          animation: lightningPulse 1.5s infinite;
+}
+
+@-webkit-keyframes lightningPulse {
+  0%, 100% {
+    text-shadow: 0 0 5px #00fff0, 0 0 10px #00fff0, 0 0 20px #00fff0, 0 0 40px #00fff0;
+  }
+  50% {
+    text-shadow: 0 0 10px #00fff0, 0 0 30px #00fff0, 0 0 60px #ffffff, 0 0 100px #ffffff;
+  }
 }
 
 @keyframes lightningPulse {
@@ -2374,17 +3207,20 @@ html, body {
     text-shadow: 0 0 10px #00fff0, 0 0 30px #00fff0, 0 0 60px #ffffff, 0 0 100px #ffffff;
   }
 }
+
 .lightning-text::before,
 .lightning-text::after {
-  content: "";
+  content: '';
   position: absolute;
   width: 6px;
   height: 6px;
   background: #00fff0;
   border-radius: 50%;
   opacity: 0;
-  box-shadow: 0 0 10px #00fff0;
-  animation: spark 2s infinite ease-in-out;
+  -webkit-box-shadow: 0 0 10px #00fff0;
+          box-shadow: 0 0 10px #00fff0;
+  -webkit-animation: spark 2s infinite ease-in-out;
+          animation: spark 2s infinite ease-in-out;
 }
 
 .lightning-text::after {
@@ -2397,35 +3233,59 @@ html, body {
   bottom: 50%;
 }
 
-@keyframes spark {
+@-webkit-keyframes spark {
   0%, 80%, 100% {
     opacity: 0;
-    transform: scale(0.5);
+    -webkit-transform: scale(0.5);
+            transform: scale(0.5);
   }
   40% {
     opacity: 1;
-    transform: scale(1.5);
+    -webkit-transform: scale(1.5);
+            transform: scale(1.5);
   }
 }
+
+@keyframes spark {
+  0%, 80%, 100% {
+    opacity: 0;
+    -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+  }
+  40% {
+    opacity: 1;
+    -webkit-transform: scale(1.5);
+            transform: scale(1.5);
+  }
+}
+
 .name-container {
   position: relative;
   z-index: 10;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   min-height: 100vh;
   overflow: hidden;
 }
+
 .name-container::before {
-  content: "";
+  content: '';
   position: absolute;
   top: -20%;
   left: -20%;
   width: 140%;
   height: 140%;
   pointer-events: none;
-  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 40%, rgb(0, 0, 0) 100%);
-  filter: blur(60px);
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 40%, black 100%);
+  -webkit-filter: blur(60px);
+          filter: blur(60px);
   z-index: 0;
   opacity: 0.7;
 }
@@ -2438,8 +3298,10 @@ html, body {
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
-  opacity: 0.2; /* Adjust this for transparency */
-  mix-blend-mode: screen; /* Makes black background disappear */
+  opacity: 0.2;
+  /* Adjust this for transparency */
+  mix-blend-mode: screen;
+  /* Makes black background disappear */
   z-index: 1;
   pointer-events: none;
 }
@@ -2447,7 +3309,8 @@ html, body {
 .name-container .name {
   font-size: 5rem;
   color: var(--color-secondary);
-  z-index: 2; /* On top of lightning */
+  z-index: 2;
+  /* On top of lightning */
   position: relative;
 }
 
@@ -2477,16 +3340,38 @@ html, body {
   opacity: 0.5;
   mix-blend-mode: screen;
   pointer-events: none;
-  mask-image: radial-gradient(ellipse at center, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0) 70%);
-  -webkit-mask-image: radial-gradient(ellipse at center, rgb(0, 0, 0) 20%, rgba(0, 0, 0, 0) 70%);
+  mask-image: radial-gradient(ellipse at center, black 20%, rgba(0, 0, 0, 0) 70%);
+  -webkit-mask-image: radial-gradient(ellipse at center, black 20%, rgba(0, 0, 0, 0) 70%);
 }
 
 .flash-white {
-  animation: flashWhite 0.8s ease-in-out forwards;
+  -webkit-animation: flashWhite .8s ease-in-out forwards;
+          animation: flashWhite .8s ease-in-out forwards;
 }
 
 .flash-black {
-  animation: flashBlack 0.8s ease-in-out forwards;
+  -webkit-animation: flashBlack .8s ease-in-out forwards;
+          animation: flashBlack .8s ease-in-out forwards;
+}
+
+@-webkit-keyframes flashWhite {
+  0% {
+    color: #ffffff;
+    text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff;
+  }
+  25% {
+    text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff;
+  }
+  50% {
+    text-shadow: 0 0 20px #ffffff, 0 0 40px #ffffff;
+  }
+  75% {
+    text-shadow: 0 0 10px #ffffff, 0 0 20px #ffffff;
+  }
+  100% {
+    color: var(--color-secondary);
+    text-shadow: none;
+  }
 }
 
 @keyframes flashWhite {
@@ -2508,6 +3393,27 @@ html, body {
     text-shadow: none;
   }
 }
+
+@-webkit-keyframes flashBlack {
+  0% {
+    color: #000000;
+    text-shadow: 0 0 5px #000000, 0 0 10px #000000;
+  }
+  25% {
+    text-shadow: 0 0 10px #000000, 0 0 20px #000000;
+  }
+  50% {
+    text-shadow: 0 0 20px #000000, 0 0 40px #000000;
+  }
+  75% {
+    text-shadow: 0 0 10px #000000, 0 0 20px #000000;
+  }
+  100% {
+    color: var(--color-secondary);
+    text-shadow: none;
+  }
+}
+
 @keyframes flashBlack {
   0% {
     color: #000000;
@@ -2527,6 +3433,7 @@ html, body {
     text-shadow: none;
   }
 }
+
 .about-container .lvideoeft-about p {
   padding-left: 0;
 }
@@ -2540,13 +3447,15 @@ html, body {
     height: 50px;
   }
   .header-content {
-    grid-template-columns: repeat(1, 1fr);
+    -ms-grid-columns: (1fr)[1];
+        grid-template-columns: repeat(1, 1fr);
     padding-bottom: 6rem;
   }
   .left-header .h-shape {
     display: none;
   }
   .right-header {
+    -ms-grid-row: 1;
     grid-row: 1;
     padding-right: 0rem !important;
     width: 90%;
@@ -2564,21 +3473,29 @@ html, body {
   .controls {
     top: auto;
     bottom: 0;
-    flex-direction: row;
-    justify-content: center;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
     left: 50%;
-    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
     width: 100%;
     background-color: var(--color-grey-5);
   }
   .controls .control {
-    margin: 1rem 0.3rem;
+    margin: 1rem .3rem;
   }
   .about-container {
-    grid-template-columns: repeat(1, 1fr);
+    -ms-grid-columns: (1fr)[1];
+        grid-template-columns: repeat(1, 1fr);
   }
   .about-container .right-about {
-    grid-template-columns: repeat(1, 1fr);
+    -ms-grid-columns: (1fr)[1];
+        grid-template-columns: repeat(1, 1fr);
     padding-top: 2.5rem;
   }
   .about-container .left-about {
@@ -2588,33 +3505,43 @@ html, body {
     padding-left: 0;
   }
   .timeline {
-    grid-template-columns: repeat(1, 1fr);
+    -ms-grid-columns: (1fr)[1];
+        grid-template-columns: repeat(1, 1fr);
     padding-bottom: 6rem;
   }
   .container {
     padding: 2rem 2.5rem !important;
   }
   .about-stats .progress-bars {
-    grid-template-columns: repeat(1, 1fr);
+    -ms-grid-columns: (1fr)[1];
+        grid-template-columns: repeat(1, 1fr);
   }
   .portfolios {
-    grid-template-columns: repeat(1, 1fr);
+    -ms-grid-columns: (1fr)[1];
+        grid-template-columns: repeat(1, 1fr);
     padding-bottom: 6rem;
     margin-top: 1rem;
   }
   .blogs {
-    grid-template-columns: repeat(1, 1fr);
+    -ms-grid-columns: (1fr)[1];
+        grid-template-columns: repeat(1, 1fr);
     padding-bottom: 6rem;
   }
   .contact-content-con {
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
   }
   .contact-content-con .right-contact {
     margin-left: 0;
     margin-top: 2.5rem;
   }
   .contact-content-con .right-contact .i-c-2 {
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
   }
   .contact-content-con .right-contact .i-c-2 :last-child {
     margin-left: 0;
@@ -2624,7 +3551,10 @@ html, body {
     margin-bottom: 6rem;
   }
   .contact-item {
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
     margin: 1rem 0;
   }
   .contact-item p {
@@ -2635,7 +3565,8 @@ html, body {
     font-size: 15px;
   }
   .contact-item .icon {
-    grid-template-columns: 25px 1fr;
+    -ms-grid-columns: 25px 1fr;
+        grid-template-columns: 25px 1fr;
   }
   .main-title h2 {
     font-size: 2rem;
@@ -2647,19 +3578,26 @@ html, body {
     font-size: 2.3rem;
   }
 }
+
 @media screen and (max-width: 1432px) {
   .container {
     padding: 7rem 11rem;
   }
   .contact-content-con {
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
   }
   .contact-content-con .right-contact {
     margin-left: 0;
     margin-top: 2.5rem;
   }
   .contact-content-con .right-contact .i-c-2 {
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
   }
   .contact-content-con .right-contact .i-c-2 :last-child {
     margin-left: 0;
@@ -2672,29 +3610,37 @@ html, body {
     font-size: 5.5rem;
   }
 }
+
 @media screen and (max-width: 1250px) {
   .blogs {
-    grid-template-columns: repeat(2, 1fr);
+    -ms-grid-columns: (1fr)[2];
+        grid-template-columns: repeat(2, 1fr);
     margin-top: 6rem;
   }
   .portfolios {
-    grid-template-columns: repeat(2, 1fr);
+    -ms-grid-columns: (1fr)[2];
+        grid-template-columns: repeat(2, 1fr);
   }
   .header-content .right-header {
     padding-right: 9rem;
   }
 }
+
 @media screen and (max-width: 660px) {
   .blogs {
-    grid-template-columns: repeat(1, 1fr);
+    -ms-grid-columns: (1fr)[1];
+        grid-template-columns: repeat(1, 1fr);
   }
   .portfolios {
-    grid-template-columns: repeat(1, 1fr);
+    -ms-grid-columns: (1fr)[1];
+        grid-template-columns: repeat(1, 1fr);
   }
 }
+
 @media screen and (max-width: 1070px) {
   .about-container {
-    grid-template-columns: repeat(1, 1fr);
+    -ms-grid-columns: (1fr)[1];
+        grid-template-columns: repeat(1, 1fr);
   }
   .about-container .right-about {
     padding-top: 2.5rem;
@@ -2709,6 +3655,7 @@ html, body {
     font-size: 4.5rem;
   }
 }
+
 @media screen and (max-width: 970px) {
   .container {
     padding: 7rem 6rem;
@@ -2717,7 +3664,8 @@ html, body {
     padding-right: 0rem;
   }
   .header-content {
-    grid-template-columns: repeat(1, 1fr);
+    -ms-grid-columns: (1fr)[1];
+        grid-template-columns: repeat(1, 1fr);
     padding-bottom: 6rem;
   }
   .left-header .h-shape {
@@ -2728,6 +3676,7 @@ html, body {
     margin: 0 auto !important;
   }
   .right-header {
+    -ms-grid-row: 1;
     grid-row: 1;
     padding-right: 0rem !important;
     width: 90%;
@@ -2739,18 +3688,22 @@ html, body {
     padding-top: 3rem;
   }
 }
+
 @media screen and (max-width: 700px) {
   .container {
     padding: 7rem 3rem;
   }
   .about-stats .progress-bars {
-    grid-template-columns: repeat(1, 1fr);
+    -ms-grid-columns: (1fr)[1];
+        grid-template-columns: repeat(1, 1fr);
   }
   .about-container .right-about {
-    grid-template-columns: repeat(1, 1fr);
+    -ms-grid-columns: (1fr)[1];
+        grid-template-columns: repeat(1, 1fr);
   }
   .timeline {
-    grid-template-columns: repeat(1, 1fr);
+    -ms-grid-columns: (1fr)[1];
+        grid-template-columns: repeat(1, 1fr);
   }
   .main-title h2 {
     font-size: 3rem;
@@ -2761,4 +3714,5 @@ html, body {
   .main-title h2 .bg-text {
     font-size: 4rem;
   }
-}/*# sourceMappingURL=styles.css.map */
+}
+/*# sourceMappingURL=styles.css.map */
