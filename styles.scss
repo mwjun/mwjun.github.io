@@ -5,6 +5,7 @@
     list-style: none;
 }
 
+
 :root {
     --color-primary: #191d2b;
     --color-secondary: #47838b;
@@ -42,6 +43,10 @@
     --box-shadow-1: 0 3px 15px rgba(0,0,0,.3);
 }
 
+@mixin phone {
+  @media (max-width: 600px) { @content; }
+}
+
 body {
     background-color: var(--color-primary);
     font-family: 'Poppins', sans-serif;
@@ -51,6 +56,7 @@ body {
     overflow-x: hidden; /* Prevent horizontal scrolling */
     overflow-y: auto
 }
+
 
 a {
     display: inline-block;
@@ -567,6 +573,7 @@ header.container.active {
       background-color: var(--color-grey-6);
       border-radius: 10px;
       margin-top: 1rem;
+      
     }
 
     &.expanded {
@@ -1007,6 +1014,7 @@ html, body {
     width: 200px;
     accent-color: var(--color-secondary);
   }
+
   
   .mute-btn {
     background: none;
@@ -1014,6 +1022,10 @@ html, body {
     color: var(--color-white);
     font-size: 1rem;
     cursor: pointer;
+  }
+
+  .volume-panel .mute-btn + .mute-btn {
+    margin-left: .4rem;        // tweak spacing to taste
   }
 
   .enter-button {
@@ -1283,7 +1295,53 @@ html, body {
   }
   
   
+/* =====================================================
+   MOBILE OVERRIDES  (max‑width 600 px)
+   — put NEW rules after desktop ones so they win the cascade
+   ===================================================== */
 
+   @include phone {
+
+    /* SECTION PADDING */
+    section { padding: 2rem 1rem; }
+  
+    /* HEADER grid collapses to 1 column */
+    .header-content {
+      grid-template-columns: 1fr;
+      text-align: center;
+  
+      .right-header { padding: 0 1rem; }
+    }
+  
+    /* NAME sizes scale */
+    .right-header .name            { font-size: 6vw; }
+    .right-header .name span       { font-size: 8vw; }
+  
+    /* ABOUT page: single column, no right padding */
+    .about-container {
+      grid-template-columns: 1fr;
+  
+      .left-about { padding-right: 0; }
+    }
+  
+    /* NAV CIRCLES dock to bottom‑center */
+    .controls {
+      top: auto; bottom: 10px;
+      right: 50%;
+      transform: translateX(50%);
+      flex-direction: row;
+    }
+  
+    /* THEME TOGGLE smaller & up‑left a bit */
+    .theme-btn { top: 10px; right: 10px; width: 50px; height: 50px; }
+  
+    /* MUSIC TOGGLE stays bottom‑left but tighter */
+    .music-toggle-wrapper { bottom: 10px; left: 10px; }
+    .volume-panel         { width: 220px; }          /* avoid off‑screen */
+  
+    /* OPTIONAL: hide heavy background video on phones */
+    .bg-video { display: none; }
+  }
 
 
 @import './media';

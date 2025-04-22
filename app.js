@@ -10,42 +10,57 @@ document.addEventListener("DOMContentLoaded", () => {
   // === 1) Nav Controls ===
   [...document.querySelectorAll(".control")].forEach((button) => {
     button.addEventListener("click", function () {
-      if (navSound) {
-        navSound.pause();
-        navSound.currentTime = 0;
-        navSound.play();
-      }
-  
-      document.querySelector(".active-btn")?.classList.remove("active-btn");
-      this.classList.add("active-btn");
-  
-      document.querySelector(".active")?.classList.remove("active");
-      const target = document.getElementById(button.dataset.id);
-      target?.classList.add("active");
-  
-      // --- Scroll the new section to the top ---
-      document.querySelectorAll('.container').forEach(sec => (sec.scrollTop = 0));
+       // ------------------------------------------------------------------
+  // 1. Short‑circuit if the section this button points to is ALREADY active
+  // ------------------------------------------------------------------
+  const target        = document.getElementById(button.dataset.id);
+  const targetIsActive = target && target.classList.contains("active");
+  if (targetIsActive) return;                     // ⬅ nothing to do
 
-/* If you ever re‑enable window scrolling, keep this line too
-   window.scrollTo({ top: 0, behavior: 'instant' });
-*/
-  
-      // === Fade bgMusic volume based on section ===
-      const targetId = button.dataset.id;
-      if (bgMusic) {
-        const fadeTo = targetId === "home" ? 0.10 : 0.05;
-        const steps = 30;
-        const fadeTime = 1500;
-        const stepTime = fadeTime / steps;
-        const startVol = bgMusic.volume;
-        const stepAmount = (fadeTo - startVol) / steps;
-        let currentStep = 0;
-  
-        const fadeInterval = setInterval(() => {
-          currentStep++;
-          bgMusic.volume = Math.max(0, Math.min(1, bgMusic.volume + stepAmount));
-          if (currentStep >= steps) clearInterval(fadeInterval);
-        }, stepTime);
+  // ------------------------------------------------------------------
+  // 2. Play nav click sound (unchanged)
+  // ------------------------------------------------------------------
+  if (navSound) {
+    navSound.pause();
+    navSound.currentTime = 0;
+    navSound.play();
+  }
+
+  // ------------------------------------------------------------------
+  // 3. Switch the active button
+  // ------------------------------------------------------------------
+  document.querySelector(".active-btn")?.classList.remove("active-btn");
+  this.classList.add("active-btn");
+
+  // ------------------------------------------------------------------
+  // 4. Deactivate **every** open section, then activate the new one
+  // ------------------------------------------------------------------
+  document
+    .querySelectorAll(".container.active")        // header + all sections
+    .forEach(sec => sec.classList.remove("active"));
+
+  target?.classList.add("active");
+
+  // ------------------------------------------------------------------
+  // 5. Reset scroll & fade background‑music volume (your original logic)
+  // ------------------------------------------------------------------
+  document.querySelectorAll(".container")
+          .forEach(sec => (sec.scrollTop = 0));
+
+  if (bgMusic) {
+    const fadeTo   = button.dataset.id === "home" ? 0.10 : 0.05;
+    const steps    = 30;
+    const fadeTime = 1500;
+    const stepTime = fadeTime / steps;
+    const startVol = bgMusic.volume;
+    const stepAmt  = (fadeTo - startVol) / steps;
+    let current    = 0;
+
+    const fadeInterval = setInterval(() => {
+      current++;
+      bgMusic.volume = Math.max(0, Math.min(1, bgMusic.volume + stepAmt));
+      if (current >= steps) clearInterval(fadeInterval);
+    }, stepTime);
       }
     });
   });
@@ -101,7 +116,26 @@ if (lightningName && lightningSound) {
         : '<i class="fas fa-volume-mute"></i>';
     });
   }
+  /* ---------- NEW: global SFX mute toggle ---------- */
+const sfxToggle = document.getElementById("sfx-toggle");
 
+// grab every <audio> except bg‑music
+const sfxAudios = [...document.querySelectorAll("audio")]
+                    .filter(a => a.id !== "bg-music");
+
+let sfxMuted = false;
+
+if (sfxToggle) {
+  sfxToggle.addEventListener("click", () => {
+    sfxMuted = !sfxMuted;
+    sfxAudios.forEach(a => (a.muted = sfxMuted));
+
+    sfxToggle.innerHTML = sfxMuted
+      ? '<i class="fas fa-bell"></i>'          // un‑mute icon
+      : '<i class="fas fa-bell-slash"></i>';   // mute icon
+  });
+}
+/* ---------- end SFX toggle ---------- */
   if (musicBtn && volumePanel) {
     musicBtn.addEventListener("click", (e) => {
       e.stopPropagation();

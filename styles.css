@@ -1,3 +1,4 @@
+@charset "UTF-8";
 * {
   margin: 0;
   padding: 0;
@@ -2285,6 +2286,10 @@ html, body {
   cursor: pointer;
 }
 
+.volume-panel .mute-btn + .mute-btn {
+  margin-left: 0.4rem;
+}
+
 .enter-button {
   position: absolute;
   bottom: 30%;
@@ -2525,6 +2530,65 @@ html, body {
   100% {
     color: var(--color-secondary);
     text-shadow: none;
+  }
+}
+/* =====================================================
+   MOBILE OVERRIDES  (max‑width 600 px)
+   — put NEW rules after desktop ones so they win the cascade
+   ===================================================== */
+@media (max-width: 600px) {
+  /* SECTION PADDING */
+  section {
+    padding: 2rem 1rem;
+  }
+  /* HEADER grid collapses to 1 column */
+  .header-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .header-content .right-header {
+    padding: 0 1rem;
+  }
+  /* NAME sizes scale */
+  .right-header .name {
+    font-size: 6vw;
+  }
+  .right-header .name span {
+    font-size: 8vw;
+  }
+  /* ABOUT page: single column, no right padding */
+  .about-container {
+    grid-template-columns: 1fr;
+  }
+  .about-container .left-about {
+    padding-right: 0;
+  }
+  /* NAV CIRCLES dock to bottom‑center */
+  .controls {
+    top: auto;
+    bottom: 10px;
+    right: 50%;
+    transform: translateX(50%);
+    flex-direction: row;
+  }
+  /* THEME TOGGLE smaller & up‑left a bit */
+  .theme-btn {
+    top: 10px;
+    right: 10px;
+    width: 50px;
+    height: 50px;
+  }
+  /* MUSIC TOGGLE stays bottom‑left but tighter */
+  .music-toggle-wrapper {
+    bottom: 10px;
+    left: 10px;
+  }
+  .volume-panel {
+    width: 220px;
+  } /* avoid off‑screen */
+  /* OPTIONAL: hide heavy background video on phones */
+  .bg-video {
+    display: none;
   }
 }
 .about-container .lvideoeft-about p {

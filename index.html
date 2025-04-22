@@ -160,7 +160,7 @@
                       </video>
                     </span>
                   </h1>
-                  <p>Welcome to my portfolio. (To mute music, click the button on the bottom left corner of your screen) </p>
+                  <p>Welcome to my portfolio. (To mute music or sound effects, click the volume button on the bottom left corner of your screen) </p>
                 <!-- <div class="btn-con">
                     <a href="" class="main-btn">
                         <span class="btn-text">Download CV</span>
@@ -550,7 +550,7 @@
                     </div>
                     <div class="hover-items">
                       <h3>TutoRial</h3>
-                      <h4>Capstone game</h4>
+                      <!-- <h4>Capstone game</h4> -->
                       <div class="icons">
                         <a
                           href="https://github.com/ejonest/ProjectTutoRial"
@@ -571,7 +571,7 @@
                       </div>
                     </div>
                     <p class="project-details">
-                        Action RPG game using Godot 4 Engine.  
+                        Action RPG capstone project using Godot 4 Engine.  
                         </p>
                   </div>
               
@@ -583,7 +583,7 @@
                     </div>
                     <div class="hover-items">
                       <h3>TraderBot v3</h3>
-                      <h4>Stock backtesting Application</h4>
+                      <!-- <h4>Stock backtesting Application</h4> -->
                       <div class="icons">
                         <a
                           href="https://github.com/mwjun/TraderBotv2"
@@ -609,7 +609,7 @@
                     </div>
                     <div class="hover-items">
                       <h3>Websites</h3>
-                      <h4>Jslbenefits.com <br> Vesselchurchoc.com <br> Brushmo.com <br> </h4>
+                      <!-- <h4>Jslbenefits.com <br> Vesselchurchoc.com <br> Brushmo.com <br> </h4> -->
                       <div class="icons">
                         <a
                           href="https://jslbenefits.com"
@@ -641,7 +641,8 @@
                       </div>
                     </div>
                     <p class="project-details">
-                    Professional websites curated for real companies or organizations.  
+                    Professional websites curated for real companies or organizations:
+                        <br><br>Jslbenefits.com<br>Vesselchurchoc.com<br>Brushmo.com<br>
                     </p>
                   </div>
                 <!-- <div class="portfolio-item">
@@ -940,11 +941,18 @@
               <i class="fas fa-music"></i>
             </button>
             <div class="volume-panel" id="volume-panel">
-              <input type="range" id="volume-range" min="0" max="1" step="0.01" value="0.3" />
-              <button id="mute-toggle" class="mute-btn">
-                <i class="fas fa-volume-mute"></i>
-              </button>
-            </div>
+                <input type="range" id="volume-range" min="0" max="1" step="0.01" value="0.3" />
+              
+                <!-- keeps muting ONLY bgMusic -->
+                <button id="mute-toggle" class="mute-btn">
+                  <i class="fas fa-volume-mute"></i>
+                </button>
+              
+                <!-- NEW button – mutes/unmutes every other sound‑effect audio tag -->
+                <button id="sfx-toggle" class="mute-btn">
+                  <i class="fas fa-bell-slash"></i>      <!-- pick any icon you like -->
+                </button>
+              </div>
           </div>
             
               <!-- SCRIPT REFERENCE -->
