@@ -470,7 +470,7 @@ header.container.active {
 
     opacity: 1;
     transform: scale(1);
-    max-height: 350px;
+    max-height: none;
     padding: 0;
     order: 1;
 
@@ -581,7 +581,7 @@ header.container.active {
       order: -1;
       z-index: 10;
       transform: scale(1.02);
-      background-color: var(--color-grey-5);
+      background-color: var(--color-secondary);
       padding: 2rem;
       max-height: 1000px;
       animation: fadeExpand 0.8s ease-in-out;
@@ -596,6 +596,7 @@ header.container.active {
         display: block;
         opacity: 1;
         transform: translateY(0);
+        text-align: center;
       }
     }
   }
@@ -955,9 +956,9 @@ html, body {
   overflow-x:auto;
 }
 #portfolio {
-    overflow-y: auto;
-    height: 10vh;
-    overflow-x:auto;
+  min-height: 100vh;  // or just let it be auto and rely on .container
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 

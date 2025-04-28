@@ -471,7 +471,7 @@ header.container.active {
   transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out, max-height 0.8s ease-in-out, padding 0.8s ease-in-out, order 0.8s ease-in-out, flex-basis 0.8s ease-in-out;
   opacity: 1;
   transform: scale(1);
-  max-height: 350px;
+  max-height: none;
   padding: 0;
   order: 1;
 }
@@ -568,7 +568,7 @@ header.container.active {
   order: -1;
   z-index: 10;
   transform: scale(1.02);
-  background-color: var(--color-grey-5);
+  background-color: var(--color-secondary);
   padding: 2rem;
   max-height: 1000px;
   animation: fadeExpand 0.8s ease-in-out;
@@ -582,6 +582,7 @@ header.container.active {
   display: block;
   opacity: 1;
   transform: translateY(0);
+  text-align: center;
 }
 
 /*Blogs Section*/
@@ -2222,9 +2223,9 @@ html, body {
 }
 
 #portfolio {
+  min-height: 100vh;
   overflow-y: auto;
-  height: 10vh;
-  overflow-x: auto;
+  overflow-x: hidden;
 }
 
 .music-toggle-wrapper {

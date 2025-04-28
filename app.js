@@ -6,16 +6,24 @@ document.addEventListener("DOMContentLoaded", () => {
   const enterSound = document.getElementById("theme-sound");
   const cvSound = document.getElementById("cv-hover-sound");
   const cvClickSound = document.getElementById("cv-click-sound");
+  const expandSound   = document.getElementById("expand-sound");
+  
+ // === 1) Nav Controls ===
+[...document.querySelectorAll(".control")].forEach((button) => {
+  button.addEventListener("click", function () {
 
-  // === 1) Nav Controls ===
-  [...document.querySelectorAll(".control")].forEach((button) => {
-    button.addEventListener("click", function () {
-       // ------------------------------------------------------------------
-  // 1. Short‑circuit if the section this button points to is ALREADY active
-  // ------------------------------------------------------------------
-  const target        = document.getElementById(button.dataset.id);
-  const targetIsActive = target && target.classList.contains("active");
-  if (targetIsActive) return;                     // ⬅ nothing to do
+    /* ---------------------------------------------------------
+       A)  NEW: if any project is expanded, close it right away
+    --------------------------------------------------------- */
+    document
+      .querySelectorAll(".portfolio-item.expanded")
+      .forEach(el => el.classList.remove("expanded"));
+    /* --------------------------------------------------------- */
+
+    // 1. short-circuit if you’re already on that section
+    const target        = document.getElementById(button.dataset.id);
+    const targetIsActive = target && target.classList.contains("active");
+    if (targetIsActive) return;                  // ⬅ nothing to do
 
   // ------------------------------------------------------------------
   // 2. Play nav click sound (unchanged)
@@ -261,15 +269,19 @@ timelineContainer?.addEventListener("click", () => {
         enterBtn.style.display = "none";
       }, 3000);
 
-      if (bgMusic && volumeSlider) {
-        bgMusic.volume = 0.15;
-        volumeSlider.value = 0.15;
-      }
-
-      if (bgMusic && bgMusic.paused) {
-        bgMusic.play().catch(() => console.warn("Autoplay blocked"));
-      }
-
+          /* === DELAYED BACKGROUND MUSIC (Option B) === */
+    if (bgMusic && volumeSlider) {
+      // set desired target volume so the slider looks correct immediately
+      bgMusic.volume      = 0.15;        // target volume after the delay
+      volumeSlider.value  = 0.15;
+      
+      // start playback after 9 seconds (9000 ms)
+      setTimeout(() => {
+        if (bgMusic.paused) {
+          bgMusic.play().catch(() => console.warn("Autoplay blocked"));
+        }
+      }, 1000);                          // ← tweak delay here
+    }
       document.querySelectorAll("[class^='letterbox']").forEach((el) => {
         el.style.animationPlayState = "running";
       });
@@ -327,23 +339,27 @@ document.querySelector('.name').addEventListener('mouseenter', () => {
 // === 8) Expandable Portfolio Items ===
 portfolioItems.forEach((item) => {
   item.addEventListener("click", (e) => {
-    // Prevent clicks on inner buttons from triggering expand
-    if (e.target.closest(".icon")) return;
+    if (e.target.closest(".icon")) return;          // ignore inner buttons
 
-    // Remove expanded from all others
+    // Remove 'expanded' from others
     portfolioItems.forEach((el) => {
       if (el !== item) el.classList.remove("expanded");
     });
 
-    // Toggle this one
     const isExpanding = !item.classList.contains("expanded");
     item.classList.toggle("expanded");
 
-    // Smooth scroll to it if it's expanding
+    /* NEW 👉  play sound only when we’re expanding */
+    if (isExpanding && expandSound) {
+      expandSound.currentTime = 0;                  // rewind
+      expandSound.play();
+    }
+
+    // Smooth-scroll into view
     if (isExpanding) {
       setTimeout(() => {
         item.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 300); // slight delay for better effect
+      }, 300);
     }
   });
 });
