@@ -570,7 +570,7 @@ header.container.active {
   transform: scale(1.02);
   background-color: var(--color-secondary);
   padding: 2rem;
-  max-height: 1000px;
+  max-height: auto;
   animation: fadeExpand 0.8s ease-in-out;
 }
 .portfolios .portfolio-item.expanded .hover-items {
@@ -2201,7 +2201,7 @@ textarea:-webkit-autofill {
 /* GLOBAL SCROLL SETTINGS */
 /* Prevent scrolling globally */
 html, body {
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 /* Ensure non-about containers don't scroll */

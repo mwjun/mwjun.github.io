@@ -54,7 +54,7 @@ body {
     color: var(--color-white);
     transition: all .4s ease-in-out;
     overflow-x: hidden; /* Prevent horizontal scrolling */
-    overflow-y: auto
+    overflow-y: auto;
 }
 
 
@@ -583,7 +583,7 @@ header.container.active {
       transform: scale(1.02);
       background-color: var(--color-secondary);
       padding: 2rem;
-      max-height: 1000px;
+      max-height: auto;
       animation: fadeExpand 0.8s ease-in-out;
 
       .hover-items {
@@ -938,7 +938,7 @@ $letterboxWidth: 100% / $letterboxCount;
 /* GLOBAL SCROLL SETTINGS */
 /* Prevent scrolling globally */
 html, body {
-  overflow: hidden;
+  overflow-x: hidden;
 }
 /* Ensure non-about containers don't scroll */
 .container:not(#about):not(#contact):not(#portfolio) {
@@ -1346,3 +1346,4 @@ html, body {
 
 
 @import './media';
+
