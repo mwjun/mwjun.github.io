@@ -7,11 +7,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const cvSound = document.getElementById("cv-hover-sound");
   const cvClickSound = document.getElementById("cv-click-sound");
   const expandSound   = document.getElementById("expand-sound");
-  
+  /* ——— helper: add/remove .scroll-locked on the hero ——— */
+  function updateScrollLock() {
+    const homeIsActive = document.getElementById("home")
+                              .classList.contains("active");
+    document.documentElement.classList.toggle("scroll-locked", homeIsActive);
+    document.body.classList.toggle("scroll-locked",        homeIsActive);
+  }
+
+/* run once at startup */
+updateScrollLock();
+
+
  // === 1) Nav Controls ===
 [...document.querySelectorAll(".control")].forEach((button) => {
   button.addEventListener("click", function () {
 
+    
     /* ---------------------------------------------------------
        A)  NEW: if any project is expanded, close it right away
     --------------------------------------------------------- */
@@ -48,7 +60,8 @@ document.addEventListener("DOMContentLoaded", () => {
     .forEach(sec => sec.classList.remove("active"));
 
   target?.classList.add("active");
-
+  /* NEW —— keep scroll state in sync */
+  updateScrollLock();
   // ------------------------------------------------------------------
   // 5. Reset scroll & fade background‑music volume (your original logic)
   // ------------------------------------------------------------------
