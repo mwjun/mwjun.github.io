@@ -583,7 +583,7 @@ header.container.active {
       transform: scale(1.02);
       background-color: var(--color-secondary);
       padding: 2rem;
-      max-height: 1000px;
+      max-height: auto;
       animation: fadeExpand 0.8s ease-in-out;
 
       .hover-items {
@@ -938,11 +938,17 @@ $letterboxWidth: 100% / $letterboxCount;
 /* GLOBAL SCROLL SETTINGS */
 /* Prevent scrolling globally */
 html, body {
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
+
+/* add this ↓↓↓ */
+html.scroll-locked,
+body.scroll-locked { overflow-y:hidden !important; }
+
 /* Ensure non-about containers don't scroll */
 .container:not(#about):not(#contact):not(#portfolio) {
-  overflow: hidden;
+  overflow-y: hidden;
 }
 /* Allow vertical scrolling only for the About page */
 #about {
@@ -1346,3 +1352,20 @@ html, body {
 
 
 @import './media';
+
+/* ─────────── GLOBAL SCROLL BEHAVIOUR ─────────── */
+/* Every section *except* the hero gets its own scrollbar */
+.container:not(.header) {
+  overflow-y:auto;      /* one scrollbar, never two               */
+  scroll-behavior:smooth;
+}
+
+#portfolio {overflow-y:auto;}
+
+/* Remove the extra scrollbar inside Contact */
+#contact            { overflow-y:auto; }
+.contact-content-con{ overflow-y:auto;   }
+
+/* Make sure an active section is fully reset – no leftover X-shift */
+.container:not(.header)          { transform:translateX(100%); }
+.container:not(.header).active   { transform:none;             }
