@@ -73,7 +73,6 @@ header {
 }
 
 section {
-    min-height: 100vh;
     width: 100%;
     position: absolute;
     left: 0;
@@ -946,24 +945,31 @@ html, body {
 html.scroll-locked,
 body.scroll-locked { overflow-y:hidden !important; }
 
-/* Ensure non-about containers don't scroll */
+/* Ensure header (home) doesn't scroll */
 .container:not(#about):not(#contact):not(#portfolio) {
   overflow-y: hidden;
+  height: 100vh;
 }
-/* Allow vertical scrolling only for the About page */
+
+/* Allow vertical scrolling for these pages with auto height */
 #about {
   overflow-y: auto;
-  height: 100vh;
-  overflow-x:auto;
+  min-height: 100vh;
+  height: auto;
+  overflow-x: hidden;
 }
+
 #contact {
   overflow-y: auto;
-  height: 10vh;
-  overflow-x:auto;
+  min-height: 100vh;
+  height: auto;
+  overflow-x: hidden;
 }
+
 #portfolio {
-  min-height: 100vh;  // or just let it be auto and rely on .container
   overflow-y: auto;
+  min-height: 100vh;
+  height: auto;
   overflow-x: hidden;
 }
 
