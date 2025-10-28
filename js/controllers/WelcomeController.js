@@ -13,6 +13,17 @@ export class WelcomeController {
         const enterBtn = document.getElementById('enter-btn');
         const welcomeText = document.querySelector('.welcome-text');
         const cvDownloadLink = document.getElementById('cvDownloadLink');
+        const venetianCurtain = document.getElementById('venetian-curtain');
+        
+        // Create 50 curtain pieces
+        if (venetianCurtain) {
+            for (let i = 0; i < 50; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'curtain-piece';
+                piece.style.top = `${i * 2}%`;
+                venetianCurtain.appendChild(piece);
+            }
+        }
 
         // Handle CV download with proper filename using fetch + blob
         if (cvDownloadLink) {
@@ -48,23 +59,26 @@ export class WelcomeController {
                 }
                 enterBtn.classList.add('fade-out');
 
-                setTimeout(() => {
-                    enterBtn.style.display = 'none';
-                }, 3000);
-
-                // Start letterbox animation
-                document.querySelectorAll('[class^="letterbox"]').forEach(el => {
-                    el.style.animationPlayState = 'running';
-                });
-
                 enterBtn.disabled = true;
 
-                // Hide welcome screen after animation
+                // Fade out welcome screen
+                welcomeScreen.style.opacity = '0';
+                welcomeScreen.style.transition = 'opacity 0.5s ease-out';
+                
                 setTimeout(() => {
                     welcomeScreen.style.display = 'none';
-                }, 9300);
+                    enterBtn.style.display = 'none';
+                    
+                    // Start venetian curtain animation
+                    if (this.venetianCurtain) {
+                        this.venetianCurtain.classList.add('open');
+                    }
+                }, 500);
             });
         }
+        
+        // Use venetianCurtain from outer scope
+        this.venetianCurtain = venetianCurtain;
     }
 }
 
