@@ -213,9 +213,7 @@ header.container.active {
   background-color: var(--color-grey-1);
   cursor: pointer;
   position: fixed;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  display: flex !important;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -226,6 +224,7 @@ header.container.active {
           box-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
   -webkit-transition: all .4s ease-in-out;
   transition: all .4s ease-in-out;
+  z-index: 10;
 }
 
 .theme-btn:active {
@@ -3706,6 +3705,65 @@ body.scroll-locked {
   .main-title h2 .bg-text {
     font-size: 5rem;
   }
+  
+  /* Navigation controls spacing and sizing on medium screens */
+  .controls {
+    top: auto;
+    bottom: 0;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+    width: 100%;
+    background-color: var(--color-grey-5);
+    padding: 1.5rem 0;
+  }
+  
+  .controls .control {
+    margin: 0 1.2rem;
+  }
+  
+  /* Position music button at same level as navigation buttons on mobile */
+  .music-toggle-wrapper {
+    bottom: 0 !important;
+    padding-bottom: 1.5rem !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+  
+  /* Position theme button at same level as navigation buttons on mobile */
+  .theme-btn {
+    bottom: 1.5rem !important;
+    top: auto !important;
+    right: 1rem !important;
+    left: auto !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 10000 !important;
+  }
+  
+  /* Make buttons smaller on mobile */
+  .music-toggle-wrapper .music-btn,
+  .theme-btn {
+    width: 45px;
+    height: 45px;
+    background-color: var(--color-grey-3) !important;
+  }
+  
+  .theme-btn i {
+    font-size: 1.1rem;
+    color: var(--color-white) !important;
+  }
 }
 
 @media screen and (max-width: 1070px) {
@@ -3826,6 +3884,126 @@ body.scroll-locked {
           transform: translateX(-100%);
   pointer-events: none;
 }
+
+/* ─────────── SCI-FI GATEWAY CURTAIN (3 PANELS) ─────────── */
+#gateway-curtain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5555;
+  pointer-events: none;
+  display: flex;
+}
+
+.gateway-panel {
+  flex: 1;
+  background-color: #000;
+  opacity: 1;
+  transition: transform 0.8s ease-in-out, opacity 0.6s ease-in-out;
+}
+
+#gateway-curtain.hide .gateway-left {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+#gateway-curtain.hide .gateway-center {
+  transform: scaleY(0);
+  opacity: 0;
+}
+
+#gateway-curtain.hide .gateway-right {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+/* ─────────── VENETIAN CURTAIN (50 PIECES) ─────────── */
+#venetian-curtain {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5555;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.curtain-piece {
+  position: absolute;
+  width: 100%;
+  height: 2%;
+  background-color: #000;
+  left: 0;
+  transition: transform 0.6s ease-in-out, opacity 0.4s ease-in-out;
+  opacity: 1;
+}
+
+#venetian-curtain.open .curtain-piece {
+  opacity: 0;
+}
+
+#venetian-curtain.open .curtain-piece:nth-child(odd) {
+  transform: translateX(-100%);
+}
+
+#venetian-curtain.open .curtain-piece:nth-child(even) {
+  transform: translateX(100%);
+}
+
+/* Stagger animation timing */
+#venetian-curtain.open .curtain-piece:nth-child(1) { transition-delay: 0s; }
+#venetian-curtain.open .curtain-piece:nth-child(2) { transition-delay: 0.02s; }
+#venetian-curtain.open .curtain-piece:nth-child(3) { transition-delay: 0.04s; }
+#venetian-curtain.open .curtain-piece:nth-child(4) { transition-delay: 0.06s; }
+#venetian-curtain.open .curtain-piece:nth-child(5) { transition-delay: 0.08s; }
+#venetian-curtain.open .curtain-piece:nth-child(6) { transition-delay: 0.1s; }
+#venetian-curtain.open .curtain-piece:nth-child(7) { transition-delay: 0.12s; }
+#venetian-curtain.open .curtain-piece:nth-child(8) { transition-delay: 0.14s; }
+#venetian-curtain.open .curtain-piece:nth-child(9) { transition-delay: 0.16s; }
+#venetian-curtain.open .curtain-piece:nth-child(10) { transition-delay: 0.18s; }
+#venetian-curtain.open .curtain-piece:nth-child(11) { transition-delay: 0.2s; }
+#venetian-curtain.open .curtain-piece:nth-child(12) { transition-delay: 0.22s; }
+#venetian-curtain.open .curtain-piece:nth-child(13) { transition-delay: 0.24s; }
+#venetian-curtain.open .curtain-piece:nth-child(14) { transition-delay: 0.26s; }
+#venetian-curtain.open .curtain-piece:nth-child(15) { transition-delay: 0.28s; }
+#venetian-curtain.open .curtain-piece:nth-child(16) { transition-delay: 0.3s; }
+#venetian-curtain.open .curtain-piece:nth-child(17) { transition-delay: 0.32s; }
+#venetian-curtain.open .curtain-piece:nth-child(18) { transition-delay: 0.34s; }
+#venetian-curtain.open .curtain-piece:nth-child(19) { transition-delay: 0.36s; }
+#venetian-curtain.open .curtain-piece:nth-child(20) { transition-delay: 0.38s; }
+#venetian-curtain.open .curtain-piece:nth-child(21) { transition-delay: 0.4s; }
+#venetian-curtain.open .curtain-piece:nth-child(22) { transition-delay: 0.42s; }
+#venetian-curtain.open .curtain-piece:nth-child(23) { transition-delay: 0.44s; }
+#venetian-curtain.open .curtain-piece:nth-child(24) { transition-delay: 0.46s; }
+#venetian-curtain.open .curtain-piece:nth-child(25) { transition-delay: 0.48s; }
+#venetian-curtain.open .curtain-piece:nth-child(26) { transition-delay: 0.5s; }
+#venetian-curtain.open .curtain-piece:nth-child(27) { transition-delay: 0.52s; }
+#venetian-curtain.open .curtain-piece:nth-child(28) { transition-delay: 0.54s; }
+#venetian-curtain.open .curtain-piece:nth-child(29) { transition-delay: 0.56s; }
+#venetian-curtain.open .curtain-piece:nth-child(30) { transition-delay: 0.58s; }
+#venetian-curtain.open .curtain-piece:nth-child(31) { transition-delay: 0.6s; }
+#venetian-curtain.open .curtain-piece:nth-child(32) { transition-delay: 0.62s; }
+#venetian-curtain.open .curtain-piece:nth-child(33) { transition-delay: 0.64s; }
+#venetian-curtain.open .curtain-piece:nth-child(34) { transition-delay: 0.66s; }
+#venetian-curtain.open .curtain-piece:nth-child(35) { transition-delay: 0.68s; }
+#venetian-curtain.open .curtain-piece:nth-child(36) { transition-delay: 0.7s; }
+#venetian-curtain.open .curtain-piece:nth-child(37) { transition-delay: 0.72s; }
+#venetian-curtain.open .curtain-piece:nth-child(38) { transition-delay: 0.74s; }
+#venetian-curtain.open .curtain-piece:nth-child(39) { transition-delay: 0.76s; }
+#venetian-curtain.open .curtain-piece:nth-child(40) { transition-delay: 0.78s; }
+#venetian-curtain.open .curtain-piece:nth-child(41) { transition-delay: 0.8s; }
+#venetian-curtain.open .curtain-piece:nth-child(42) { transition-delay: 0.82s; }
+#venetian-curtain.open .curtain-piece:nth-child(43) { transition-delay: 0.84s; }
+#venetian-curtain.open .curtain-piece:nth-child(44) { transition-delay: 0.86s; }
+#venetian-curtain.open .curtain-piece:nth-child(45) { transition-delay: 0.88s; }
+#venetian-curtain.open .curtain-piece:nth-child(46) { transition-delay: 0.9s; }
+#venetian-curtain.open .curtain-piece:nth-child(47) { transition-delay: 0.92s; }
+#venetian-curtain.open .curtain-piece:nth-child(48) { transition-delay: 0.94s; }
+#venetian-curtain.open .curtain-piece:nth-child(49) { transition-delay: 0.96s; }
+#venetian-curtain.open .curtain-piece:nth-child(50) { transition-delay: 0.98s; }
 
 /* ─────────── GLOBAL SCROLL BEHAVIOUR ─────────── */
 /* Make sure an active section is fully reset – no leftover X-shift */
