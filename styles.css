@@ -922,6 +922,17 @@ header.container.active {
   display: -ms-flexbox;
   display: flex;
   margin-top: 2rem;
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.contact-content-con .left-contact .contact-icons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  margin-top: 2rem;
 }
 
 .contact-content-con .left-contact .contact-icon a {
@@ -3704,6 +3715,11 @@ body.scroll-locked {
   }
   .main-title h2 .bg-text {
     font-size: 5rem;
+  }
+  
+  /* Center social media icons on mobile (side by side) */
+  .contact-content-con .left-contact .contact-icons {
+    justify-content: center;
   }
   
   /* Navigation controls spacing and sizing on medium screens */
