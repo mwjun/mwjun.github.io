@@ -1,0 +1,193 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 20% 4%;
+    --foreground: 200 20% 92%;
+
+    --card: 220 18% 7%;
+    --card-foreground: 200 20% 92%;
+
+    --popover: 220 18% 7%;
+    --popover-foreground: 200 20% 92%;
+
+    --primary: 185 80% 55%;
+    --primary-foreground: 220 20% 4%;
+
+    --secondary: 220 15% 12%;
+    --secondary-foreground: 200 20% 85%;
+
+    --muted: 220 15% 12%;
+    --muted-foreground: 220 12% 62%;
+
+    --accent: 265 70% 60%;
+    --accent-foreground: 200 20% 95%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 15% 18%;
+    --input: 220 15% 14%;
+    --ring: 185 80% 55%;
+
+    --radius: 0.75rem;
+
+    --glow-primary: 185 80% 55%;
+    --glow-accent: 265 70% 60%;
+    --glow-warm: 35 90% 55%;
+
+    --sidebar-background: 220 18% 6%;
+    --sidebar-foreground: 200 20% 85%;
+    --sidebar-primary: 185 80% 55%;
+    --sidebar-primary-foreground: 220 20% 4%;
+    --sidebar-accent: 220 15% 12%;
+    --sidebar-accent-foreground: 200 20% 85%;
+    --sidebar-border: 220 15% 14%;
+    --sidebar-ring: 185 80% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Focus styles for accessibility */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
+  }
+
+  /* Respect reduced motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+  }
+
+  .text-gradient-shine {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      135deg,
+      hsl(185, 85%, 60%) 0%,
+      hsl(200, 75%, 55%) 25%,
+      hsl(265, 70%, 65%) 50%,
+      hsl(175, 70%, 55%) 75%,
+      hsl(185, 85%, 60%) 100%
+    );
+    background-size: 200% 200%;
+    animation: aurora-flow 8s ease-in-out infinite;
+    /* Single text-shadow instead of 3 layered — much cheaper compositing */
+    text-shadow: 0 0 24px hsl(185, 80%, 55% / 0.35);
+    will-change: background-position;
+  }
+
+  @keyframes aurora-flow {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    33% {
+      background-position: 100% 0%;
+    }
+    66% {
+      background-position: 50% 100%;
+    }
+  }
+
+  .text-gradient-warm {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--glow-warm)));
+  }
+
+  .glow-primary {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3), 0 0 60px hsl(var(--primary) / 0.1);
+  }
+
+  .glow-accent {
+    box-shadow: 0 0 20px hsl(var(--accent) / 0.3), 0 0 60px hsl(var(--accent) / 0.1);
+  }
+
+  .glow-text {
+    text-shadow: 0 0 20px hsl(var(--primary) / 0.5), 0 0 40px hsl(var(--primary) / 0.2);
+  }
+
+  .border-glow {
+    border-color: hsl(var(--primary) / 0.3);
+    box-shadow: inset 0 0 20px hsl(var(--primary) / 0.05), 0 0 20px hsl(var(--primary) / 0.05);
+  }
+
+  .card-glass {
+    @apply bg-card/50 backdrop-blur-lg border border-border/50;
+    will-change: transform;
+  }
+
+  .card-glass-strong {
+    @apply bg-card/20 backdrop-blur-xl border border-white/10;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), inset 0 -1px 1px rgba(0, 0, 0, 0.05);
+    will-change: transform;
+  }
+
+  .grid-bg {
+    background-image:
+      linear-gradient(hsla(0, 0%, 100%, 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, hsla(0, 0%, 100%, 0.07) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .noise-bg {
+    position: relative;
+  }
+  .noise-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.03;
+    /* Use 2 octaves instead of 4 — halves SVG filter cost */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    /* Promote to own GPU layer so it doesn't re-rasterize on scroll */
+    will-change: transform;
+  }
+
+  /* GPU-accelerated smooth animations */
+  .will-change-transform {
+    will-change: transform;
+  }
+  .gpu-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  .font-mono-tech {
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+}

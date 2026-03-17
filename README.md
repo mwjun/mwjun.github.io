@@ -1,94 +1,56 @@
-# Portfolio Project
+# Matthew W. Jun
 
-A modern, interactive portfolio website showcasing my work and experience.
+A React application built with Vite, TypeScript, and shadcn/ui.
 
-## 🏗️ Architecture
+## Tech Stack
 
-This project demonstrates **professional software engineering practices**:
+- **Vite** - Build tool and dev server
+- **React 18** - UI framework
+- **TypeScript** - Type safety
+- **Tailwind CSS** - Styling
+- **shadcn/ui** - Component library
+- **React Router** - Client-side routing
+- **Framer Motion** - Animations
 
-- **MVC (Model-View-Controller) Pattern**: Clean separation of concerns
-- **Loose Coupling**: Modules are independent and easily testable
-- **High Cohesion**: Related functionality grouped together
-- **Dependency Injection**: Controllers receive dependencies, enabling testability
-- **ES6 Modules**: Modern, modular code organization
+## Getting Started
 
-### Detailed Architecture Documentation
-See [ARCHITECTURE.md](./ARCHITECTURE.md) for comprehensive documentation on the architecture, design patterns, and code organization.
+### Prerequisites
 
-## 🚀 Quick Start
+- Node.js 18+
+- npm
 
-### Running Locally
+### Installation
 
-```bash
-# Start local development server
-python3 -m http.server 8000
+```sh
+# Clone the repository
+git clone <YOUR_GIT_URL>
+cd matthew-w-jun
 
-# Or use any port available
-python3 -m http.server 3000
+# Install dependencies
+npm install
 
-# Access in browser
-open http://localhost:8000
+# Start the development server
+npm run dev
 ```
 
-## 📁 Project Structure
+The app will be available at [http://localhost:8080](http://localhost:8080).
+
+### Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server |
+| `npm run build` | Build for production |
+| `npm run preview` | Preview production build |
+| `npm run lint` | Run ESLint |
+| `npm run test` | Run tests |
+
+## Project Structure
 
 ```
-├── js/
-│   ├── models/         # Business logic and data
-│   ├── views/          # DOM manipulation
-│   ├── controllers/    # Event handling and coordination
-│   └── app.js          # Main entry point
-├── index.html
-├── styles.css
-├── ARCHITECTURE.md     # Detailed architecture docs
-└── README.md
+src/
+├── components/   # Reusable UI components
+├── lib/          # Utilities and config
+├── pages/        # Route components
+└── ...
 ```
-
-## 🎨 Features
-
-- **Responsive Design**: Works on all screen sizes
-- **Dark/Light Theme**: Toggle between themes
-- **Interactive Navigation**: Smooth section transitions
-- **Portfolio Showcase**: Expandable project cards
-- **Contact Form**: Integrated form submission
-- **Audio Feedback**: Immersive sound effects
-- **Animated Welcome Screen**: Engaging entry experience
-- **Timeline Experience**: Interactive career timeline
-
-## 🛠️ Technologies
-
-- HTML5
-- CSS3 / SCSS
-- Vanilla JavaScript (ES6+)
-- ES6 Modules
-- CSS Custom Properties (Variables)
-
-## 📝 Code Quality
-
-- Clean, readable code
-- Comprehensive documentation
-- Modular architecture
-- No external dependencies (vanilla JS)
-- Modern JavaScript best practices
-
-## 🎓 Learning Objectives Demonstrated
-
-1. **SOLID Principles**
-   - Single Responsibility
-   - Dependency Inversion
-   - Open/Closed Principle
-
-2. **Design Patterns**
-   - MVC Architecture
-   - Dependency Injection
-   - Observer Pattern (event handling)
-
-3. **Software Engineering**
-   - Separation of Concerns
-   - Loose Coupling
-   - High Cohesion
-   - Code Organization
-
-## 📄 License
-
-Personal portfolio project - All rights reserved

@@ -1,0 +1,194 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0a0a0b;
+  --foreground: #fafafa;
+  --muted: #71717a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Story mode root */
+.story-mode-root {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #0a0a0b 0%, #0f0f12 50%, #0a0a0b 100%);
+}
+
+/* Close button */
+.story-close-button {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 50;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.story-close-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+/* Vignette overlay */
+.story-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse 80% 80% at 50% 50%,
+    transparent 40%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  pointer-events: none;
+}
+
+/* Tunnel background */
+.story-tunnel-bg {
+  position: absolute;
+  inset: -20%;
+  background: 
+    radial-gradient(ellipse 60% 60% at 50% 30%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse 80% 80% at 50% 50%, rgba(139, 92, 246, 0.08) 0%, transparent 60%),
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 80px,
+      rgba(255, 255, 255, 0.02) 80px,
+      rgba(255, 255, 255, 0.02) 81px
+    );
+  transform-origin: center center;
+}
+
+/* Object layers */
+.story-object-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.story-object-layer-back {
+  z-index: 1;
+}
+
+.story-object-layer-front {
+  z-index: 2;
+}
+
+/* Story objects - orbs */
+.story-object.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(1px);
+}
+
+.orb-a { width: 120px; height: 120px; top: 15%; left: 10%; background: rgba(99, 102, 241, 0.4); }
+.orb-b { width: 80px; height: 80px; top: 60%; right: 15%; background: rgba(139, 92, 246, 0.35); }
+.orb-c { width: 100px; height: 100px; bottom: 25%; left: 20%; background: rgba(59, 130, 246, 0.3); }
+.orb-d { width: 60px; height: 60px; top: 30%; right: 25%; background: rgba(168, 85, 247, 0.4); }
+
+/* Story objects - bars */
+.story-object.bar {
+  position: absolute;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
+  transform-origin: center;
+}
+
+.bar-a { width: 200px; height: 2px; top: 25%; left: 5%; transform: rotate(-15deg); }
+.bar-b { width: 150px; height: 2px; bottom: 35%; right: 10%; transform: rotate(20deg); }
+.bar-c { width: 180px; height: 2px; top: 45%; right: 5%; transform: rotate(-8deg); }
+.bar-d { width: 120px; height: 2px; bottom: 20%; left: 15%; transform: rotate(12deg); }
+
+/* Intro copy */
+.story-intro-copy {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  z-index: 10;
+}
+
+.story-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 0.5rem;
+}
+
+.story-title {
+  font-size: clamp(2rem, 6vw, 4rem);
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  letter-spacing: -0.02em;
+}
+
+.story-subtitle {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0;
+}
+
+/* Shine / glow animation */
+.shine-animation {
+  background: linear-gradient(
+    90deg,
+    #fff 0%,
+    #a5b4fc 25%,
+    #c4b5fd 50%,
+    #a5b4fc 75%,
+    #fff 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shine 3s linear infinite;
+}
+
+.glow-text {
+  filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.5));
+}
+
+@keyframes shine {
+  to { background-position: 200% center; }
+}
+
+/* Card glass */
+.card-glass {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+}
+
+.text-muted-foreground {
+  color: var(--muted);
+}
