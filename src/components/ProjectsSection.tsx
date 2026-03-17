@@ -44,7 +44,7 @@ const projects = [
     tags: ["HTML5", "CSS3", "SCSS", "Vanilla JavaScript", "ES6 Modules"],
     gradient: "from-primary/20 to-accent/20",
     borderGlow: "hover:border-primary/40",
-    link: "https://mwjun.github.io",
+    link: "https://matthew-w-jun.vercel.app/",
   },
   {
     title: "TutoRial",
