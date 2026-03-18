@@ -1,7 +1,12 @@
 import { useEffect, useRef } from "react";
 
-const PARTICLE_COUNT = 300; // down from 500
-const CONNECTION_DIST = 120; // tighter radius = fewer connection checks
+// Detect mobile/low-power devices once at module load
+const IS_MOBILE = typeof window !== "undefined" &&
+  (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 768);
+
+const PARTICLE_COUNT = IS_MOBILE ? 150 : 300;
+const CONNECTION_DIST = IS_MOBILE ? 80 : 120;
+const SKIP_CONNECTIONS = IS_MOBILE; // skip connection lines entirely on mobile
 const CELL_SIZE = CONNECTION_DIST;
 const TWO_PI = Math.PI * 2;
 
@@ -65,7 +70,7 @@ const ParticleField = () => {
 
     let resizeTimeout: number | undefined;
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2); // cap DPR at 2
+      const dpr = Math.min(window.devicePixelRatio || 1, IS_MOBILE ? 1.5 : 2);
       const w = window.innerWidth;
       const h = window.innerHeight;
       const oldW = canvas.width / (canvas.dataset.dpr ? +canvas.dataset.dpr : 1);
@@ -152,7 +157,8 @@ const ParticleField = () => {
         ctx.fill();
       }
 
-      // Draw connections — batch lines by color bucket
+      // Draw connections — batch lines by color bucket (skipped on mobile)
+      if (!SKIP_CONNECTIONS) {
       ctx.lineWidth = 0.5;
       for (let row = 0; row < gridRows; row++) {
         for (let col = 0; col < gridCols; col++) {
@@ -200,6 +206,7 @@ const ParticleField = () => {
           }
         }
       }
+      } // end SKIP_CONNECTIONS guard
 
       animationId = requestAnimationFrame(draw);
     };

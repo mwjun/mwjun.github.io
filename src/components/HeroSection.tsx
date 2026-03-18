@@ -33,8 +33,8 @@ const HeroSection = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background/80 to-background" />
       </motion.div>
 
-      {/* Floating orbs — GPU-composited with will-change, blur-2xl (cheaper than 3xl) */}
-      <div className="absolute inset-0 z-[1] overflow-hidden pointer-events-none">
+      {/* Floating orbs — hidden on mobile (blur-2xl + continuous animation is expensive) */}
+      <div className="absolute inset-0 z-[1] overflow-hidden pointer-events-none hidden md:block">
         <motion.div
           className="absolute w-96 h-96 rounded-full bg-primary/5 blur-2xl"
           animate={{ x: [0, 50, -30, 0], y: [0, -40, 20, 0] }}

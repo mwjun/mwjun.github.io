@@ -154,6 +154,28 @@
     will-change: transform;
   }
 
+  /* Mobile performance: reduce expensive GPU effects */
+  @media (max-width: 767px) {
+    .card-glass {
+      @apply bg-card/70 backdrop-blur-sm;
+    }
+    .card-glass-strong {
+      @apply bg-card/40 backdrop-blur-sm;
+    }
+    .glow-primary {
+      box-shadow: 0 0 12px hsl(var(--primary) / 0.2);
+    }
+    .glow-accent {
+      box-shadow: 0 0 12px hsl(var(--accent) / 0.2);
+    }
+    .glow-text {
+      text-shadow: 0 0 12px hsl(var(--primary) / 0.3);
+    }
+    .border-glow {
+      box-shadow: none;
+    }
+  }
+
   .grid-bg {
     background-image:
       linear-gradient(hsla(0, 0%, 100%, 0.07) 1px, transparent 1px),

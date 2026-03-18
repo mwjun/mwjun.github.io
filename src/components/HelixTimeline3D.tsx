@@ -9,13 +9,17 @@ const NODE_SPACING = 110;
 const CAMERA_DIST = 400;
 const ROTATION_PERIOD = 20000;
 const REVEAL_DURATION = 1800;
-const SAMPLE_STEP = 8; // up from 6 — fewer segments, nearly identical visual
+const SAMPLE_STEP = IS_MOBILE ? 12 : 8; // wider step on mobile for fewer draw calls
 const NODE_RADIUS = 7;
 const TOP_PAD = 100;
-const AMBIENT_COUNT = 20; // down from 30
-const STREAK_COUNT = 16; // down from 24
+// Detect mobile/low-power devices once at module load
+const IS_MOBILE = typeof window !== "undefined" &&
+  (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 768);
+
+const AMBIENT_COUNT = IS_MOBILE ? 8 : 20;
+const STREAK_COUNT = IS_MOBILE ? 6 : 16;
 const STREAK_LEN = 28;
-const STREAK_STEPS = 6; // down from 8
+const STREAK_STEPS = IS_MOBILE ? 4 : 6;
 const EDGE_FADE_PX = 40;
 const STRAND_EDGE_PX = 50;
 const TWO_PI = Math.PI * 2;
@@ -307,7 +311,7 @@ const HelixTimeline3D = ({
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
 
-      const dpr = Math.min(window.devicePixelRatio || 1, 2); // cap DPR
+      const dpr = Math.min(window.devicePixelRatio || 1, IS_MOBILE ? 1.5 : 2);
       const w = container.offsetWidth;
       const h = totalHeight;
 
@@ -609,9 +613,9 @@ const HelixTimeline3D = ({
       }
 
       // ======================================================
-      // PASS 4: Scanning pulse
+      // PASS 4: Scanning pulse (skipped on mobile)
       // ======================================================
-      if (!prefersReducedMotion) {
+      if (!prefersReducedMotion && !IS_MOBILE) {
         const scanY = topY + ((elapsed * 0.0003 * helixSpan) % helixSpan);
         if (scanY <= maxY) {
           const scanRx = radius + 20;
