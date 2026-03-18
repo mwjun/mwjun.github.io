@@ -3,6 +3,10 @@ import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
 
 type TimelineItem = { period: string; title: string; company: string };
 
+// Detect mobile/low-power devices once at module load
+const IS_MOBILE = typeof window !== "undefined" &&
+  (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 768);
+
 const HELIX_RADIUS = 44;
 const HELIX_PITCH = 180;
 const NODE_SPACING = 110;
@@ -12,9 +16,6 @@ const REVEAL_DURATION = 1800;
 const SAMPLE_STEP = IS_MOBILE ? 12 : 8; // wider step on mobile for fewer draw calls
 const NODE_RADIUS = 7;
 const TOP_PAD = 100;
-// Detect mobile/low-power devices once at module load
-const IS_MOBILE = typeof window !== "undefined" &&
-  (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 768);
 
 const AMBIENT_COUNT = IS_MOBILE ? 8 : 20;
 const STREAK_COUNT = IS_MOBILE ? 6 : 16;
