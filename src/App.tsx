@@ -16,6 +16,11 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+// Prevent browser from restoring scroll position on SPA navigation
+if (typeof window !== "undefined" && "scrollRestoration" in history) {
+  history.scrollRestoration = "manual";
+}
+
 const ScrollToTop = () => {
   const { pathname } = useLocation();
   useEffect(() => {

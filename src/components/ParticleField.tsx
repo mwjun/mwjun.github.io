@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 const IS_MOBILE = typeof window !== "undefined" &&
   (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || window.innerWidth < 768);
 
-const PARTICLE_COUNT = IS_MOBILE ? 150 : 300;
+const PARTICLE_COUNT = IS_MOBILE ? 150 : 500;
 const CONNECTION_DIST = IS_MOBILE ? 80 : 120;
 const SKIP_CONNECTIONS = IS_MOBILE; // skip connection lines entirely on mobile
 const CELL_SIZE = CONNECTION_DIST;
@@ -105,7 +105,7 @@ const ParticleField = () => {
 
     const draw = (now: number) => {
       // Delta-time based movement for consistent speed across refresh rates
-      const dt = lastTime ? Math.min(now - lastTime, 33.33) : 16.67; // cap at ~30fps delta
+      const dt = lastTime ? Math.min(now - lastTime, 50) : 16.67; // cap at ~20fps delta
       const dtFactor = dt / 16.67; // normalize to 60fps baseline
       lastTime = now;
 

@@ -98,15 +98,22 @@ const HelixTimeline3D = ({
   isInView: boolean;
 }) => {
   const prefersReducedMotion = useReducedMotion();
+  const skipScrollAnimation = IS_MOBILE || !!prefersReducedMotion;
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const startTimeRef = useRef(0);
   const hasStarted = useRef(false);
-  const [revealedNodes, setRevealedNodes] = useState<Set<number>>(new Set());
-  const revealedRef = useRef<Set<number>>(new Set());
-  const [allRevealed, setAllRevealed] = useState(false);
-  const allRevealedRef = useRef(false);
+  const [revealedNodes, setRevealedNodes] = useState<Set<number>>(() => {
+    if (IS_MOBILE) {
+      // On mobile, reveal all nodes immediately — no scroll-driven animation
+      return new Set(Array.from({ length: timeline.length }, (_, i) => i));
+    }
+    return new Set();
+  });
+  const revealedRef = useRef<Set<number>>(revealedNodes);
+  const [allRevealed, setAllRevealed] = useState(IS_MOBILE);
+  const allRevealedRef = useRef(IS_MOBILE);
   const [scrollProgress, setScrollProgress] = useState(0);
   const scrollTargetRef = useRef(0); // raw scroll position (target)
   const smoothedRef = useRef(0); // damped scroll position
@@ -150,7 +157,7 @@ const HelixTimeline3D = ({
   const LEAD_PX = 200;
   const SCROLL_SPEED = 0.2;
   useEffect(() => {
-    if (allRevealedRef.current) return;
+    if (skipScrollAnimation || allRevealedRef.current) return;
     // Temporarily disable smooth scroll inside drag zone so scrollBy is instant
     const onWheel = (e: WheelEvent) => {
       const wrapper = wrapperRef.current;
@@ -173,7 +180,7 @@ const HelixTimeline3D = ({
   // Damping speed: lower = more drag. ~1 gives ~3s catch-up feel.
   const SCROLL_DAMP_SPEED = 20;
   useEffect(() => {
-    if (allRevealedRef.current) return;
+    if (skipScrollAnimation || allRevealedRef.current) return;
     const onScroll = () => {
       const wrapper = wrapperRef.current;
       if (!wrapper) return;
@@ -218,7 +225,7 @@ const HelixTimeline3D = ({
   // so the last node is visible before zoom-out begins
   const REVEAL_END = ZOOM_OUT_START - 0.05;
   useEffect(() => {
-    if (allRevealedRef.current) return;
+    if (skipScrollAnimation || allRevealedRef.current) return;
 
     const revealStart = REVEAL_GAP;
     const range = REVEAL_END - revealStart;
@@ -237,9 +244,9 @@ const HelixTimeline3D = ({
     }
   }, [scrollProgress, nodeCount, handleReveal]);
 
-  // Reduced motion: reveal everything immediately
+  // Reduced motion / mobile: reveal everything immediately
   useEffect(() => {
-    if (prefersReducedMotion && !allRevealedRef.current) {
+    if (skipScrollAnimation && !allRevealedRef.current) {
       for (let i = 0; i < nodeCount; i++) handleReveal(i);
       allRevealedRef.current = true;
       setAllRevealed(true);
@@ -252,8 +259,9 @@ const HelixTimeline3D = ({
   // When allRevealed: collapse wrapper and scroll to match zoom-out end position
   // On tall viewports (vpH >= lastNodeBottom) the zoom-out ends with tY=0,
   // so scroll to wrapperTop. On short viewports, anchor ??? at viewport bottom.
+  // Skip on mobile — no scroll-driven animation means no need to reposition.
   useLayoutEffect(() => {
-    if (!allRevealed || !wrapperRef.current) return;
+    if (IS_MOBILE || !allRevealed || !wrapperRef.current) return;
     const wrapperTop =
       wrapperRef.current.getBoundingClientRect().top + window.scrollY;
     const vpH = window.innerHeight;
