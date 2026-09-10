@@ -1,101 +1,63 @@
-import { motion } from "framer-motion";
-import heroBg from "@/assets/hero-bg.jpg";
+import { useRef, useState } from "react";
+import { ArrowDown, ArrowUpRight, Pause, Play } from "lucide-react";
+import { useMotionValueEvent, useReducedMotion, useScroll } from "framer-motion";
+import { Link } from "react-router-dom";
+import ScrollSculpture from "./ScrollSculpture";
+
+const chapters = ["The introduction", "The approach", "The impact"];
 
 const HeroSection = () => {
-
-  const wordVariants = {
-    hidden: { opacity: 0, y: 50, rotateX: -90 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      rotateX: 0,
-      transition: {
-        delay: 0.8 + i * 0.12,
-        duration: 0.6,
-        ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
-      },
-    }),
-  };
-
-  const title = "Hi, I'm Matthew Jun";
-  const words = title.split(" ");
+  const container = useRef<HTMLElement>(null);
+  const reducedMotion = useReducedMotion();
+  const [paused, setPaused] = useState(false);
+  const [chapter, setChapter] = useState(0);
+  const { scrollYProgress } = useScroll({ target: container, offset: ["start start", "end end"] });
+  useMotionValueEvent(scrollYProgress, "change", (value) => setChapter(value < 0.29 ? 0 : value < 0.7 ? 1 : 2));
 
   return (
-    <section className="relative min-h-[calc(100vh-5rem)] flex items-center justify-center overflow-hidden">
-      {/* Background image */}
-      <motion.div
-        className="absolute inset-0 z-0"
-        initial={{ scale: 1.2, opacity: 0 }}
-        animate={{ scale: 1, opacity: 0.45 }}
-        transition={{ duration: 2, ease: [0.16, 1, 0.3, 1] }}
-      >
-        <img src={heroBg} alt="" className="w-full h-full object-cover" aria-hidden="true" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background via-background/80 to-background" />
-      </motion.div>
-
-      {/* Floating orbs — hidden on mobile (blur-2xl + continuous animation is expensive) */}
-      <div className="absolute inset-0 z-[1] overflow-hidden pointer-events-none hidden md:block">
-        <motion.div
-          className="absolute w-96 h-96 rounded-full bg-primary/5 blur-2xl"
-          animate={{ x: [0, 50, -30, 0], y: [0, -40, 20, 0] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          style={{ top: "10%", left: "10%", willChange: "transform" }}
-        />
-        <motion.div
-          className="absolute w-72 h-72 rounded-full bg-accent/5 blur-2xl"
-          animate={{ x: [0, -30, 50, 0], y: [0, 30, -50, 0] }}
-          transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-          style={{ bottom: "20%", right: "15%", willChange: "transform" }}
-        />
+    <section ref={container} id="story" className="cinematic-story" aria-label="My story">
+      <div className="story-stage" aria-hidden="true">
+        <div className="story-ambient" />
+        <ScrollSculpture progress={scrollYProgress} paused={paused || !!reducedMotion} />
+        <div className="scene-coordinate scene-coordinate-top">{['POSSIBILITY', 'CONNECTION', 'IMPACT'][chapter]}</div>
+        <div className="scene-coordinate scene-coordinate-bottom">IDEAS → SYSTEMS → EXPERIENCES</div>
+        <div className="scene-vignette" />
       </div>
-
-      {/* Content */}
-      <div className="relative z-10 text-center px-6 max-w-5xl">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-6 flex flex-wrap gap-2 justify-center"
-        >
-          <span className="inline-block px-4 py-1.5 rounded-full border border-primary/30 text-primary text-sm font-mono-tech tracking-wider glow-primary">
-            Full Stack Engineer
-          </span>
-          <span className="inline-block px-4 py-1.5 rounded-full border border-primary/30 text-primary text-sm font-mono-tech tracking-wider glow-primary">
-            AI Engineer
-          </span>
-          <span className="inline-block px-4 py-1.5 rounded-full border border-primary/30 text-primary text-sm font-mono-tech tracking-wider glow-primary">
-            Data Professional
-          </span>
-        </motion.div>
-
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-8" style={{ perspective: "1000px" }}>
-          {words.map((word, i) => (
-            <motion.span
-              key={i}
-              custom={i}
-              variants={wordVariants}
-              initial="hidden"
-              animate="visible"
-              className={`inline-block ${["Matthew", "Jun"].includes(word) ? "text-gradient-shine glow-text" : ""}`}
-              style={word === "Jun" ? { animationDelay: "-0.12s" } : undefined}
-            >
-              {word}{i < words.length - 1 ? "\u00A0" : ""}
-            </motion.span>
-          ))}
-        </h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed"
-        >
-          Welcome to my portfolio. Full stack engineer, AI engineer & data professional. Turning data into
-          insights and ideas into pixel-perfect experiences.
-        </motion.p>
+      <div className="story-chapter chapter-intro">
+        <div className="chapter-copy">
+          <p className="eyebrow hero-eyebrow"><span className="eyebrow-kicker"><span className="eyebrow-line" /> MATTHEW JUN</span><span className="eyebrow-roles">FULLSTACK SOFTWARE DEVELOPER · AI ENGINEER · CLOUD ENGINEER · DATA PROFESSIONAL</span></p>
+          <h1>Complexity<br />into <span className={`serif-accent serif-shine${paused ? ' is-paused' : ''}`}>possibility.</span></h1>
+          <p className="hero-description">Full-stack engineering, amplified through applied AI.<br className="desktop-break" /> Grounded in data science, with range across business channels.</p>
+          <div className="hero-actions">
+            <a href="#work" className="primary-link">Explore my work <ArrowDown size={17} /></a>
+            <a href="/Matthew_Jun.pdf" download className="quiet-link">Résumé <ArrowUpRight size={16} /></a>
+          </div>
+        </div>
+        <div className="intro-bottom"><a href="#approach" className="scroll-prompt"><span className="scroll-track"><span /></span> SCROLL TO UNFOLD THE STORY</a><span>BASED IN ORANGE COUNTY, CA</span></div>
+      </div>
+      <div id="approach" className="story-chapter">
+        <div className="chapter-copy">
+          <p className="eyebrow">THE APPROACH</p>
+          <h2>People first.<br /><span className="serif-accent">Systems second.</span></h2>
+          <p className="chapter-description">My path to software wasn't a straight line. It ran through creative work, e-commerce, education, and understanding how people think.</p>
+          <p className="chapter-description secondary-description">Today, I connect those perspectives to build interfaces, services, and AI workflows that make complex things feel simple.</p>
+          <Link to="/about" className="text-link">The story behind the code <ArrowUpRight size={18} /></Link>
+        </div>
+      </div>
+      <div id="impact" className="story-chapter">
+        <div className="chapter-copy">
+          <p className="eyebrow">THE IMPACT</p>
+          <h2>Built with intent.<br /><span className="serif-accent">Measured in impact.</span></h2>
+          <p className="chapter-description">From using data to grow e-commerce revenue to building software at Konami and Boeing, I care about what happens after the code ships.</p>
+          <div className="impact-proof"><div><strong>10+</strong><span>years across industries</span></div><div><strong>7-figure</strong><span>monthly e-commerce revenue</span></div></div>
+          <p className="proof-caption">Data insights helped grow monthly e-commerce revenue from $175K to seven figures.</p>
+        </div>
+      </div>
+      <div className="story-controls">
+        <div className="chapter-progress" aria-label={chapters[chapter]}><div>{chapters.map((name, i) => <a key={name} href={['#story', '#approach', '#impact'][i]} aria-label={name} aria-current={i === chapter ? 'step' : undefined} className={i === chapter ? 'is-active' : ''} />)}</div></div>
+        {!reducedMotion && <button type="button" onClick={() => setPaused(!paused)} className="motion-toggle" aria-pressed={paused} aria-label={paused ? "Enable scene motion" : "Pause scene motion"}>{paused ? <Play size={14} /> : <Pause size={14} />}<span>{paused ? 'Motion paused' : 'Pause motion'}</span></button>}
       </div>
     </section>
   );
 };
-
 export default HeroSection;

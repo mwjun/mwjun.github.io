@@ -6,7 +6,7 @@ const IS_MOBILE = typeof window !== "undefined" &&
 
 const PARTICLE_COUNT = IS_MOBILE ? 150 : 500;
 const CONNECTION_DIST = IS_MOBILE ? 80 : 120;
-const SKIP_CONNECTIONS = IS_MOBILE; // skip connection lines entirely on mobile
+const SKIP_CONNECTIONS = IS_MOBILE;
 const CELL_SIZE = CONNECTION_DIST;
 const TWO_PI = Math.PI * 2;
 
@@ -15,9 +15,20 @@ const PARTICLE_COLORS: string[] = [];
 for (let i = 0; i < 64; i++) {
   PARTICLE_COLORS.push(`hsla(185,80%,55%,${(i / 63 * 0.5 + 0.1).toFixed(3)})`);
 }
-const CONNECTION_COLORS: string[] = [];
-for (let i = 0; i < 32; i++) {
-  CONNECTION_COLORS.push(`hsla(185,80%,55%,${(0.25 * (i / 31)).toFixed(3)})`);
+
+// 8-bucket connection colors — batched draw reduces ~2700 stroke() calls → 8
+const CONN_BUCKETS = 8;
+const CONN_BUCKET_COLORS: string[] = [];
+for (let i = 0; i < CONN_BUCKETS; i++) {
+  CONN_BUCKET_COLORS.push(`hsla(185,80%,55%,${(0.25 * (i / (CONN_BUCKETS - 1))).toFixed(3)})`);
+}
+const MAX_CONN_PER_BUCKET = 600;
+
+// Mobile: pre-bucket particles by color at init time
+const MOBILE_BUCKETS = 8;
+const mobileBucketColors: string[] = [];
+for (let i = 0; i < MOBILE_BUCKETS; i++) {
+  mobileBucketColors.push(`hsla(185,80%,55%,${(i / (MOBILE_BUCKETS - 1) * 0.5 + 0.1).toFixed(3)})`);
 }
 
 const ParticleField = () => {
@@ -28,6 +39,9 @@ const ParticleField = () => {
     if (!canvas) return;
     const ctx = canvas.getContext("2d", { alpha: true });
     if (!ctx) return;
+
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReducedMotion) return;
 
     let animationId: number;
     let initialized = false;
@@ -41,6 +55,21 @@ const ParticleField = () => {
     const sizes = new Float32Array(PARTICLE_COUNT);
     const colorIndices = new Uint8Array(PARTICLE_COUNT);
 
+    // Pre-sorted bucket indices for O(N) draw (avoids O(64N) scan per frame)
+    const desktopBucketIndices: number[][] = !SKIP_CONNECTIONS
+      ? Array.from({ length: 64 }, () => [])
+      : [];
+    const mobileBucketIndices: number[][] = IS_MOBILE
+      ? Array.from({ length: MOBILE_BUCKETS }, () => [])
+      : [];
+
+    // Pre-allocated connection batch buffers (avoids per-frame allocation)
+    const connX1Buf = SKIP_CONNECTIONS ? new Float32Array(0) : new Float32Array(CONN_BUCKETS * MAX_CONN_PER_BUCKET);
+    const connY1Buf = SKIP_CONNECTIONS ? new Float32Array(0) : new Float32Array(CONN_BUCKETS * MAX_CONN_PER_BUCKET);
+    const connX2Buf = SKIP_CONNECTIONS ? new Float32Array(0) : new Float32Array(CONN_BUCKETS * MAX_CONN_PER_BUCKET);
+    const connY2Buf = SKIP_CONNECTIONS ? new Float32Array(0) : new Float32Array(CONN_BUCKETS * MAX_CONN_PER_BUCKET);
+    const connBucketCounts = new Int32Array(CONN_BUCKETS);
+
     const initParticles = (w: number, h: number) => {
       for (let i = 0; i < PARTICLE_COUNT; i++) {
         px[i] = Math.random() * w;
@@ -48,19 +77,28 @@ const ParticleField = () => {
         vx[i] = (Math.random() - 0.5) * 0.3;
         vy[i] = (Math.random() - 0.5) * 0.3;
         sizes[i] = Math.random() * 2 + 0.5;
-        colorIndices[i] = (Math.random() * 63) | 0;
+        if (IS_MOBILE) {
+          const bucket = (Math.random() * (MOBILE_BUCKETS - 1) + 0.5) | 0;
+          colorIndices[i] = bucket;
+          mobileBucketIndices[bucket].push(i);
+        } else {
+          const ci = (Math.random() * 63) | 0;
+          colorIndices[i] = ci;
+          desktopBucketIndices[ci].push(i);
+        }
       }
       initialized = true;
     };
 
-    // Spatial hash
+    // Spatial hash — only needed for desktop connections
     let gridCols = 0;
     let gridRows = 0;
     let cellStarts: Int32Array = new Int32Array(0);
     let cellCounts: Int32Array = new Int32Array(0);
-    let sortedIndices: Int32Array = new Int32Array(PARTICLE_COUNT);
+    let sortedIndices: Int32Array = new Int32Array(SKIP_CONNECTIONS ? 0 : PARTICLE_COUNT);
 
     const allocGrid = () => {
+      if (SKIP_CONNECTIONS) return;
       gridCols = Math.ceil(canvas.width / CELL_SIZE) + 1;
       gridRows = Math.ceil(canvas.height / CELL_SIZE) + 1;
       const totalCells = gridCols * gridRows;
@@ -103,17 +141,52 @@ const ParticleField = () => {
 
     const dist2Max = CONNECTION_DIST * CONNECTION_DIST;
 
-    const draw = (now: number) => {
-      // Delta-time based movement for consistent speed across refresh rates
-      const dt = lastTime ? Math.min(now - lastTime, 50) : 16.67; // cap at ~20fps delta
-      const dtFactor = dt / 16.67; // normalize to 60fps baseline
+    // ---------- MOBILE DRAW ----------
+    const drawMobile = (now: number) => {
+      const dt = lastTime ? Math.min(now - lastTime, 50) : 16.67;
+      const dtFactor = dt / 16.67;
       lastTime = now;
 
       const w = window.innerWidth;
       const h = window.innerHeight;
       ctx.clearRect(0, 0, w, h);
 
-      // Update positions with delta-time
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        px[i] += vx[i] * dtFactor;
+        py[i] += vy[i] * dtFactor;
+        if (px[i] < 0) px[i] = w;
+        else if (px[i] > w) px[i] = 0;
+        if (py[i] < 0) py[i] = h;
+        else if (py[i] > h) py[i] = 0;
+      }
+
+      for (let b = 0; b < MOBILE_BUCKETS; b++) {
+        const indices = mobileBucketIndices[b];
+        if (indices.length === 0) continue;
+        ctx.fillStyle = mobileBucketColors[b];
+        ctx.beginPath();
+        for (let j = 0; j < indices.length; j++) {
+          const i = indices[j];
+          ctx.moveTo(px[i] + sizes[i], py[i]);
+          ctx.arc(px[i], py[i], sizes[i], 0, TWO_PI);
+        }
+        ctx.fill();
+      }
+
+      animationId = requestAnimationFrame(drawMobile);
+    };
+
+    // ---------- DESKTOP DRAW: batched particles + batched connections ----------
+    const drawDesktop = (now: number) => {
+      const dt = lastTime ? Math.min(now - lastTime, 50) : 16.67;
+      const dtFactor = dt / 16.67;
+      lastTime = now;
+
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      ctx.clearRect(0, 0, w, h);
+
+      // Update positions
       for (let i = 0; i < PARTICLE_COUNT; i++) {
         px[i] += vx[i] * dtFactor;
         py[i] += vy[i] * dtFactor;
@@ -145,21 +218,22 @@ const ParticleField = () => {
         cellCounts[cell]++;
       }
 
-      // Batch draw particles — group by color to reduce state changes
+      // Draw particles — pre-sorted by color bucket, O(N) total
       for (let ci = 0; ci < 64; ci++) {
+        const indices = desktopBucketIndices[ci];
+        if (indices.length === 0) continue;
         ctx.fillStyle = PARTICLE_COLORS[ci];
         ctx.beginPath();
-        for (let i = 0; i < PARTICLE_COUNT; i++) {
-          if (colorIndices[i] !== ci) continue;
+        for (let j = 0; j < indices.length; j++) {
+          const i = indices[j];
           ctx.moveTo(px[i] + sizes[i], py[i]);
           ctx.arc(px[i], py[i], sizes[i], 0, TWO_PI);
         }
         ctx.fill();
       }
 
-      // Draw connections — batch lines by color bucket (skipped on mobile)
-      if (!SKIP_CONNECTIONS) {
-      ctx.lineWidth = 0.5;
+      // Collect connections into 8 color buckets
+      connBucketCounts.fill(0);
       for (let row = 0; row < gridRows; row++) {
         for (let col = 0; col < gridCols; col++) {
           const cell = row * gridCols + col;
@@ -193,12 +267,14 @@ const ParticleField = () => {
                   const ddy = ay - py[idxB];
                   const d2 = ddx * ddx + ddy * ddy;
                   if (d2 < dist2Max) {
-                    const ci = ((1 - Math.sqrt(d2) / CONNECTION_DIST) * 31) | 0;
-                    ctx.strokeStyle = CONNECTION_COLORS[ci];
-                    ctx.beginPath();
-                    ctx.moveTo(ax, ay);
-                    ctx.lineTo(px[idxB], py[idxB]);
-                    ctx.stroke();
+                    const bucket = Math.min(CONN_BUCKETS - 1, ((1 - Math.sqrt(d2) / CONNECTION_DIST) * CONN_BUCKETS) | 0);
+                    if (connBucketCounts[bucket] < MAX_CONN_PER_BUCKET) {
+                      const idx = bucket * MAX_CONN_PER_BUCKET + connBucketCounts[bucket]++;
+                      connX1Buf[idx] = ax;
+                      connY1Buf[idx] = ay;
+                      connX2Buf[idx] = px[idxB];
+                      connY2Buf[idx] = py[idxB];
+                    }
                   }
                 }
               }
@@ -206,11 +282,26 @@ const ParticleField = () => {
           }
         }
       }
-      } // end SKIP_CONNECTIONS guard
 
-      animationId = requestAnimationFrame(draw);
+      // Draw all connections — 8 batched stroke() calls instead of ~2700
+      ctx.lineWidth = 0.5;
+      for (let b = 0; b < CONN_BUCKETS; b++) {
+        const count = connBucketCounts[b];
+        if (count === 0) continue;
+        ctx.strokeStyle = CONN_BUCKET_COLORS[b];
+        ctx.beginPath();
+        const offset = b * MAX_CONN_PER_BUCKET;
+        for (let j = 0; j < count; j++) {
+          ctx.moveTo(connX1Buf[offset + j], connY1Buf[offset + j]);
+          ctx.lineTo(connX2Buf[offset + j], connY2Buf[offset + j]);
+        }
+        ctx.stroke();
+      }
+
+      animationId = requestAnimationFrame(drawDesktop);
     };
-    animationId = requestAnimationFrame(draw);
+
+    animationId = requestAnimationFrame(IS_MOBILE ? drawMobile : drawDesktop);
 
     return () => {
       cancelAnimationFrame(animationId);

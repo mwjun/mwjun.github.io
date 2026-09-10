@@ -1,0 +1,80 @@
+.about-page { background: #080b10; }
+.about-intro { padding: clamp(70px, 10vh, 120px) var(--page-gutter) 55px; border-bottom: 1px solid #29353f; }
+.about-intro > .eyebrow { margin-bottom: 35px; }
+.about-intro-grid { display: grid; grid-template-columns: 1.1fr 1fr; align-items: center; gap: clamp(35px, 6vw, 100px); }
+.about-intro h1 { font-size: clamp(48px, 6.2vw, 92px); line-height: 1.05; font-weight: 400; letter-spacing: -.06em; }
+.about-intro-copy p { font-size: clamp(16px, 1.35vw, 20px); line-height: 1.8; color: #b2bdc5; max-width: 530px; }
+.about-intro-copy p + p { margin-top: 18px; color: #8f9ca8; }
+.about-intro-actions { display: flex; flex-wrap: wrap; gap: 25px; margin-top: 22px; }
+.about-context { display: flex; flex-wrap: wrap; gap: 30px; margin-top: 66px; color: #8e9faa; font: 400 12px/1.8 'JetBrains Mono', monospace; letter-spacing: .06em; }
+.career-journey { position: relative; isolation: isolate; background: #080b10; }
+.portfolio-home #journey, .journey-item[id] { scroll-margin-top: 0; }
+.journey-scene { position: sticky; top: 0; height: 100svh; margin-bottom: -100svh; overflow: hidden; pointer-events: none; z-index: -1; }
+.journey-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.journey-shade { position: absolute; inset: 0; background: linear-gradient(0deg, #080b10 0%, transparent 19%, transparent 82%, #080b10 100%), linear-gradient(90deg, transparent 48%, #080b1066 62%, #080b10 95%); }
+.journey-scene-label { position: absolute; top: 117px; left: var(--page-gutter); }
+.journey-scene-label > span { font: 400 12px/1.8 'JetBrains Mono', monospace; color: #9aacb8; letter-spacing: .13em; }
+.journey-scene-label > p { margin-top: 15px; font-size: clamp(23px, 2.3vw, 35px); line-height: 1.2; letter-spacing: -.035em; color: #c8d4da; }
+.journey-scene-label em { font-family: 'Instrument Serif', Georgia, serif; color: #b9e9e6; font-weight: 400; }
+.journey-milestones { position: relative; margin: 0; padding: 0; list-style: none; }
+.journey-item { min-height: 100svh; display: flex; align-items: center; padding: 125px var(--page-gutter) 110px; position: relative; }
+.milestone-card { width: 44%; margin-left: auto; padding: clamp(26px, 3.2vw, 48px); border: 1px solid #526f80; border-radius: 5px; background: linear-gradient(135deg, #1c3041, #142331); box-shadow: 0 24px 70px #00000030, inset 0 1px 0 #ffffff0f; }
+.milestone-chapter { font: 400 12px/1.8 'JetBrains Mono', monospace; letter-spacing: .06em; text-transform: uppercase; color: #c2c9e8; margin-bottom: 32px; }
+.milestone-period { font-size: clamp(18px, 1.7vw, 25px); color: #d3f5ee; margin-bottom: 13px; letter-spacing: -.025em; }
+.milestone-card h3 { font-size: clamp(28px, 3vw, 46px); line-height: 1.12; font-weight: 400; letter-spacing: -.045em; color: #f4f8fc; overflow-wrap: anywhere; }
+.milestone-role { font-size: clamp(16px, 1.5vw, 22px); line-height: 1.6; color: #d0dce5; margin-top: 21px; }
+.milestone-card > .text-link { margin-top: 25px; }
+.milestone-active .milestone-card { border-color: #a1dad6; box-shadow: 0 24px 70px #00000030, 0 0 30px #72d8d514, inset 0 1px 0 #ffffff14; }
+.journey-controls { position: sticky; bottom: 18px; height: 64px; margin-top: -64px; padding-inline: var(--page-gutter); display: flex; align-items: center; justify-content: space-between; gap: 20px; z-index: 3; pointer-events: none; }
+.journey-controls > * { pointer-events: auto; }
+.journey-skip { display: inline-flex; align-items: center; gap: 10px; padding-block: 10px; font-size: 12px; color: #aabcc5; }
+.about-perspective { background: #0d141b; border-top: 1px solid #293740; }
+.about-perspective > .eyebrow { margin-bottom: 40px; }
+.about-perspective-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 65px; }
+.about-perspective h2 { font-size: clamp(39px, 4.1vw, 65px); }
+.about-perspective-copy { font-size: 17px; line-height: 1.85; color: #a6b5bf; max-width: 480px; margin: 25px 0 18px; }
+.about-results { display: grid; grid-template-columns: 1fr 1fr; gap: 35px; align-items: start; padding-top: 10px; }
+.about-results strong { display: block; font-size: clamp(32px, 3.3vw, 50px); font-weight: 400; letter-spacing: -.045em; color: #c8e8e5; }
+.about-results span { display: block; margin-top: 7px; font-size: 14px; line-height: 1.65; color: #b7c4cb; }
+.about-results p { font-size: 14px; line-height: 1.8; color: #899eac; margin-top: 18px; }
+.about-skill-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 55px; }
+.about-skill-list span { border: 1px solid #364751; border-radius: 3px; padding: 9px 13px; font-size: 14px; color: #afc4ce; }
+.about-closing { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; border-top: 1px solid #2c3e49; margin-top: 70px; padding-top: 40px; }
+.about-closing > p { font-family: 'Instrument Serif', Georgia, serif; font-size: 30px; font-style: italic; color: #b9e9e6; }
+@media (max-width: 1000px) {
+  .about-intro-grid { gap: 35px; }
+  .milestone-card { width: 48%; padding: 28px; }
+  .about-perspective-grid { grid-template-columns: 1fr; gap: 35px; }
+}
+@media (max-width: 759px) {
+  .about-intro { padding-top: 65px; padding-bottom: 36px; }
+  .about-intro-grid { grid-template-columns: 1fr; gap: 30px; }
+  .about-intro h1 { font-size: clamp(48px, 10vw, 72px); }
+  .about-context { margin-top: 36px; gap: 10px 24px; }
+  .journey-scene-label { top: 100px; }
+  .journey-scene-label > p { font-size: 26px; }
+  .journey-canvas { opacity: .9; }
+  .journey-shade { background: linear-gradient(0deg, #080b10, transparent 22%, transparent 80%, #080b10), linear-gradient(90deg, #080b1030, #080b1050); }
+  .journey-item { padding-top: 190px; padding-bottom: 110px; }
+  .milestone-card { width: min(100%, 450px); margin-left: auto; padding: 26px; }
+  .milestone-card h3 { font-size: clamp(28px, 6.8vw, 37px); }
+  .milestone-chapter { margin-bottom: 23px; }
+  .milestone-role { margin-top: 16px; }
+  .journey-controls { bottom: 12px; }
+  .journey-skip { font-size: 12px; gap: 6px; }
+  .about-results { gap: 25px; }
+}
+@media (max-height: 620px) and (prefers-reduced-motion: no-preference) {
+  .journey-scene-label { top: 94px; }
+  .journey-scene-label > p { display: none; }
+  .journey-item { padding-top: 130px; padding-bottom: 75px; }
+  .milestone-card { padding: 23px; }
+  .milestone-chapter { margin-bottom: 13px; }
+  .milestone-card h3 { font-size: 28px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .journey-scene, .journey-controls { display: none; }
+  .journey-milestones { padding: 45px var(--page-gutter); }
+  .journey-item { min-height: 0; padding: 20px 0; }
+  .milestone-card { width: 100%; max-width: 900px; margin-inline: auto; }
+}

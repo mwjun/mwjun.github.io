@@ -1,231 +1,32 @@
-import { useState } from "react";
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { Search } from "lucide-react";
+import { useRef, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { Search, X, ArrowUpRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import { skillGroups } from "@/data/skills";
+import SkillConstellation from "./SkillConstellation";
+import "@/styles/collections.css";
 
-const skillGroups = [
-  {
-    category: "AI / ML",
-    skills: [
-      "AI tools",
-      "Alteryx",
-      "Computer Vision",
-      "Data Analysis",
-      "Mathematical Modeling",
-      "NLP",
-      "ONNX",
-      "Pandas",
-      "Power BI",
-      "Probability & Statistics",
-      "PyTorch",
-      "Reinforcement Learning",
-      "Tableau",
-      "TensorFlow",
-      "Transformers",
-    ],
-  },
-  {
-    category: "Languages",
-    skills: ["C", "C#", "C++", "Go", "Java", "JavaScript", "Kotlin", "Objective-C", "PHP", "Python", "R", "Ruby", "SQL", "Swift", "TypeScript"],
-  },
-  {
-    category: "Frontend",
-    skills: [
-      "Framer Motion",
-      "HTML5 & CSS",
-      "Next.js",
-      "React",
-      "React 18",
-      "React Router",
-      "shadcn/ui",
-      "Tailwind CSS",
-      "Three.js",
-      "UX/UI Design",
-      "WebGL",
-    ],
-  },
-  {
-    category: "Backend",
-    skills: [
-      "Backend Development",
-      "BigQuery",
-      "FastAPI",
-      "Kafka",
-      "MongoDB",
-      "MySQL",
-      "Node.js",
-      "NoSQL",
-      "PostgreSQL",
-      "Redis",
-      "Relational Database Design",
-      "Spark",
-      "TimescaleDB",
-      "Vector Databases",
-    ],
-  },
-  {
-    category: "Infrastructure",
-    skills: [
-      "Airflow",
-      "AWS",
-      "Azure",
-      "Bash",
-      "CI/CD",
-      "Docker",
-      "Firebase",
-      "GCP",
-      "Kubernetes",
-      "Linux",
-      "Linux CLI",
-      "Networking",
-      "Shell / CLI",
-      "Subabase",
-      "TCP/IP",
-      "Terraform",
-      "Vercel",
-      "Vite",
-    ],
-  },
-  {
-    category: "Security",
-    skills: [
-      "Cryptography",
-      "GPG",
-      "HackTheBox",
-      "Kleopatra",
-      "Metasploit",
-      "Pen Testing",
-      "Wireshark",
-    ],
-  },
-];
-
-const SkillsSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const matchesSkill = (skill: string) => {
-    if (!searchQuery.trim()) return false;
-    return skill.toLowerCase().includes(searchQuery.toLowerCase());
-  };
-
-  const matchCount = searchQuery.trim()
-    ? skillGroups.reduce((n, g) => n + g.skills.filter(matchesSkill).length, 0)
-    : 0;
-
-  return (
-    <section id="skills" className="relative py-32 px-6">
-      <div className="max-w-7xl mx-auto" ref={ref}>
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-16">
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl md:text-5xl font-bold"
-          >
-            My <span className="text-gradient-shine">Skills</span>
-          </motion.h2>
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.3, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full sm:w-72"
-          >
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-foreground/80 pointer-events-none" />
-              <input
-                type="text"
-                placeholder="Search skills..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-secondary/50 border-2 border-border text-sm text-foreground placeholder:text-foreground/70 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all [color-scheme:dark]"
-                aria-label="Search skills"
-              />
-            </div>
-            {searchQuery.trim() && (
-              <p className="mt-2 text-xs text-muted-foreground">
-                {matchCount === 0
-                  ? "No matches"
-                  : `${matchCount} skill${matchCount === 1 ? "" : "s"} found`}
-              </p>
-            )}
-          </motion.div>
-        </div>
-
-        {searchQuery.trim() && !skillGroups.some((g) => g.skills.some((s) => matchesSkill(s))) && (
-          <p className="text-muted-foreground text-sm mb-6">
-            No skills match &quot;{searchQuery}&quot;. Try a different term.
-          </p>
-        )}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {skillGroups.map((group, gi) => (
-            <motion.div
-              key={group.category}
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{
-                delay: 0.3 + gi * 0.15,
-                duration: 0.7,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              className="card-glass rounded-2xl p-5"
-            >
-              <h3 className="text-sm font-mono-tech text-primary tracking-widest mb-4 uppercase">
-                {group.category}
-              </h3>
-              <div className="flex flex-wrap gap-x-6 gap-y-2">
-                {Array.from({ length: Math.ceil(group.skills.length / 4) }, (_, colIdx) =>
-                  group.skills.slice(colIdx * 4, colIdx * 4 + 4)
-                ).map((column, colIdx) => (
-                  <div key={colIdx} className="space-y-2 min-w-[120px]">
-                    {column.map((skill, si) => (
-                      <motion.div
-                        key={skill}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : {}}
-                        transition={{
-                          opacity: {
-                            delay: 0.5 + gi * 0.1 + (colIdx * 4 + si) * 0.05,
-                            duration: 0.5,
-                            ease: [0.16, 1, 0.3, 1],
-                          },
-                          x: { duration: 0.1 },
-                        }}
-                        whileHover={{ x: 6, transition: { duration: 0.1 } }}
-                        className={`flex items-center gap-3 group cursor-default rounded-lg px-2 -mx-2 py-0.5 transition-all duration-300 ${
-                          matchesSkill(skill)
-                            ? "bg-primary/20 border border-primary/50 text-primary"
-                            : ""
-                        }`}
-                      >
-                        <motion.div
-                          className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
-                            matchesSkill(skill)
-                              ? "bg-primary shadow-[0_0_8px_hsl(185,80%,55%,0.6)]"
-                              : "bg-primary/50 group-hover:bg-primary group-hover:shadow-[0_0_8px_hsl(185,80%,55%,0.5)]"
-                          }`}
-                        />
-                        <span
-                          className={`text-sm transition-colors duration-300 ${
-                            matchesSkill(skill)
-                              ? "text-primary font-medium"
-                              : "text-muted-foreground group-hover:text-foreground"
-                          }`}
-                        >
-                          {skill}
-                        </span>
-                      </motion.div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-export default SkillsSection;
+export default function SkillsSection() {
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("Everything");
+  const input = useRef<HTMLInputElement>(null);
+  const reduced = useReducedMotion();
+  const normalized = query.trim().toLowerCase();
+  const groups = skillGroups.filter(group => category === "Everything" || group.category === category).map(group => ({ ...group, skills: group.skills.filter(skill => skill.toLowerCase().includes(normalized) || group.category.toLowerCase().includes(normalized)) })).filter(group => group.skills.length);
+  const matches = groups.flatMap(group => group.skills);
+  const filtering = !!normalized || category !== "Everything";
+  const reset = () => { setQuery(""); setCategory("Everything"); input.current?.focus(); };
+  return <div className="collection-page skills-page">
+    <header className="collection-intro skills-intro"><div><p className="collection-eyebrow">THE TOOLKIT</p><h1>Many disciplines.<br /><em>Connected thinking.</em></h1><p className="collection-description">The languages, tools, and ideas behind the work.<br />Explore the connections. Find what you’re looking for.</p><a className="collection-link" href="#skill-library">Explore my toolkit <ArrowUpRight size={18} /></a></div></header>
+    <section id="skill-library" className="collection-library skills-library" aria-label="Skills explorer">
+      <div className="skills-exploration"><SkillConstellation matches={matches} filtering={filtering} /><div className="skill-results"><div className="skill-search-row"><div className="skill-search"><Search size={20} aria-hidden="true" /><label className="sr-only" htmlFor="skill-query">Search skills</label><input id="skill-query" ref={input} type="search" value={query} placeholder="Find a skill, tool, or discipline…" onChange={event => setQuery(event.target.value)} />{query && <button type="button" onClick={() => { setQuery(""); input.current?.focus(); }} aria-label="Clear search"><X size={18} /></button>}</div><p className="collection-count" role="status" aria-atomic="true">{matches.length} {matches.length === 1 ? "skill" : "skills"}{filtering ? " in focus" : " to explore"}</p></div>
+      <div className="collection-filters skill-filters" role="group" aria-label="Filter skills by discipline">{["Everything", ...skillGroups.map(group => group.category)].map(item => <button type="button" key={item} onClick={() => setCategory(item)} aria-pressed={category === item}>{item}</button>)}</div>
+      <motion.div layout={!reduced} className="skill-grid"><AnimatePresence initial={false} mode="popLayout">{groups.map(group => <motion.section layout={!reduced} key={group.category} className="skill-group" initial={reduced ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: .22 }}>
+        <div className="skill-group-heading"><span className={`discipline-dot discipline-${skillGroups.findIndex(item => item.category === group.category)}`} /><h2>{group.category}</h2><span>{group.skills.length}</span></div>
+        <motion.ul layout={!reduced} className="skill-list"><AnimatePresence initial={false} mode="popLayout">{group.skills.map(skill => <motion.li layout={!reduced} key={skill} initial={reduced ? false : { opacity: 0, scale: .96 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: .2 }} className={normalized ? "skill-match" : undefined}>{skill}</motion.li>)}</AnimatePresence></motion.ul>
+      </motion.section>)}</AnimatePresence></motion.div>
+      {!matches.length && <div className="collection-empty"><Search size={28} /><h2>No connections found.</h2><p>Try a different term or explore another discipline.</p><button type="button" className="collection-link" onClick={reset}>Reset exploration <ArrowUpRight size={18} /></button></div>}
+    </div></div></section>
+    <div className="collection-outro"><div><p className="collection-eyebrow">TOOLS BECOME EXPERIENCES</p><h2>See them <em>in practice.</em></h2></div><Link to="/projects" className="collection-link">Explore the work <ArrowUpRight size={20} /></Link></div>
+  </div>;
+}

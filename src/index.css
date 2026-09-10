@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -143,24 +143,30 @@
     box-shadow: inset 0 0 20px hsl(var(--primary) / 0.05), 0 0 20px hsl(var(--primary) / 0.05);
   }
 
+  /* Navbar blur — solid background on mobile to avoid backdrop-filter jank */
+  .nav-blur {
+    @apply bg-background/70 backdrop-blur-lg;
+  }
+
   .card-glass {
     @apply bg-card/50 backdrop-blur-lg border border-border/50;
-    will-change: transform;
   }
 
   .card-glass-strong {
     @apply bg-card/20 backdrop-blur-xl border border-white/10;
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), inset 0 -1px 1px rgba(0, 0, 0, 0.05);
-    will-change: transform;
   }
 
-  /* Mobile performance: reduce expensive GPU effects */
+  /* Mobile performance: eliminate backdrop-filter entirely — Safari perf killer */
   @media (max-width: 767px) {
+    .nav-blur {
+      @apply bg-background backdrop-blur-none;
+    }
     .card-glass {
-      @apply bg-card/70 backdrop-blur-sm;
+      @apply bg-card/80 backdrop-blur-none;
     }
     .card-glass-strong {
-      @apply bg-card/40 backdrop-blur-sm;
+      @apply bg-card/60 backdrop-blur-none;
     }
     .glow-primary {
       box-shadow: 0 0 12px hsl(var(--primary) / 0.2);
@@ -173,6 +179,10 @@
     }
     .border-glow {
       box-shadow: none;
+    }
+    /* Disable noise texture on mobile — SVG filter is expensive */
+    .noise-bg::before {
+      display: none;
     }
   }
 
@@ -195,21 +205,72 @@
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 0;
-    /* Promote to own GPU layer so it doesn't re-rasterize on scroll */
-    will-change: transform;
-  }
-
-  /* GPU-accelerated smooth animations */
-  .will-change-transform {
-    will-change: transform;
-  }
-  .gpu-accelerated {
-    transform: translateZ(0);
-    backface-visibility: hidden;
   }
 
   .font-mono-tech {
     font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Floating orbs — CSS keyframes run off the JS thread (hardware-accelerated) */
+  @keyframes orb1 {
+    0%, 100% { transform: translate(0px, 0px); }
+    33%       { transform: translate(50px, -40px); }
+    66%       { transform: translate(-30px, 20px); }
+  }
+  @keyframes orb2 {
+    0%, 100% { transform: translate(0px, 0px); }
+    33%       { transform: translate(-30px, 30px); }
+    66%       { transform: translate(50px, -50px); }
+  }
+  .orb-1 {
+    animation: orb1 20s linear infinite;
+    will-change: transform;
+  }
+  .orb-2 {
+    animation: orb2 15s linear infinite;
+    will-change: transform;
+  }
+
+  /* Scroll indicator line — drips downward */
+  @keyframes scroll-drop {
+    0%   { transform: translateY(-100%); opacity: 1; }
+    100% { transform: translateY(100%);  opacity: 0; }
+  }
+  .scroll-line {
+    animation: scroll-drop 1.8s ease-in-out infinite;
+  }
+
+  /* Vertical data stream lines — fall from top to bottom */
+  @keyframes stream-fall {
+    0%   { transform: translateY(-100%); opacity: 0; }
+    15%  { opacity: 1; }
+    85%  { opacity: 1; }
+    100% { transform: translateY(100vh); opacity: 0; }
+  }
+  .stream-line {
+    animation: stream-fall linear infinite;
+  }
+
+  /* Radar ping rings — expand and fade outward from center */
+  @keyframes radar-ping {
+    0%   { transform: scale(0.2); opacity: 0.7; }
+    70%  { opacity: 0.3; }
+    100% { transform: scale(3.2); opacity: 0; }
+  }
+  .radar-ping {
+    animation: radar-ping 3.6s ease-out infinite;
+  }
+
+  /* Future helix card: animated dashed border */
+  @keyframes dash-march {
+    to { stroke-dashoffset: -20; }
+  }
+  .helix-card-future {
+    animation: future-pulse 3s ease-in-out infinite;
+  }
+  @keyframes future-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 hsla(265, 70%, 60%, 0); }
+    50%       { box-shadow: 0 0 12px 2px hsla(265, 70%, 60%, 0.15); }
   }
 
 }

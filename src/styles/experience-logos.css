@@ -1,0 +1,15 @@
+.experience-logos { margin-top: 90px; border-top: 1px solid #28343d; padding-top: 30px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 32px; }
+.experience-logos > .text-link { grid-column: 2; grid-row: 1; }
+.company-logos { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: center; gap: 40px; margin: 0; padding: 36px 28px; list-style: none; background: #fff; border-radius: 4px; }
+.company-logo { display: flex; align-items: center; justify-content: center; min-width: 0; }
+.company-logo img { display: block; max-width: 100%; height: auto; object-fit: contain; }
+.logo-boeing { width: 190px; }
+.logo-kpmg { width: 108px; }
+.logo-konami { width: 185px; }
+@media (max-width: 759px) {
+  .experience-logos { margin-top: 54px; gap: 16px; }
+  .company-logos { gap: 18px; padding: 28px 16px; }
+  .logo-boeing { width: 160px; }
+  .logo-kpmg { width: 92px; }
+  .logo-konami { width: 155px; }
+}

@@ -1,0 +1,19 @@
+.site-header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: #090d12e8; border-bottom: 1px solid #b2d3e113; backdrop-filter: blur(16px); }
+.site-nav { height: 82px; display: flex; justify-content: space-between; align-items: center; gap: 28px; padding-inline: clamp(24px, 6vw, 100px); }
+.site-brand { display: inline-flex; align-items: center; gap: 19px; }
+.brand-monogram { font-size: 32px; font-weight: 600; letter-spacing: -.08em; line-height: 1; color: #e6eff0; }
+.brand-monogram > span { color: #b9e9e6; }
+.brand-name { font-size: 13px; color: #b7c2ca; padding-left: 18px; border-left: 1px solid #36434c; }
+.desktop-navigation { display: flex; align-items: center; gap: clamp(20px, 2.5vw, 40px); }
+.desktop-navigation a { font-size: 13px; color: #aab5be; padding: 12px 0; transition: color 180ms ease; }
+.desktop-navigation a[aria-current] { color: #c2e9e4; }
+.nav-resume { display: inline-flex; align-items: center; justify-content: center; gap: 12px; font-size: 13px; color: #d2e0e5; border: 1px solid #4f656e; border-radius: 3px; padding: 10px 15px; transition: background-color 180ms ease; }
+.reading-progress { position: absolute; bottom: -1px; left: 0; right: 0; height: 1px; background: #b9e9e6; transform-origin: left; }
+.mobile-navigation { display: none; }
+.mobile-menu { background: #0e151d; border-color: #34434e; padding: 34px 26px; max-height: 100dvh; overflow-y: auto; }
+.mobile-menu-links { display: flex; flex-direction: column; margin-top: 35px; }
+.mobile-menu-links a { display: flex; align-items: center; justify-content: space-between; font-size: 21px; color: #c9dcdf; padding-block: 20px; border-bottom: 1px solid #31404a; }
+.mobile-menu-links a:last-child { font-size: 15px; }
+@media (hover: hover) and (pointer: fine) { .desktop-navigation a:hover { color: #fff; } .nav-resume:hover { background: #203139; } }
+@media (max-width: 900px) { .brand-name { display: none; } }
+@media (max-width: 639px) { .site-nav { height: 74px; gap: 20px; } .desktop-navigation, .nav-resume { display: none; } .brand-name, .mobile-navigation { display: block; } .site-header { backdrop-filter: none; background: #090d12f5; } }

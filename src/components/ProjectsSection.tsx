@@ -1,185 +1,51 @@
-import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { ArrowUpRight, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import { projects } from "@/data/projects";
+import "@/styles/collections.css";
 
-const projects = [
-  // Existing projects (keeping the new design style)
-  {
-    title: "NeuralVision",
-    description:
-      "Real-time object detection and scene understanding powered by custom transformer models.",
-    tags: ["PyTorch", "ONNX", "React", "WebGL", "Docker"],
-    gradient: "from-primary/20 to-accent/20",
-    borderGlow: "hover:border-primary/40",
-    link: "https://github.com/mwjun/NeuralVision",
-  },
-  {
-    title: "SynthMind",
-    description:
-      "Conversational AI platform with multi-modal understanding. Processes text, images, and audio in a unified architecture.",
-    tags: ["LLM", "FastAPI", "TypeScript", "Redis"],
-    gradient: "from-accent/20 to-glow-warm/20",
-    borderGlow: "hover:border-accent/40",
-  },
-  {
-    title: "DataForge",
-    description:
-      "Automated ML pipeline builder that reduces model training time by 60%. Drag-and-drop interface for data scientists.",
-    tags: ["Kubernetes", "Airflow", "React", "PostgreSQL"],
-    gradient: "from-glow-warm/20 to-primary/20",
-    borderGlow: "hover:border-glow-warm/40",
-  },
-  {
-    title: "QuantumPredict",
-    description:
-      "Financial prediction engine using ensemble methods and real-time market data.",
-    tags: ["TensorFlow", "Kafka", "Go", "TimescaleDB"],
-    gradient: "from-primary/20 to-primary/5",
-    borderGlow: "hover:border-primary/40",
-  },
-  // Old portfolio projects
-  {
-    title: "Website Portfolio (Previous Version)",
-    description:
-      "Earlier portfolio built with vanilla JavaScript and MVC architecture. Responsive design, dark/light theme, interactive timeline, and audio feedback. No frameworks—pure HTML5, CSS3/SCSS, and ES6 modules.",
-    tags: ["HTML5", "CSS3", "SCSS", "Vanilla JavaScript", "ES6 Modules"],
-    gradient: "from-primary/20 to-accent/20",
-    borderGlow: "hover:border-primary/40",
-    link: "https://matthew-w-jun.vercel.app/",
-  },
-  {
-    title: "TutoRial",
-    description:
-      "Action RPG capstone project using Godot 4 Engine. C# and GDScript with Blender and Mixamo for 3D creation. State machines, UML design patterns, AGILE/SCRUM, JIRA.",
-    tags: ["C#", "GDScript", "Godot 4", "Blender", "Mixamo"],
-    gradient: "from-primary/20 to-accent/20",
-    borderGlow: "hover:border-primary/40",
-  },
-  {
-    title: "TraderBot v3",
-    description:
-      "Stock backtesting application to simulate various trading strategies and possible returns. MVC design with yfinance, Pandas, Tkinter, AWS S3, and CI/CD pipelines.",
-    tags: ["Python", "yfinance", "Pandas", "Tkinter", "AWS S3"],
-    gradient: "from-accent/20 to-glow-warm/20",
-    borderGlow: "hover:border-accent/40",
-  },
-  {
-    title: "Brushmo",
-    description:
-      "Website created for American Excel Enterprise. Full-stack with React, Node.js, PostgreSQL, MongoDB, and CI/CD pipelines.",
-    tags: ["JavaScript", "Python", "PHP", "React", "Node.js", "PostgreSQL"],
-    gradient: "from-glow-warm/20 to-primary/20",
-    borderGlow: "hover:border-glow-warm/40",
-    link: "https://brushmo.com",
-  },
-  {
-    title: "JSL Benefits",
-    description:
-      "Website created for JSL Benefits. Secure quote-request flows, responsive design, PostgreSQL for policyholder records.",
-    tags: ["JavaScript", "Python", "PHP", "React", "Node.js", "PostgreSQL"],
-    gradient: "from-primary/20 to-accent/20",
-    borderGlow: "hover:border-primary/40",
-    link: "https://jslbenefits.com",
-  },
-  {
-    title: "Vessel Church OC",
-    description:
-      "Website created for Vessel Church OC. Modern stack with React, Node.js, PostgreSQL, MongoDB, and CI/CD.",
-    tags: ["JavaScript", "Python", "PHP", "React", "Node.js", "PostgreSQL"],
-    gradient: "from-accent/20 to-primary/20",
-    borderGlow: "hover:border-accent/40",
-    link: "https://vesselchurchoc.com",
-  },
-];
+const categories = ["All work", "Web experiences", "AI & data", "Games", "Portfolio evolution"];
 
-const ProjectsSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+function ProjectArtwork({ category, variant }: { category: string; variant: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reduced = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const rotate = useTransform(scrollYProgress, [0, 1], [-7, 7]);
+  const scale = useTransform(scrollYProgress, [0, 1], [.96, 1.08]);
+  return <div ref={ref} className={`work-art art-${categories.indexOf(category)}`} aria-hidden="true">
+    <motion.svg viewBox="0 0 600 280" fill="none" style={{ rotate: reduced ? 0 : rotate, scale: reduced ? 1 : scale }}>
+      {category === "AI & data" ? Array.from({ length: 16 }, (_, i) => <ellipse key={i} cx="300" cy="140" rx={50 + i * 9} ry={25 + i * 5} transform={`rotate(${i * 11 + variant * 20} 300 140)`} />) :
+        category === "Games" ? Array.from({ length: 9 }, (_, i) => <rect key={i} x={225 - i * 9} y={65 - i * 3} width={150 + i * 18} height={150 + i * 6} rx="3" transform={`rotate(${45 + i * 3} 300 140)`} />) :
+        Array.from({ length: 7 }, (_, i) => <g key={i} transform={`translate(${130 + i * 22} ${35 + i * 14})`}><rect width="220" height="145" rx="5" /><path d="M0 25H220M20 50H110M20 65H150M20 80H90M135 100H200M135 115H185" /><circle cx="13" cy="13" r="2" /></g>)}
+    </motion.svg>
+    <span>{category === "Portfolio evolution" ? "AN EVOLVING PRACTICE" : category.toUpperCase()}</span>
+  </div>;
+}
 
-  return (
-    <section id="projects" className="relative py-32 px-6">
-      <div className="max-w-6xl mx-auto" ref={ref}>
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.2, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="text-4xl md:text-5xl font-bold mb-4"
-        >
-          My <span className="text-gradient-shine">Portfolio</span>
-        </motion.h2>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.3, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="text-muted-foreground mb-16 max-w-2xl"
-        >
-          Here is some of my work using various programming languages and tools.
-        </motion.p>
-
-        <div className="grid md:grid-cols-2 gap-6">
-          {projects.map((project, i) => {
-            const content = (
-              <>
-              <div
-                className={`w-full h-2 rounded-full bg-gradient-to-r ${project.gradient} mb-6 group-hover:h-3 transition-all duration-500`}
-              />
-              <h3 className="text-2xl font-bold mb-3 group-hover:text-gradient transition-all duration-300">
-                {project.title}
-                {project.link && (
-                  <span className="ml-2 text-sm text-muted-foreground" aria-hidden="true">↗</span>
-                )}
-              </h3>
-              <p className="text-muted-foreground mb-4 leading-relaxed">
-                {project.description}
-              </p>
-              <p className="text-xs font-mono-tech text-primary tracking-wider uppercase mb-2">
-                Featured Stack
-              </p>
-              <div className="flex flex-wrap gap-2">
-                {project.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-3 py-1 rounded-full text-xs font-mono-tech bg-secondary text-secondary-foreground border border-border/50"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-              </>
-            );
-            return (
-            <motion.div
-              key={project.title}
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{
-                delay: 0.3 + i * 0.08,
-                duration: 0.7,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              whileHover={{ y: -8, transition: { duration: 0.3, ease: [0.16, 1, 0.3, 1] } }}
-              className={`group card-glass rounded-2xl p-8 transition-all duration-500 ${project.link ? "cursor-pointer" : ""} ${project.borderGlow}`}
-            >
-              {project.link ? (
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`View ${project.title} (opens in new tab)`}
-                  className="block no-underline text-inherit"
-                >
-                  {content}
-                </a>
-              ) : (
-                content
-              )}
-            </motion.div>
-          );
-          })}
-        </div>
-      </div>
+export default function ProjectsSection() {
+  const [category, setCategory] = useState("All work");
+  const reduced = useReducedMotion();
+  const visible = projects.filter(project => category === "All work" || project.category === category);
+  return <div className="collection-page work-page">
+    <header className="collection-intro">
+      <p className="collection-eyebrow">THE WORK</p>
+      <h1>Curiosity, <em>put to work.</em></h1>
+      <div className="collection-intro-bottom"><p>From intelligent systems to everyday experiences.<br />A collection of things I’ve built, explored, and kept improving.</p><a href="#project-library" className="collection-link">Explore the collection <ArrowRight size={18} /></a></div>
+    </header>
+    <section id="project-library" className="collection-library" aria-label="Project collection">
+      <div className="collection-toolbar"><div className="collection-filters" role="group" aria-label="Filter projects">{categories.map(item => <button key={item} type="button" aria-pressed={category === item} onClick={() => setCategory(item)}>{item}</button>)}</div><p className="collection-count" role="status">{visible.length} projects</p></div>
+      <motion.div layout={!reduced} className="work-grid">
+        <AnimatePresence initial={false} mode="popLayout">
+          {visible.map(project => <motion.article layout={!reduced} key={project.title} className="work-card" initial={reduced ? false : { opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: reduced ? 1 : .98 }} transition={{ duration: .24, ease: "easeOut" }}>
+            <ProjectArtwork category={project.category} variant={projects.indexOf(project)} />
+            <div className="work-card-copy"><p className="collection-eyebrow">{project.category}</p><h2>{project.title}</h2><p className="work-description">{project.description}</p><ul className="collection-tags" aria-label="Technology stack">{project.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
+              {project.link ? <a href={project.link} target="_blank" rel="noopener noreferrer" className="collection-link" aria-label={`View ${project.title} (opens in a new tab)`}>{project.category === "Portfolio evolution" ? "Explore this version" : project.link.includes("github.com") ? "Explore the code" : "Visit project"}<ArrowUpRight size={18} /></a> : <span className="work-note">Project overview</span>}
+            </div>
+          </motion.article>)}
+        </AnimatePresence>
+      </motion.div>
     </section>
-  );
-};
-
-export default ProjectsSection;
+    <div className="collection-outro"><div><p className="collection-eyebrow">BEHIND THE WORK</p><h2>The tools. <em>The thinking.</em></h2></div><Link to="/skills" className="collection-link">Explore my skills <ArrowUpRight size={20} /></Link></div>
+  </div>;
+}
