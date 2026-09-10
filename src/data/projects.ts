@@ -42,7 +42,7 @@ export const projects = [
     description:
       "The second iteration of my portfolio: a React and TypeScript experience with animated visuals, a career timeline, and dedicated project, skills, and contact pages.",
     tags: ["React", "TypeScript", "Vite", "Tailwind CSS", "Framer Motion"],
-    link: "/versions/v2/index.html",
+    link: "/versions/v2/",
   },
   {
     title: "TutoRial",

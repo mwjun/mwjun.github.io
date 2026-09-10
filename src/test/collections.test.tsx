@@ -11,7 +11,7 @@ describe("Work collection", () => {
     render(<MemoryRouter><ProjectsSection /></MemoryRouter>);
     expect(screen.getAllByRole("article")).toHaveLength(11);
     expect(screen.getByRole("link", { name: /View Website Portfolio \(Previous Version\)/ })).toHaveAttribute("href", "https://matthew-w-jun.vercel.app/");
-    expect(screen.getByRole("link", { name: /View Website Portfolio \(V2\)/ })).toHaveAttribute("href", "/versions/v2/index.html");
+    expect(screen.getByRole("link", { name: /View Website Portfolio \(V2\)/ })).toHaveAttribute("href", "/versions/v2/");
     fireEvent.click(screen.getByRole("button", { name: "Web experiences" }));
     await waitFor(() => expect(screen.getAllByRole("article")).toHaveLength(3));
     for (const name of ["Brushmo", "JSL Benefits", "Vessel Church OC"]) expect(screen.getByRole("heading", { name })).toBeInTheDocument();
