@@ -30,8 +30,8 @@ export default function ScrollSculpture({ progress, paused }: { progress: Motion
       const cosY = Math.cos(yaw), sinY = Math.sin(yaw), cosT = Math.cos(tilt), sinT = Math.sin(tilt);
       const lines = mobile ? 36 : 56, samples = mobile ? 66 : 90;
       const halo = ctx!.createRadialGradient(cx, cy, radius * 0.2, cx, cy, radius * 1.6);
-      halo.addColorStop(0, `rgba(38, 156, 165, ${0.07 + globe * 0.025})`);
-      halo.addColorStop(0.6, "rgba(55, 111, 160, 0.035)");
+      halo.addColorStop(0, `rgba(38, 176, 184, ${mobile ? 0.12 + globe * 0.04 : 0.08 + globe * 0.03})`);
+      halo.addColorStop(0.6, mobile ? "rgba(71, 137, 191, 0.06)" : "rgba(55, 111, 160, 0.04)");
       halo.addColorStop(1, "rgba(10, 14, 21, 0)");
       ctx!.fillStyle = halo;
       ctx!.fillRect(0, 0, width, height);
@@ -63,13 +63,15 @@ export default function ScrollSculpture({ progress, paused }: { progress: Motion
           const depth = clamp((point.z + 1.1) / 2.2);
           if (previous) {
             ctx!.beginPath(); ctx!.moveTo(previous.x, previous.y); ctx!.lineTo(point.x, point.y);
-            ctx!.strokeStyle = line % 7 === 0 ? `rgba(184, 175, 246, ${0.12 + depth * 0.57})` : `rgba(${Math.round(83 + depth * 90)}, ${Math.round(166 + depth * 70)}, ${Math.round(183 + depth * 64)}, ${0.055 + depth * 0.43})`;
-            ctx!.lineWidth = (line % 7 === 0 ? 0.95 : 0.65) * (0.7 + depth * 0.5);
+            ctx!.strokeStyle = line % 7 === 0
+              ? `rgba(196, 187, 255, ${mobile ? 0.2 + depth * 0.72 : 0.13 + depth * 0.59})`
+              : `rgba(${Math.round(83 + depth * 100)}, ${Math.round(176 + depth * 70)}, ${Math.round(193 + depth * 62)}, ${mobile ? 0.09 + depth * 0.56 : 0.06 + depth * 0.45})`;
+            ctx!.lineWidth = (line % 7 === 0 ? (mobile ? 1.08 : 0.98) : (mobile ? 0.78 : 0.67)) * (0.7 + depth * 0.5);
             ctx!.stroke();
           }
           if (step % 9 === 0 && line % 3 === 0) {
             ctx!.beginPath(); ctx!.arc(point.x, point.y, 0.7 + depth * 1.1, 0, TAU);
-            ctx!.fillStyle = `rgba(197, 248, 246, ${0.25 + depth * 0.7})`; ctx!.fill();
+            ctx!.fillStyle = `rgba(207, 255, 253, ${mobile ? 0.38 + depth * 0.62 : 0.27 + depth * 0.7})`; ctx!.fill();
           }
           previous = point;
         }

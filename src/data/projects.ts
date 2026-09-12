@@ -8,6 +8,22 @@ export const projects = [
     link: "https://github.com/mwjun/NeuralVision",
   },
   {
+    title: "Crypto Arcade",
+    category: "AI & data",
+    description:
+      "A live 15-minute crypto prediction challenge combining real-time exchange data, weighted technical signals, optional AI analysis, player scoring, and a complete subscription experience.",
+    tags: ["Vue.js", "TypeScript", "Vite", "Express", "Firebase", "Stripe", "Vitest"],
+    note: "Private repository",
+  },
+  {
+    title: "Meal Roulette",
+    category: "AI & data",
+    description:
+      "A nutrition-focused meal discovery platform that generates recipes around macro goals, suggests ingredient substitutions, and tracks meals, daily progress, history, and streaks.",
+    tags: ["TypeScript", "React", "Vite", "GraphQL", "Zustand", "Vitest", "LLMs"],
+    note: "Private repository",
+  },
+  {
     title: "SynthMind",
     category: "AI & data",
     description:
@@ -52,11 +68,27 @@ export const projects = [
     tags: ["C#", "GDScript", "Godot 4", "Blender", "Mixamo"],
   },
   {
+    title: "Blackjack Pro",
+    category: "Games",
+    description:
+      "A cross-platform blackjack training experience with a complete game engine, Hi-Lo card counting, strategy recommendations, tutorials, practice drills, and player statistics.",
+    tags: ["Swift", "SwiftUI", "React", "TypeScript", "Vite", "Game Logic"],
+    note: "Private repository",
+  },
+  {
     title: "TraderBot v3",
     category: "AI & data",
     description:
       "Stock backtesting application to simulate various trading strategies and possible returns. MVC design with yfinance, Pandas, Tkinter, AWS S3, and CI/CD pipelines.",
     tags: ["Python", "yfinance", "Pandas", "Tkinter", "AWS S3"],
+  },
+  {
+    title: "Darwin's Paradox!",
+    category: "Web experiences",
+    description:
+      "Official Konami game website presenting trailers, news, character profiles, screenshots, and purchase destinations across console and PC platforms.",
+    tags: ["Vue.js", "Nuxt", "JavaScript", "Responsive Design", "Game Marketing"],
+    link: "https://www.konami.com/games/darwins_paradox/",
   },
   {
     title: "Brushmo",

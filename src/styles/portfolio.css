@@ -5,7 +5,7 @@
 .cinematic-story { position: relative; isolation: isolate; }
 .story-stage { position: sticky; top: 0; height: 100svh; margin-bottom: -100svh; overflow: hidden; pointer-events: none; z-index: -1; }
 .story-ambient { position: absolute; inset: 0; background: radial-gradient(ellipse at 82% 34%, #11202b70, transparent 57%), #080b10; }
-.scroll-sculpture { width: 100%; height: 100%; display: block; position: absolute; inset: 0; }
+.scroll-sculpture { width: 100%; height: 100%; display: block; position: absolute; inset: 0; filter: saturate(1.2) brightness(1.1) drop-shadow(0 0 5px rgba(124, 244, 241, .38)) drop-shadow(0 0 18px rgba(69, 188, 199, .23)) drop-shadow(0 0 34px rgba(141, 124, 226, .12)); }
 .scene-vignette { position: absolute; inset: 0; background: linear-gradient(90deg, #080b10 0%, #080b10d9 18%, #080b1066 39%, transparent 65%), linear-gradient(0deg, #080b10 0%, transparent 15%, transparent 85%, #080b1070 100%); }
 .scene-coordinate { position: absolute; right: var(--page-gutter); font: 500 12px 'JetBrains Mono', monospace; color: #849eab; letter-spacing: .12em; }
 .scene-coordinate-top { top: 128px; }
@@ -129,7 +129,7 @@
 }
 @media (max-width: 759px) {
   .story-stage { height: 100svh; margin-bottom: -100svh; }
-  .scroll-sculpture { opacity: .64; }
+  .scroll-sculpture { opacity: .98; filter: saturate(1.3) brightness(1.16) contrast(1.04) drop-shadow(0 0 5px rgba(136, 255, 251, .58)) drop-shadow(0 0 18px rgba(74, 210, 218, .38)) drop-shadow(0 0 32px rgba(154, 133, 239, .2)); }
   .scene-vignette { background: linear-gradient(90deg, #080b10c9, #080b1077 60%, #080b1020), linear-gradient(0deg, #080b10, transparent 30%, #080b1099 100%); }
   .scene-coordinate-top { top: 106px; font-size: 12px; }
   .scene-coordinate-bottom { display: none; }

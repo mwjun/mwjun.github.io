@@ -9,14 +9,18 @@ afterEach(cleanup);
 describe("Work collection", () => {
   it("keeps all projects and both working version destinations, then filters and restores the collection", async () => {
     render(<MemoryRouter><ProjectsSection /></MemoryRouter>);
-    expect(screen.getAllByRole("article")).toHaveLength(11);
+    expect(screen.getAllByRole("article")).toHaveLength(15);
+    expect(screen.getByRole("heading", { name: "Crypto Arcade" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Meal Roulette" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Blackjack Pro" })).toBeInTheDocument();
+    expect(screen.getAllByText("Private repository")).toHaveLength(3);
     expect(screen.getByRole("link", { name: /View Website Portfolio \(Previous Version\)/ })).toHaveAttribute("href", "https://matthew-w-jun.vercel.app/");
     expect(screen.getByRole("link", { name: /View Website Portfolio \(V2\)/ })).toHaveAttribute("href", "/versions/v2/");
     fireEvent.click(screen.getByRole("button", { name: "Web experiences" }));
-    await waitFor(() => expect(screen.getAllByRole("article")).toHaveLength(3));
-    for (const name of ["Brushmo", "JSL Benefits", "Vessel Church OC"]) expect(screen.getByRole("heading", { name })).toBeInTheDocument();
+    await waitFor(() => expect(screen.getAllByRole("article")).toHaveLength(4));
+    for (const name of ["Darwin's Paradox!", "Brushmo", "JSL Benefits", "Vessel Church OC"]) expect(screen.getByRole("heading", { name })).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "All work" }));
-    await waitFor(() => expect(screen.getAllByRole("article")).toHaveLength(11));
+    await waitFor(() => expect(screen.getAllByRole("article")).toHaveLength(15));
   });
 });
 
@@ -41,7 +45,7 @@ describe("Skills exploration", () => {
     render(<MemoryRouter><SkillsSection /></MemoryRouter>);
     fireEvent.click(screen.getByRole("button", { name: "Security" }));
     fireEvent.change(screen.getByRole("searchbox"), { target: { value: "security" } });
-    expect(screen.getByRole("status")).toHaveTextContent("7 skills in focus");
+    expect(screen.getByRole("status")).toHaveTextContent("10 skills in focus");
     fireEvent.click(screen.getByRole("button", { name: "Clear search" }));
     expect(screen.getByRole("button", { name: "Security" })).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByRole("searchbox")).toHaveFocus();

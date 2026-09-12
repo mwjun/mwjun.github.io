@@ -14,8 +14,8 @@ const timeline: TimelineItem[] = [
   { period: "2019 - 2022", title: "A.S. Computer Science", company: "Fullerton College", chapter: "Building the foundation" },
   { period: "2022 - 2024", title: "SI Math Instructor", company: "Fullerton College", chapter: "Learning through teaching" },
   { period: "2023 - 2024", title: "B.S. in Computer Science", company: "California State University, Fullerton", chapter: "Going deeper" },
-  { period: "2024 - present", title: "Behavioral Therapist", company: "First Step Learning", chapter: "The human perspective" },
-  { period: "2025 - present", title: "Full Stack Developer", company: "Konami Digital Entertainment (KDE-US)", chapter: "Building for entertainment" },
+  { period: "2024 - Mar 2026", title: "Behavioral Therapist", company: "First Step Learning", chapter: "The human perspective" },
+  { period: "2025 - present", title: "Full-Stack Developer", company: "Konami Digital Entertainment (KDE-US)", chapter: "Building secure game experiences" },
   { period: "2026 - present", title: "Software Developer", company: "Boeing", chapter: "A new horizon" },
   { period: "Looking ahead", title: "More to learn. More to build.", company: "The next chapter", chapter: "Still becoming", future: true },
 ];

@@ -33,7 +33,7 @@ const HeroSection = () => {
             <a href="/Matthew_Jun.pdf" download className="quiet-link">Résumé <ArrowUpRight size={16} /></a>
           </div>
         </div>
-        <div className="intro-bottom"><a href="#approach" className="scroll-prompt"><span className="scroll-track"><span /></span> SCROLL TO UNFOLD THE STORY</a><span>BASED IN ORANGE COUNTY, CA</span></div>
+        <div className="intro-bottom"><a href="#approach" className="scroll-prompt"><span className="scroll-track"><span /></span> SCROLL TO UNFOLD THE STORY</a></div>
       </div>
       <div id="approach" className="story-chapter">
         <div className="chapter-copy">

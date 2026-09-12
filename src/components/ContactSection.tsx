@@ -56,10 +56,10 @@ const ContactSection = () => {
               Mobile
             </span>
             <a
-              href="tel:9099733383"
+              href="tel:5622055834"
               className="text-foreground hover:text-primary transition-colors"
             >
-              909-973-3383
+              562-205-5834
             </a>
           </div>
           <div className="flex items-center gap-3 text-muted-foreground">

@@ -40,7 +40,7 @@ export default function ProjectsSection() {
           {visible.map(project => <motion.article layout={!reduced} key={project.title} className="work-card" initial={reduced ? false : { opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: reduced ? 1 : .98 }} transition={{ duration: .24, ease: "easeOut" }}>
             <ProjectArtwork category={project.category} variant={projects.indexOf(project)} />
             <div className="work-card-copy"><p className="collection-eyebrow">{project.category}</p><h2>{project.title}</h2><p className="work-description">{project.description}</p><ul className="collection-tags" aria-label="Technology stack">{project.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
-              {project.link ? <a href={project.link} target="_blank" rel="noopener noreferrer" className="collection-link" aria-label={`View ${project.title} (opens in a new tab)`}>{project.category === "Portfolio evolution" ? "Explore this version" : project.link.includes("github.com") ? "Explore the code" : "Visit project"}<ArrowUpRight size={18} /></a> : <span className="work-note">Project overview</span>}
+              {project.link ? <a href={project.link} target="_blank" rel="noopener noreferrer" className="collection-link" aria-label={`View ${project.title} (opens in a new tab)`}>{project.category === "Portfolio evolution" ? "Explore this version" : project.link.includes("github.com") ? "Explore the code" : "Visit project"}<ArrowUpRight size={18} /></a> : <span className="work-note">{"note" in project ? project.note : "Project overview"}</span>}
             </div>
           </motion.article>)}
         </AnimatePresence>
