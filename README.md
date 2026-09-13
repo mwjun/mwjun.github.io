@@ -2,7 +2,7 @@
 
 A React application built with Vite, TypeScript, and shadcn/ui.
 
-The homepage follows a scroll-driven story: a braided orbital form transforms into a helix and a spherical network, followed by selected projects, capabilities, and contact information. Scroll position controls both the geometry and camera; the canvas renders on demand and stops when idle, paused, or offscreen. Visitors can pause the scene, and system reduced-motion preferences select a static, more compact layout.
+The homepage follows a scroll-driven story: a braided orbital form transforms into a helix and a spherical network, followed by capabilities and contact information. Scroll position controls the geometry, camera, and final sphere rotation; the canvas renders on demand and stops when scrolling settles, motion is paused, or the scene is offscreen. Visitors can pause the scene, and system reduced-motion preferences select a static, more compact layout.
 
 ### Editing the portfolio
 

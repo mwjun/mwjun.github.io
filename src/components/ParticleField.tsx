@@ -16,7 +16,7 @@ for (let i = 0; i < 64; i++) {
   PARTICLE_COLORS.push(`hsla(185,80%,55%,${(i / 63 * 0.5 + 0.1).toFixed(3)})`);
 }
 
-// 8-bucket connection colors — batched draw reduces ~2700 stroke() calls → 8
+// Eight connection color buckets. Batched drawing reduces about 2700 stroke() calls to 8.
 const CONN_BUCKETS = 8;
 const CONN_BUCKET_COLORS: string[] = [];
 for (let i = 0; i < CONN_BUCKETS; i++) {
@@ -90,12 +90,12 @@ const ParticleField = () => {
       initialized = true;
     };
 
-    // Spatial hash — only needed for desktop connections
+    // The spatial hash is only needed for desktop connections.
     let gridCols = 0;
     let gridRows = 0;
     let cellStarts: Int32Array = new Int32Array(0);
     let cellCounts: Int32Array = new Int32Array(0);
-    let sortedIndices: Int32Array = new Int32Array(SKIP_CONNECTIONS ? 0 : PARTICLE_COUNT);
+    const sortedIndices: Int32Array = new Int32Array(SKIP_CONNECTIONS ? 0 : PARTICLE_COUNT);
 
     const allocGrid = () => {
       if (SKIP_CONNECTIONS) return;
@@ -218,7 +218,7 @@ const ParticleField = () => {
         cellCounts[cell]++;
       }
 
-      // Draw particles — pre-sorted by color bucket, O(N) total
+      // Draw particles pre-sorted by color bucket, O(N) total.
       for (let ci = 0; ci < 64; ci++) {
         const indices = desktopBucketIndices[ci];
         if (indices.length === 0) continue;
@@ -283,7 +283,7 @@ const ParticleField = () => {
         }
       }
 
-      // Draw all connections — 8 batched stroke() calls instead of ~2700
+      // Draw all connections with 8 batched stroke() calls instead of about 2700.
       ctx.lineWidth = 0.5;
       for (let b = 0; b < CONN_BUCKETS; b++) {
         const count = connBucketCounts[b];

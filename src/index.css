@@ -104,7 +104,7 @@
     );
     background-size: 200% 200%;
     animation: aurora-flow 8s ease-in-out infinite;
-    /* Single text-shadow instead of 3 layered — much cheaper compositing */
+    /* A single text shadow is much cheaper to composite than three layers. */
     text-shadow: 0 0 24px hsl(185, 80%, 55% / 0.35);
     will-change: background-position;
   }
@@ -143,7 +143,7 @@
     box-shadow: inset 0 0 20px hsl(var(--primary) / 0.05), 0 0 20px hsl(var(--primary) / 0.05);
   }
 
-  /* Navbar blur — solid background on mobile to avoid backdrop-filter jank */
+  /* Use a solid navbar background on mobile to avoid backdrop filter jank. */
   .nav-blur {
     @apply bg-background/70 backdrop-blur-lg;
   }
@@ -157,7 +157,7 @@
     box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1), inset 0 -1px 1px rgba(0, 0, 0, 0.05);
   }
 
-  /* Mobile performance: eliminate backdrop-filter entirely — Safari perf killer */
+  /* Mobile performance: eliminate the backdrop filter entirely for Safari. */
   @media (max-width: 767px) {
     .nav-blur {
       @apply bg-background backdrop-blur-none;
@@ -180,7 +180,7 @@
     .border-glow {
       box-shadow: none;
     }
-    /* Disable noise texture on mobile — SVG filter is expensive */
+    /* Disable the expensive SVG noise texture on mobile. */
     .noise-bg::before {
       display: none;
     }
@@ -201,7 +201,7 @@
     position: absolute;
     inset: 0;
     opacity: 0.03;
-    /* Use 2 octaves instead of 4 — halves SVG filter cost */
+    /* Use two octaves instead of four to halve the SVG filter cost. */
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 0;
@@ -211,7 +211,7 @@
     font-family: 'JetBrains Mono', monospace;
   }
 
-  /* Floating orbs — CSS keyframes run off the JS thread (hardware-accelerated) */
+  /* Floating orb CSS keyframes run off the JavaScript thread. */
   @keyframes orb1 {
     0%, 100% { transform: translate(0px, 0px); }
     33%       { transform: translate(50px, -40px); }
@@ -231,7 +231,7 @@
     will-change: transform;
   }
 
-  /* Scroll indicator line — drips downward */
+  /* The scroll indicator line drips downward. */
   @keyframes scroll-drop {
     0%   { transform: translateY(-100%); opacity: 1; }
     100% { transform: translateY(100%);  opacity: 0; }
@@ -240,7 +240,7 @@
     animation: scroll-drop 1.8s ease-in-out infinite;
   }
 
-  /* Vertical data stream lines — fall from top to bottom */
+  /* Vertical data stream lines fall from top to bottom. */
   @keyframes stream-fall {
     0%   { transform: translateY(-100%); opacity: 0; }
     15%  { opacity: 1; }
@@ -251,7 +251,7 @@
     animation: stream-fall linear infinite;
   }
 
-  /* Radar ping rings — expand and fade outward from center */
+  /* Radar ping rings expand and fade outward from the center. */
   @keyframes radar-ping {
     0%   { transform: scale(0.2); opacity: 0.7; }
     70%  { opacity: 0.3; }
