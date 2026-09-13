@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { ArrowUpRight, ArrowRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ArrowUpRight } from "lucide-react";
 import { projects } from "@/data/projects";
+import BackToTop from "./BackToTop";
 import "@/styles/collections.css";
 
 const categories = ["All work", "Web experiences", "AI & data", "Games", "Portfolio evolution"];
@@ -31,7 +31,7 @@ export default function ProjectsSection() {
     <header className="collection-intro">
       <p className="collection-eyebrow">THE WORK</p>
       <h1>Curiosity, <em>put to work.</em></h1>
-      <div className="collection-intro-bottom"><p>From intelligent systems to everyday experiences.<br />A collection of things I’ve built, explored, and kept improving.</p><a href="#project-library" className="collection-link">Explore the collection <ArrowRight size={18} /></a></div>
+      <div className="collection-intro-bottom"><p>From intelligent systems to everyday experiences.<br />A collection of things I’ve built, explored, and kept improving.</p></div>
     </header>
     <section id="project-library" className="collection-library" aria-label="Project collection">
       <div className="collection-toolbar"><div className="collection-filters" role="group" aria-label="Filter projects">{categories.map(item => <button key={item} type="button" aria-pressed={category === item} onClick={() => setCategory(item)}>{item}</button>)}</div><p className="collection-count" role="status">{visible.length} projects</p></div>
@@ -46,6 +46,6 @@ export default function ProjectsSection() {
         </AnimatePresence>
       </motion.div>
     </section>
-    <div className="collection-outro"><div><p className="collection-eyebrow">BEHIND THE WORK</p><h2>The tools. <em>The thinking.</em></h2></div><Link to="/skills" className="collection-link">Explore my skills <ArrowUpRight size={20} /></Link></div>
+    <BackToTop />
   </div>;
 }

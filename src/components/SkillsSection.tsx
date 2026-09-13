@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Search, X, ArrowUpRight } from "lucide-react";
-import { Link } from "react-router-dom";
 import { skillGroups } from "@/data/skills";
+import BackToTop from "./BackToTop";
 import SkillConstellation from "./SkillConstellation";
 import "@/styles/collections.css";
 
@@ -17,7 +17,7 @@ export default function SkillsSection() {
   const filtering = !!normalized || category !== "Everything";
   const reset = () => { setQuery(""); setCategory("Everything"); input.current?.focus(); };
   return <div className="collection-page skills-page">
-    <header className="collection-intro skills-intro"><div><p className="collection-eyebrow">THE TOOLKIT</p><h1>Many disciplines.<br /><em>Connected thinking.</em></h1><p className="collection-description">The languages, tools, and ideas behind the work.<br />Explore the connections. Find what you’re looking for.</p><a className="collection-link" href="#skill-library">Explore my toolkit <ArrowUpRight size={18} /></a></div></header>
+    <header className="collection-intro skills-intro"><div><p className="collection-eyebrow">THE TOOLKIT</p><h1>Many disciplines.<br /><em>Connected thinking.</em></h1><p className="collection-description">The languages, tools, and ideas behind the work.<br />Explore the connections. Find what you’re looking for.</p></div></header>
     <section id="skill-library" className="collection-library skills-library" aria-label="Skills explorer">
       <div className="skills-exploration"><SkillConstellation matches={matches} filtering={filtering} /><div className="skill-results"><div className="skill-search-row"><div className="skill-search"><Search size={20} aria-hidden="true" /><label className="sr-only" htmlFor="skill-query">Search skills</label><input id="skill-query" ref={input} type="search" value={query} placeholder="Find a skill, tool, or discipline…" onChange={event => setQuery(event.target.value)} />{query && <button type="button" onClick={() => { setQuery(""); input.current?.focus(); }} aria-label="Clear search"><X size={18} /></button>}</div><p className="collection-count" role="status" aria-atomic="true">{matches.length} {matches.length === 1 ? "skill" : "skills"}{filtering ? " in focus" : " to explore"}</p></div>
       <div className="collection-filters skill-filters" role="group" aria-label="Filter skills by discipline">{["Everything", ...skillGroups.map(group => group.category)].map(item => <button type="button" key={item} onClick={() => setCategory(item)} aria-pressed={category === item}>{item}</button>)}</div>
@@ -27,6 +27,6 @@ export default function SkillsSection() {
       </motion.section>)}</AnimatePresence></motion.div>
       {!matches.length && <div className="collection-empty"><Search size={28} /><h2>No connections found.</h2><p>Try a different term or explore another discipline.</p><button type="button" className="collection-link" onClick={reset}>Reset exploration <ArrowUpRight size={18} /></button></div>}
     </div></div></section>
-    <div className="collection-outro"><div><p className="collection-eyebrow">TOOLS BECOME EXPERIENCES</p><h2>See them <em>in practice.</em></h2></div><Link to="/projects" className="collection-link">Explore the work <ArrowUpRight size={20} /></Link></div>
+    <BackToTop />
   </div>;
 }

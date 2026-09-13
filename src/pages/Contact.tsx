@@ -1,10 +1,6 @@
-import PageTransition from "@/components/PageTransition";
+import BackToTop from "@/components/BackToTop";
 import ContactSection from "@/components/ContactSection";
 
-const Contact = () => (
-  <PageTransition>
-    <ContactSection />
-  </PageTransition>
-);
+const Contact = () => <><ContactSection /><BackToTop /></>;
 
 export default Contact;

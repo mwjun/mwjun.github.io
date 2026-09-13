@@ -48,7 +48,7 @@ export const projects = [
     title: "Website Portfolio (Previous Version)",
     category: "Portfolio evolution",
     description:
-      "Earlier portfolio built with vanilla JavaScript and MVC architecture. Responsive design, dark/light theme, interactive timeline, and audio feedback. No frameworks—pure HTML5, CSS3/SCSS, and ES6 modules.",
+      "Earlier portfolio built with vanilla JavaScript and MVC architecture. Responsive design, dark/light theme, interactive timeline, and audio feedback. No frameworks. Pure HTML5, CSS3/SCSS, and ES6 modules.",
     tags: ["HTML5", "CSS3", "SCSS", "Vanilla JavaScript", "ES6 Modules"],
     link: "https://matthew-w-jun.vercel.app/",
   },

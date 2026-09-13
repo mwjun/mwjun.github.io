@@ -1,0 +1,11 @@
+.page-end { display: flex; justify-content: flex-end; padding: 24px clamp(24px, 6vw, 100px) 36px; border-top: 1px solid #2c3841; }
+.page-back-to-top { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; font: 400 12px 'Space Grotesk', sans-serif; color: #a5b5bf; transition: color 180ms ease; }
+.page-back-to-top svg { transition: transform 200ms ease-out; }
+.page-back-to-top:focus-visible { outline: 2px solid #b9e9e6; outline-offset: 5px; border-radius: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .page-back-to-top:hover { color: #effffc; }
+  .page-back-to-top:hover svg { transform: translateY(-3px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .page-back-to-top, .page-back-to-top svg { transition: none; }
+}

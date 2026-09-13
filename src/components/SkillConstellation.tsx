@@ -31,6 +31,5 @@ export default function SkillConstellation({ matches, filtering }: { matches: st
       })}
       <circle cx="300" cy="250" r="30" stroke="#b9e9e6" strokeOpacity=".5" />
     </motion.svg>
-    <span className="constellation-caption">{filtering ? "CONNECTIONS IN FOCUS" : "A CONNECTED TOOLKIT"}</span>
   </div>;
 }
