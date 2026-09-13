@@ -5,14 +5,17 @@
 .brand-monogram > span { color: #b9e9e6; }
 .brand-name { font-size: 13px; color: #b7c2ca; padding-left: 18px; border-left: 1px solid #36434c; }
 .desktop-navigation { display: flex; align-items: center; gap: clamp(20px, 2.5vw, 40px); }
-.desktop-navigation a { font-size: 13px; color: #aab5be; padding: 12px 0; transition: color 180ms ease; }
-.desktop-navigation a[aria-current] { color: #c2e9e4; }
+.desktop-navigation a { position: relative; isolation: isolate; font-size: 13px; color: #aab5be; padding: 12px 0; border: 1px solid transparent; border-radius: 999px; transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, padding 180ms ease; }
+.desktop-navigation a[aria-current] { color: #eafffc; }
+.desktop-navigation a::after { content: ""; position: absolute; left: 50%; bottom: 4px; width: calc(100% + 8px); height: 2px; border-radius: 2px; background: #9cebe4; box-shadow: 0 0 10px #65d9d1b3; transform: translateX(-50%) scaleX(0); transform-origin: center; opacity: 0; transition: transform 220ms cubic-bezier(.23, 1, .32, 1), opacity 160ms ease; }
+.desktop-navigation a[aria-current]::after { transform: translateX(-50%) scaleX(1); opacity: 1; }
 .nav-resume { display: inline-flex; align-items: center; justify-content: center; gap: 12px; font-size: 13px; color: #d2e0e5; border: 1px solid #4f656e; border-radius: 3px; padding: 10px 15px; transition: background-color 180ms ease; }
 .reading-progress { position: absolute; bottom: -1px; left: 0; right: 0; height: 1px; background: #b9e9e6; transform-origin: left; }
 .mobile-navigation { display: none; }
 .mobile-menu { background: #0e151d; border-color: #34434e; padding: 34px 26px; max-height: 100dvh; overflow-y: auto; }
 .mobile-menu-links { display: flex; flex-direction: column; margin-top: 35px; }
-.mobile-menu-links a { display: flex; align-items: center; justify-content: space-between; font-size: 21px; color: #c9dcdf; padding-block: 20px; border-bottom: 1px solid #31404a; }
+.mobile-menu-links a { display: flex; align-items: center; justify-content: space-between; font-size: 21px; color: #c9dcdf; padding: 20px 12px; border-bottom: 1px solid #31404a; border-left: 2px solid transparent; }
+.mobile-menu-links a[aria-current] { color: #f1fffd; background: #24464d52; border-left-color: #9cebe4; }
 .mobile-menu-links a:last-child { font-size: 15px; }
 @media (hover: hover) and (pointer: fine) { .desktop-navigation a:hover { color: #fff; } .nav-resume:hover { background: #203139; } }
 @media (max-width: 900px) { .brand-name { display: none; } }

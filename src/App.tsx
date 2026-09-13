@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { MotionConfig } from "framer-motion";
 import ParticleField from "@/components/ParticleField";
 import Navbar from "@/components/Navbar";
+import PageTransition from "@/components/PageTransition";
 import Index from "./pages/Index";
 const About = lazy(() => import("./pages/About"));
 const Projects = lazy(() => import("./pages/Projects"));
@@ -25,7 +26,7 @@ const AppContent = () => {
   useEffect(() => {
     const navigated = previousLocation.current.pathname !== pathname || previousLocation.current.hash !== hash;
     previousLocation.current = { pathname, hash };
-    document.title = `Matthew Jun — ${titles[pathname] || 'Page not found'}`;
+    document.title = `Matthew Jun | ${titles[pathname] || 'Page not found'}`;
     const frame = requestAnimationFrame(() => {
       if (hash) {
         const target = document.getElementById(hash.slice(1));
@@ -49,9 +50,11 @@ const AppContent = () => {
     {!hasCinematicScene && <ParticleField />}
     <Navbar />
     <main id="main-content" tabIndex={-1} className={`relative z-10 ${isHome ? '' : 'pt-20'}`}>
-      <Suspense fallback={<div role="status" className="min-h-[70vh] flex items-center justify-center text-muted-foreground">Loading page…</div>}>
-        <Routes><Route path="/" element={<Index />} /><Route path="/about" element={<About />} /><Route path="/projects" element={<Projects />} /><Route path="/skills" element={<Skills />} /><Route path="/contact" element={<Contact />} /><Route path="*" element={<NotFound />} /></Routes>
-      </Suspense>
+      <PageTransition>
+        <Suspense fallback={<div role="status" className="min-h-[70vh] flex items-center justify-center text-muted-foreground">Loading page…</div>}>
+          <Routes><Route path="/" element={<Index />} /><Route path="/about" element={<About />} /><Route path="/projects" element={<Projects />} /><Route path="/skills" element={<Skills />} /><Route path="/contact" element={<Contact />} /><Route path="*" element={<NotFound />} /></Routes>
+        </Suspense>
+      </PageTransition>
     </main>
   </div>;
 };

@@ -1,10 +1,5 @@
-import PageTransition from "@/components/PageTransition";
 import AboutSection from "@/components/AboutSection";
 
-const About = () => (
-  <PageTransition>
-    <AboutSection />
-  </PageTransition>
-);
+const About = () => <AboutSection />;
 
 export default About;
