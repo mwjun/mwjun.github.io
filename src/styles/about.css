@@ -1,6 +1,5 @@
 .about-page { background: #080b10; }
 .about-intro { padding: clamp(70px, 10vh, 120px) var(--page-gutter) 55px; border-bottom: 1px solid #29353f; }
-.about-intro > .eyebrow { margin-bottom: 35px; }
 .about-intro-grid { display: grid; grid-template-columns: 1.1fr 1fr; align-items: center; gap: clamp(35px, 6vw, 100px); }
 .about-intro h1 { font-size: clamp(48px, 6.2vw, 92px); line-height: 1.05; font-weight: 400; letter-spacing: -.06em; }
 .about-intro-copy p { font-size: clamp(16px, 1.35vw, 20px); line-height: 1.8; color: #b2bdc5; max-width: 530px; }
@@ -10,12 +9,20 @@
 .career-journey { position: relative; isolation: isolate; background: #080b10; }
 .portfolio-home #journey, .journey-item[id] { scroll-margin-top: 0; }
 .journey-scene { position: sticky; top: 0; height: 100svh; margin-bottom: -100svh; overflow: hidden; pointer-events: none; z-index: -1; }
-.journey-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
-.journey-shade { position: absolute; inset: 0; background: linear-gradient(0deg, #080b10 0%, transparent 19%, transparent 82%, #080b10 100%), linear-gradient(90deg, transparent 48%, #080b1066 62%, #080b10 95%); }
-.journey-scene-label { position: absolute; top: 117px; left: var(--page-gutter); }
-.journey-scene-label > span { font: 400 12px/1.8 'JetBrains Mono', monospace; color: #9aacb8; letter-spacing: .13em; }
-.journey-scene-label > p { margin-top: 15px; font-size: clamp(23px, 2.3vw, 35px); line-height: 1.2; letter-spacing: -.035em; color: #c8d4da; }
-.journey-scene-label em { font-family: 'Instrument Serif', Georgia, serif; color: #b9e9e6; font-weight: 400; }
+.journey-canvas, .journey-particles { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.journey-canvas { z-index: 0; }
+.journey-particles { z-index: 1; overflow: hidden; contain: layout paint; pointer-events: none; transform: translateZ(0); }
+.journey-particle { position: absolute; left: var(--particle-x); top: var(--particle-y); width: var(--particle-size); height: var(--particle-size); border-radius: 50%; background: #cafff8; box-shadow: 0 0 5px 1px rgba(177, 255, 246, .72), 0 0 15px 4px rgba(112, 236, 226, .14); opacity: 0; animation: journey-particle-float var(--particle-duration) linear var(--particle-delay) infinite; backface-visibility: hidden; }
+.journey-particle.is-violet { background: #ded2ff; box-shadow: 0 0 5px 1px rgba(220, 207, 255, .7), 0 0 15px 4px rgba(174, 143, 255, .14); }
+.journey-particles.is-paused .journey-particle { animation-play-state: paused; }
+@keyframes journey-particle-float {
+  0% { transform: translate3d(0, 40px, 0) scale(.72); opacity: 0; }
+  14% { opacity: var(--particle-alpha); }
+  50% { transform: translate3d(var(--particle-mid-x), var(--particle-mid-y), 0) scale(1.08); opacity: var(--particle-soft-alpha); }
+  86% { opacity: var(--particle-alpha); }
+  100% { transform: translate3d(var(--particle-drift-x), var(--particle-drift-y), 0) scale(.76); opacity: 0; }
+}
+.journey-shade { position: absolute; inset: 0; z-index: 2; background: linear-gradient(0deg, #080b10 0%, transparent 19%, transparent 82%, #080b10 100%), linear-gradient(90deg, transparent 48%, #080b1066 62%, #080b10 95%); }
 .journey-milestones { position: relative; margin: 0; padding: 0; list-style: none; }
 .journey-item { min-height: 100svh; display: flex; align-items: center; padding: 125px var(--page-gutter) 110px; position: relative; }
 .milestone-card { width: 44%; margin-left: auto; padding: clamp(26px, 3.2vw, 48px); border: 1px solid #526f80; border-radius: 5px; background: linear-gradient(135deg, #1c3041, #142331); box-shadow: 0 24px 70px #00000030, inset 0 1px 0 #ffffff0f; }
@@ -39,8 +46,6 @@
 .about-results p { font-size: 14px; line-height: 1.8; color: #899eac; margin-top: 18px; }
 .about-skill-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 55px; }
 .about-skill-list span { border: 1px solid #364751; border-radius: 3px; padding: 9px 13px; font-size: 14px; color: #afc4ce; }
-.about-closing { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; border-top: 1px solid #2c3e49; margin-top: 70px; padding-top: 40px; }
-.about-closing > p { font-family: 'Instrument Serif', Georgia, serif; font-size: 30px; font-style: italic; color: #b9e9e6; }
 @media (max-width: 1000px) {
   .about-intro-grid { gap: 35px; }
   .milestone-card { width: 48%; padding: 28px; }
@@ -51,9 +56,9 @@
   .about-intro-grid { grid-template-columns: 1fr; gap: 30px; }
   .about-intro h1 { font-size: clamp(48px, 10vw, 72px); }
   .about-context { margin-top: 36px; gap: 10px 24px; }
-  .journey-scene-label { top: 100px; }
-  .journey-scene-label > p { font-size: 26px; }
   .journey-canvas { opacity: .9; }
+  .journey-particles { opacity: .88; }
+  .journey-particle:nth-child(n + 15) { display: none; }
   .journey-shade { background: linear-gradient(0deg, #080b10, transparent 22%, transparent 80%, #080b10), linear-gradient(90deg, #080b1030, #080b1050); }
   .journey-item { padding-top: 190px; padding-bottom: 110px; }
   .milestone-card { width: min(100%, 450px); margin-left: auto; padding: 26px; }
@@ -65,14 +70,13 @@
   .about-results { gap: 25px; }
 }
 @media (max-height: 620px) and (prefers-reduced-motion: no-preference) {
-  .journey-scene-label { top: 94px; }
-  .journey-scene-label > p { display: none; }
   .journey-item { padding-top: 130px; padding-bottom: 75px; }
   .milestone-card { padding: 23px; }
   .milestone-chapter { margin-bottom: 13px; }
   .milestone-card h3 { font-size: 28px; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .journey-particles { display: none; }
   .journey-scene, .journey-controls { display: none; }
   .journey-milestones { padding: 45px var(--page-gutter); }
   .journey-item { min-height: 0; padding: 20px 0; }

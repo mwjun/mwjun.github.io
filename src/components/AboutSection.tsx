@@ -1,5 +1,6 @@
-import { ArrowDown, ArrowDownToLine, ArrowUpRight } from "lucide-react";
+import { ArrowDownToLine, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import BackToTop from "./BackToTop";
 import HelixTimeline3D, { type TimelineItem } from "./HelixTimeline3D";
 import "@/styles/portfolio.css";
 import "@/styles/about.css";
@@ -17,7 +18,7 @@ const timeline: TimelineItem[] = [
   { period: "2024 - Mar 2026", title: "Behavioral Therapist", company: "First Step Learning", chapter: "The human perspective" },
   { period: "2025 - present", title: "Full-Stack Developer", company: "Konami Digital Entertainment (KDE-US)", chapter: "Building secure game experiences" },
   { period: "2026 - present", title: "Software Developer", company: "Boeing", chapter: "A new horizon" },
-  { period: "Looking ahead", title: "More to learn. More to build.", company: "The next chapter", chapter: "Still becoming", future: true },
+  { title: "More to learn. More to build.", company: "The next chapter", chapter: "To be continued..." },
 ];
 
 const skills = ["Frontend Development", "Backend Development", "UX/UI Design", "SQL / Relational Database Design", "Networking", "AI tools", "Prompt Engineering", "Quantitative and Data Analysis", "Marketing"];
@@ -26,13 +27,12 @@ export default function AboutSection() {
   return (
     <div className="portfolio-home about-page">
       <section className="about-intro" aria-labelledby="about-title">
-        <p className="eyebrow"><span className="eyebrow-line" /> ABOUT MATTHEW</p>
         <div className="about-intro-grid">
           <h1 id="about-title">The story<br /><span className="serif-accent">behind the code.</span></h1>
           <div className="about-intro-copy">
             <p>My path to software has taken me through creative work, commerce, classrooms, and understanding people. Every chapter brings a different perspective to the way I build.</p>
             <p>Today, that means full-stack development, applied AI, and a curiosity that keeps me moving forward.</p>
-            <div className="about-intro-actions"><a href="#journey" className="text-link">Follow my path <ArrowDown size={16} /></a><a href="/Matthew_Jun.pdf" download className="quiet-link">Download résumé <ArrowDownToLine size={16} /></a></div>
+            <div className="about-intro-actions"><a href="/Matthew_Jun.pdf" download className="quiet-link">Download résumé <ArrowDownToLine size={16} /></a></div>
           </div>
         </div>
         <div className="about-context"><span>ORANGE COUNTY, CALIFORNIA</span><span>ENGLISH & KOREAN</span><span>FULL STACK · AI · DESIGN</span></div>
@@ -48,8 +48,8 @@ export default function AboutSection() {
           <div className="about-results"><div><strong>10+</strong><span>years across industries</span><p>Insurance, healthcare, e-commerce, entertainment, hospitality, and IT.</p></div><div><strong>7-figure</strong><span>monthly e-commerce revenue</span><p>Data insights helped grow monthly revenue from $175K to seven figures.</p></div></div>
         </div>
         <div className="about-skill-list" aria-label="Areas of expertise">{skills.map(skill => <span key={skill}>{skill}</span>)}</div>
-        <div className="about-closing"><p>The story is still being written.</p><Link to="/contact" className="primary-link">Let's build the next chapter <ArrowUpRight size={18} /></Link></div>
       </section>
+      <BackToTop />
     </div>
   );
 }
