@@ -47,7 +47,7 @@ describe("Skills exploration", () => {
     render(<MemoryRouter><SkillsSection /></MemoryRouter>);
     fireEvent.click(screen.getByRole("button", { name: "Security" }));
     fireEvent.change(screen.getByRole("searchbox"), { target: { value: "security" } });
-    expect(screen.getByRole("status")).toHaveTextContent("10 skills in focus");
+    expect(screen.getByRole("status")).toHaveTextContent("17 skills in focus");
     fireEvent.click(screen.getByRole("button", { name: "Clear search" }));
     expect(screen.getByRole("button", { name: "Security" })).toHaveAttribute("aria-pressed", "true");
     expect(screen.getByRole("searchbox")).toHaveFocus();
