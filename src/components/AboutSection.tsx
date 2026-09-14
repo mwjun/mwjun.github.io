@@ -21,8 +21,6 @@ const timeline: TimelineItem[] = [
   { title: "More to learn. More to build.", company: "The next chapter", chapter: "To be continued..." },
 ];
 
-const skills = ["Frontend Development", "Backend Development", "UX/UI Design", "SQL / Relational Database Design", "Networking", "AI tools", "Prompt Engineering", "Quantitative and Data Analysis", "Marketing"];
-
 export default function AboutSection() {
   return (
     <div className="portfolio-home about-page">
@@ -45,9 +43,8 @@ export default function AboutSection() {
         <p className="eyebrow">WHAT I BRING WITH ME</p>
         <div className="about-perspective-grid">
           <div><h2 id="perspective-title">Different chapters.<br /><span className="serif-accent">A broader perspective.</span></h2><p className="about-perspective-copy">Development, data, design, and understanding people all belong in the same conversation. I bring an analytical approach to connecting them.</p><Link to="/skills" className="text-link">Explore my toolkit <ArrowUpRight size={18} /></Link></div>
-          <div className="about-results"><div><strong>10+</strong><span>years across industries</span><p>Insurance, healthcare, e-commerce, entertainment, hospitality, and IT.</p></div><div><strong>7-figure</strong><span>monthly e-commerce revenue</span><p>Data insights helped grow monthly revenue from $175K to seven figures.</p></div></div>
+          <div className="about-results"><div><strong>10+</strong><span>years across industries</span><p>Insurance, healthcare, e-commerce, entertainment, hospitality, and IT.</p></div><div><strong>7-figure</strong><span>monthly e-commerce revenue</span><p>Data insights helped grow monthly revenue from $175K to seven figures.</p></div><div><strong>Full stack + AI</strong><span>not limited to one role</span><p>Interfaces, backend services, data, cloud, and AI, so I can take an idea from design to deployment.</p></div><div><strong>30%</strong><span>higher exam scores as an instructor</span><p>Led algebra, calculus, and statistics workshops and mentored more than 30 students a semester.</p></div></div>
         </div>
-        <div className="about-skill-list" aria-label="Areas of expertise">{skills.map(skill => <span key={skill}>{skill}</span>)}</div>
       </section>
       <SiteFooter />
     </div>

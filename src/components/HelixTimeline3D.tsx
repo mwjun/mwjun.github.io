@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { ArrowDown, Pause, Play } from "lucide-react";
+import { Pause, Play } from "lucide-react";
 import JourneyHelix from "./JourneyHelix";
 import JourneyParticles from "./JourneyParticles";
 
@@ -41,7 +41,6 @@ export default function HelixTimeline3D({ timeline }: { timeline: TimelineItem[]
         {timeline.map((item, i) => <Milestone key={`${item.company}-${item.period ?? item.chapter}`} item={item} index={i} active={active === i} registerCard={element => { cards.current[i] = element; }} />)}
       </ol>
       <div className="journey-controls">
-        <a href={`#milestone-${timeline.length - 1}`} className="journey-skip">Skip to the next chapter <ArrowDown size={14} /></a>
         {!reducedMotion && <button type="button" className="motion-toggle" aria-pressed={paused} aria-label={paused ? "Enable journey motion" : "Pause journey motion"} onClick={() => setPaused(!paused)}>{paused ? <Play size={14} /> : <Pause size={14} />}<span>{paused ? "Motion paused" : "Pause motion"}</span></button>}
       </div>
     </div>

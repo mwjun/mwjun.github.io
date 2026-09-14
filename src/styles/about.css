@@ -32,9 +32,8 @@
 .milestone-role { font-size: clamp(16px, 1.5vw, 22px); line-height: 1.6; color: #d0dce5; margin-top: 21px; }
 .milestone-card > .text-link { margin-top: 25px; }
 .milestone-active .milestone-card { border-color: #a1dad6; box-shadow: 0 24px 70px #00000030, 0 0 30px #72d8d514, inset 0 1px 0 #ffffff14; }
-.journey-controls { position: sticky; bottom: 18px; height: 64px; margin-top: -64px; padding-inline: var(--page-gutter); display: flex; align-items: center; justify-content: space-between; gap: 20px; z-index: 3; pointer-events: none; }
+.journey-controls { position: sticky; bottom: 18px; height: 64px; margin-top: -64px; padding-inline: var(--page-gutter); display: flex; align-items: center; justify-content: flex-end; gap: 20px; z-index: 3; pointer-events: none; }
 .journey-controls > * { pointer-events: auto; }
-.journey-skip { display: inline-flex; align-items: center; gap: 10px; padding-block: 10px; font-size: 12px; color: #aabcc5; }
 .about-perspective { background: #0d141b; border-top: 1px solid #293740; }
 .about-perspective > .eyebrow { margin-bottom: 40px; }
 .about-perspective-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 65px; }
@@ -44,8 +43,6 @@
 .about-results strong { display: block; font-size: clamp(32px, 3.3vw, 50px); font-weight: 400; letter-spacing: -.045em; color: #c8e8e5; }
 .about-results span { display: block; margin-top: 7px; font-size: 14px; line-height: 1.65; color: #b7c4cb; }
 .about-results p { font-size: 14px; line-height: 1.8; color: #899eac; margin-top: 18px; }
-.about-skill-list { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 55px; }
-.about-skill-list span { border: 1px solid #364751; border-radius: 3px; padding: 9px 13px; font-size: 14px; color: #afc4ce; }
 @media (max-width: 1000px) {
   .about-intro-grid { gap: 35px; }
   .milestone-card { width: 48%; padding: 28px; }
@@ -66,7 +63,6 @@
   .milestone-chapter { margin-bottom: 23px; }
   .milestone-role { margin-top: 16px; }
   .journey-controls { bottom: 12px; }
-  .journey-skip { font-size: 12px; gap: 6px; }
   .about-results { gap: 25px; }
 }
 @media (max-height: 620px) and (prefers-reduced-motion: no-preference) {
