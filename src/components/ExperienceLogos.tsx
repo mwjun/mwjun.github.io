@@ -1,5 +1,3 @@
-import { ArrowUpRight } from "lucide-react";
-import { Link } from "react-router-dom";
 import "@/styles/experience-logos.css";
 
 const companies = [
@@ -19,7 +17,6 @@ export default function ExperienceLogos() {
           </li>
         ))}
       </ul>
-      <Link to="/about" className="text-link">My experience <ArrowUpRight size={16} /></Link>
     </section>
   );
 }

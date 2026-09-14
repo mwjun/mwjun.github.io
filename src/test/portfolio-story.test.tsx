@@ -9,7 +9,7 @@ describe("Portfolio story closing", () => {
   it("shows the chosen closing without any style switchers", () => {
     render(<MemoryRouter><PortfolioStory /></MemoryRouter>);
 
-    expect(screen.getByRole("heading", { name: "What are you trying to make easier?" })).toHaveAttribute("id", "contact-title");
+    expect(screen.getByRole("heading", { name: "How can I best serve you?" })).toHaveAttribute("id", "contact-title");
     expect(screen.getByRole("link", { name: "Tell me about it." })).toHaveAttribute("href", "mailto:Jun.w.matthew@gmail.com");
     expect(screen.queryByRole("group", { name: /preview/i })).not.toBeInTheDocument();
   });
