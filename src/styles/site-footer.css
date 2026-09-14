@@ -1,14 +1,14 @@
 .site-footer { display: flex; justify-content: space-between; align-items: center; gap: 25px; padding: 35px var(--page-gutter, clamp(24px, 6vw, 100px)); border-top: 1px solid #2c3841; font-family: 'Space Grotesk', sans-serif; }
 /* On the home page the contact section's own background already separates the footer. */
 .home-contact + .site-footer { border-top: 0; }
-.footer-name { font-size: 16px; color: #cfdbdf; }
-.footer-name span { display: block; margin-top: 4px; font-size: 12px; color: #8796a1; }
-.site-footer p { font-size: 12px; color: #8796a1; }
-.back-to-top { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; font-size: 12px; color: #a5b5bf; transition: color 180ms ease; }
+.footer-name { font-size: 16px; color: #eef3f5; }
+.footer-name span { display: block; margin-top: 4px; font-size: 13px; color: #aab8c1; }
+.site-footer p { font-size: 13px; color: #aab8c1; }
+.back-to-top { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 18px; border: 1px solid #4f656e; border-radius: 999px; font-size: 13px; color: #dce9ec; transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease; }
 .back-to-top svg { transition: transform 200ms ease-out; }
 .site-footer a:focus-visible { outline: 2px solid #b9e9e6; outline-offset: 5px; border-radius: 2px; }
 @media (hover: hover) and (pointer: fine) {
-  .back-to-top:hover { color: #effffc; }
+  .back-to-top:hover { color: #fff; background: #1a2a31; border-color: #8fb9bd; }
   .back-to-top:hover svg { transform: translateY(-3px); }
 }
 @media (max-width: 759px) {
