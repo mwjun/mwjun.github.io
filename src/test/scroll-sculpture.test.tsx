@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { act, cleanup, render } from "@testing-library/react";
 import { motionValue } from "framer-motion";
 import ScrollSculpture from "@/components/ScrollSculpture";
+import { HELIX_MORPH, SPHERE_MORPH } from "@/lib/sculptureShapes";
 import JourneyHelix from "@/components/JourneyHelix";
 import JourneyParticles from "@/components/JourneyParticles";
 import type { MotionValue } from "framer-motion";
@@ -15,7 +16,7 @@ let storyBottom = window.innerHeight;
 let setVisible: (entries: Partial<IntersectionObserverEntry>[]) => void;
 const clear = vi.fn();
 const context = {
-  clearRect: clear, createRadialGradient: () => ({ addColorStop: vi.fn() }),
+  clearRect: clear, createRadialGradient: () => ({ addColorStop: vi.fn() }), createLinearGradient: () => ({ addColorStop: vi.fn() }),
   fillRect: vi.fn(), beginPath: vi.fn(), moveTo: vi.fn(), lineTo: vi.fn(),
   stroke: vi.fn(), arc: vi.fn(), fill: vi.fn(), setTransform: vi.fn(),
   save: vi.fn(), restore: vi.fn(), globalCompositeOperation: "source-over",
@@ -189,5 +190,36 @@ describe('career connectors', () => {
     unmount();
     act(() => window.dispatchEvent(new Event('scroll')));
     expect(frames.size).toBe(0);
+  });
+});
+
+describe('homepage sculpture travel', () => {
+  // Settle at a scroll position, redraw once, and return the average x of the drawn lines as a share of the 1200px canvas.
+  const drawnCenterAt = (progress: MotionValue<number>, value: number) => {
+    act(() => progress.set(value));
+    flushFrames();
+    context.lineTo.mockClear();
+    act(() => window.dispatchEvent(new Event('scroll')));
+    stepFrames();
+    const xs = context.lineTo.mock.calls.map(([x]) => x as number);
+    return xs.reduce((sum, x) => sum + x, 0) / xs.length / 1200;
+  };
+
+  it('crosses right to left over the whole helix window and back over the whole sphere window', () => {
+    const progress = motionValue(0);
+    render(<ScrollSculpture progress={progress} introProgress={motionValue(1)} paused={false} />);
+    flushFrames();
+
+    expect(drawnCenterAt(progress, HELIX_MORPH.start)).toBeGreaterThan(0.68);
+    const helixMiddle = drawnCenterAt(progress, (HELIX_MORPH.start + HELIX_MORPH.end) / 2);
+    expect(helixMiddle).toBeGreaterThan(0.4);
+    expect(helixMiddle).toBeLessThan(0.6);
+    expect(drawnCenterAt(progress, HELIX_MORPH.end)).toBeLessThan(0.3);
+
+    expect(drawnCenterAt(progress, SPHERE_MORPH.start)).toBeLessThan(0.3);
+    const sphereMiddle = drawnCenterAt(progress, (SPHERE_MORPH.start + SPHERE_MORPH.end) / 2);
+    expect(sphereMiddle).toBeGreaterThan(0.4);
+    expect(sphereMiddle).toBeLessThan(0.6);
+    expect(drawnCenterAt(progress, SPHERE_MORPH.end)).toBeGreaterThan(0.68);
   });
 });

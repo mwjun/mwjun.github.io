@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Pause, Play } from "lucide-react";
 import { animate, useMotionValue, useMotionValueEvent, useReducedMotion, useScroll } from "framer-motion";
+import { HELIX_MORPH, SPHERE_MORPH } from "@/lib/sculptureShapes";
 import ScrollSculpture from "./ScrollSculpture";
 import StoryParticles from "./StoryParticles";
 
@@ -73,7 +74,7 @@ const HeroSection = () => {
       impactCopy.current.style.pointerEvents = impactVisibility > 0.05 ? "auto" : "none";
     }
 
-    const approachScene = smoothRange(value, 0.12, 0.3) * (1 - smoothRange(value, 0.58, 0.76));
+    const approachScene = smoothRange(value, HELIX_MORPH.start, HELIX_MORPH.end) * (1 - smoothRange(value, SPHERE_MORPH.start, SPHERE_MORPH.end));
     if (primaryVignette.current) primaryVignette.current.style.opacity = String(1 - approachScene);
     if (alternateVignette.current) alternateVignette.current.style.opacity = String(approachScene);
   }, [reducedMotion]);
@@ -145,7 +146,7 @@ const HeroSection = () => {
       </div>
       <div ref={introChapter} className="story-chapter chapter-intro">
         <div ref={introCopy} className="chapter-copy intro-copy" aria-hidden={!introReady}>
-          <p className="eyebrow hero-eyebrow"><span className="eyebrow-kicker">MATTHEW JUN</span><span className="eyebrow-roles">FULLSTACK SOFTWARE DEVELOPER · AI ENGINEER · CLOUD ENGINEER · DATA PROFESSIONAL</span></p>
+          <p className="eyebrow hero-eyebrow"><span className="eyebrow-roles">FULLSTACK SOFTWARE DEVELOPER · AI ENGINEER · CLOUD ENGINEER · DATA PROFESSIONAL</span></p>
           <h1>Complexity<br />into <span className={`serif-accent serif-shine${paused ? ' is-paused' : ''}`}>possibility.</span></h1>
           <p className="hero-description">Full-stack engineering, amplified through applied AI.<br className="desktop-break" /> Grounded in data science, with range across business channels.</p>
         </div>

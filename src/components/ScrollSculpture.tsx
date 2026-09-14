@@ -1,19 +1,32 @@
 import { useEffect, useRef } from "react";
 import type { MotionValue } from "framer-motion";
-import { SCULPTURE_SHAPES } from "@/lib/sculptureShapes";
+import { HELIX_MORPH, SCULPTURE_SHAPES, SPHERE_MORPH } from "@/lib/sculptureShapes";
 
 const TAU = Math.PI * 2;
 const clamp = (n: number) => Math.min(1, Math.max(0, n));
 const smooth = (n: number) => { const t = clamp(n); return t * t * (3 - 2 * t); };
 const mix = (a: number, b: number, t: number) => a + (b - a) * t;
-const HELIX_MORPH_START = 0.12;
-const HELIX_MORPH_END = 0.3;
-const SPHERE_MORPH_START = 0.58;
-const SPHERE_MORPH_END = 0.76;
+const HELIX_MORPH_START = HELIX_MORPH.start;
+const HELIX_MORPH_END = HELIX_MORPH.end;
+const SPHERE_MORPH_START = SPHERE_MORPH.start;
+const SPHERE_MORPH_END = SPHERE_MORPH.end;
 
 const shapeYaw = [0.4, 0.62, -0.1, 0.18, -0.15, -0.35];
 const shapeTilt = [0.12, 0.24, 0.52, 0.14, 0.38, 0.55];
 const shapeCache = new Map<string, Float32Array[]>();
+
+// Depth is quantized so each segment reuses a prebuilt color instead of formatting and parsing a new string.
+const DEPTH_LEVELS = 32;
+function buildLevels<T>(value: (depth: number) => T) {
+  return Array.from({ length: DEPTH_LEVELS }, (_, level) => value((level + 0.5) / DEPTH_LEVELS));
+}
+const palettes = [false, true].map(mobile => ({
+  accent: buildLevels(depth => `rgba(196, 187, 255, ${mobile ? 0.2 + depth * 0.72 : 0.13 + depth * 0.59})`),
+  base: buildLevels(depth => `rgba(${Math.round(83 + depth * 100)}, ${Math.round(176 + depth * 70)}, ${Math.round(193 + depth * 62)}, ${mobile ? 0.09 + depth * 0.56 : 0.06 + depth * 0.45})`),
+  accentWidth: buildLevels(depth => (mobile ? 1.08 : 0.98) * (0.7 + depth * 0.5)),
+  baseWidth: buildLevels(depth => (mobile ? 0.78 : 0.67) * (0.7 + depth * 0.5)),
+  dot: buildLevels(depth => `rgba(207, 255, 253, ${mobile ? 0.38 + depth * 0.62 : 0.27 + depth * 0.7})`),
+}));
 
 function geometryFor(lines: number, samples: number) {
   const cacheKey = `${lines}:${samples}`;
@@ -81,6 +94,27 @@ function introShapeState(intro: number) {
   return { from, to: from + 1, amount: smooth(phase - base) };
 }
 
+// While the intro scales this canvas up, its rectangle is visible on screen, so fade the glow and lines out before the edges.
+function softenEdges(ctx: CanvasRenderingContext2D, width: number, height: number, fadeX: number, fadeY: number) {
+  const erase = (x0: number, y0: number, x1: number, y1: number) => {
+    const gradient = ctx.createLinearGradient(x0, y0, x1, y1);
+    gradient.addColorStop(0, "rgba(0, 0, 0, 1)");
+    gradient.addColorStop(0.25, "rgba(0, 0, 0, 0.84)");
+    gradient.addColorStop(0.5, "rgba(0, 0, 0, 0.5)");
+    gradient.addColorStop(0.75, "rgba(0, 0, 0, 0.16)");
+    gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+    ctx.fillStyle = gradient;
+    ctx.fillRect(Math.min(x0, x1), Math.min(y0, y1), Math.abs(x1 - x0) || width, Math.abs(y1 - y0) || height);
+  };
+  ctx.save();
+  ctx.globalCompositeOperation = "destination-out";
+  erase(0, 0, fadeX, 0);
+  erase(width, 0, width - fadeX, 0);
+  erase(0, 0, 0, fadeY);
+  erase(0, height, 0, height - fadeY);
+  ctx.restore();
+}
+
 type ScrollSculptureProps = {
   progress: MotionValue<number>;
   introProgress: MotionValue<number>;
@@ -123,6 +157,8 @@ export default function ScrollSculpture({ progress, introProgress, paused }: Scr
       const lines = mobile ? 36 : 56;
       const samples = mobile ? 66 : 90;
       const shapes = geometryFor(lines, samples);
+      const palette = palettes[mobile ? 1 : 0];
+      let lastStroke = "", lastWidth = -1;
       const sphereArrival = smooth((p - SPHERE_MORPH_START) / (1 - SPHERE_MORPH_START));
       const spin = sphereArrival * TAU * 0.7 + exit * TAU * 0.7;
       const cosSpin = Math.cos(spin), sinSpin = Math.sin(spin);
@@ -131,6 +167,7 @@ export default function ScrollSculpture({ progress, introProgress, paused }: Scr
       const shapeGlow = Math.max(introHalo, normalGlobe * 0.04);
       halo.addColorStop(0, `rgba(38, 176, 184, ${mobile ? 0.12 + shapeGlow : 0.08 + shapeGlow * 0.75})`);
       halo.addColorStop(0.6, mobile ? "rgba(71, 137, 191, 0.06)" : "rgba(55, 111, 160, 0.04)");
+      halo.addColorStop(0.8, mobile ? "rgba(71, 137, 191, 0.018)" : "rgba(55, 111, 160, 0.012)");
       halo.addColorStop(1, "rgba(10, 14, 21, 0)");
       ctx!.fillStyle = halo;
       ctx!.fillRect(0, 0, width, height);
@@ -162,21 +199,25 @@ export default function ScrollSculpture({ progress, introProgress, paused }: Scr
           }
           const point = project(x, y, z);
           const depth = clamp((point.z + 1.1) / 2.2);
+          const level = Math.min(DEPTH_LEVELS - 1, Math.floor(depth * DEPTH_LEVELS));
           if (previous) {
             ctx!.beginPath(); ctx!.moveTo(previous.x, previous.y); ctx!.lineTo(point.x, point.y);
-            ctx!.strokeStyle = line % 7 === 0
-              ? `rgba(196, 187, 255, ${mobile ? 0.2 + depth * 0.72 : 0.13 + depth * 0.59})`
-              : `rgba(${Math.round(83 + depth * 100)}, ${Math.round(176 + depth * 70)}, ${Math.round(193 + depth * 62)}, ${mobile ? 0.09 + depth * 0.56 : 0.06 + depth * 0.45})`;
-            ctx!.lineWidth = (line % 7 === 0 ? (mobile ? 1.08 : 0.98) : (mobile ? 0.78 : 0.67)) * (0.7 + depth * 0.5);
+            const accent = line % 7 === 0;
+            const stroke = (accent ? palette.accent : palette.base)[level];
+            const width = (accent ? palette.accentWidth : palette.baseWidth)[level];
+            if (stroke !== lastStroke) { ctx!.strokeStyle = stroke; lastStroke = stroke; }
+            if (width !== lastWidth) { ctx!.lineWidth = width; lastWidth = width; }
             ctx!.stroke();
           }
           if (step % 9 === 0 && line % 3 === 0) {
             ctx!.beginPath(); ctx!.arc(point.x, point.y, 0.7 + depth * 1.1, 0, TAU);
-            ctx!.fillStyle = `rgba(207, 255, 253, ${mobile ? 0.38 + depth * 0.62 : 0.27 + depth * 0.7})`; ctx!.fill();
+            ctx!.fillStyle = palette.dot[level]; ctx!.fill();
           }
           previous = point;
         }
       }
+      const edgeFade = introActive ? 1 - smooth((intro - 0.92) / 0.08) : 0;
+      if (edgeFade > 0) softenEdges(ctx!, width, height, width * (mobile ? 0.24 : 0.08) * edgeFade, height * 0.06 * edgeFade);
     }
     function render() {
       frame = 0;
@@ -218,7 +259,8 @@ export default function ScrollSculpture({ progress, introProgress, paused }: Scr
     }
     function resize() {
       width = el!.clientWidth; height = el!.clientHeight;
-      const dpr = Math.min(window.devicePixelRatio || 1, 1.75);
+      // Capped at 1.5x: drawing at full retina resolution roughly doubles the cost of every frame.
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       el!.width = Math.round(width * dpr); el!.height = Math.round(height * dpr);
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
       updateExitProgress();

@@ -25,6 +25,9 @@
 .scroll-reveal-copy { position: fixed; top: calc(50% + clamp(24px, 3vh, 40px)); z-index: 2; translate: 0 -50%; will-change: transform, opacity; }
 #approach .scroll-reveal-copy { right: var(--page-gutter); }
 #impact .scroll-reveal-copy { left: var(--page-gutter); }
+/* Extra scroll room slows the sculpture; these margins keep both chapter anchors at the same point in the story (31% and 81%). */
+#approach.story-chapter { margin-top: 35svh; }
+#impact.story-chapter { margin-top: 56svh; min-height: 181svh; }
 .scroll-reveal-copy:focus-within { opacity: 1 !important; transform: none !important; }
 .chapter-intro { will-change: opacity; }
 .chapter-intro:focus-within { opacity: 1 !important; }
@@ -48,7 +51,6 @@
 .is-intro-skipped .intro-bottom-entrance { animation: none !important; opacity: 1; transform: none; filter: none; clip-path: none; }
 .eyebrow { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; font: 400 12px/1.8 'JetBrains Mono', monospace; letter-spacing: .13em; color: #aebfc8; }
 .hero-eyebrow { flex-direction: column; align-items: flex-start; gap: 8px; }
-.eyebrow-kicker { display: flex; align-items: center; gap: 12px; }
 .chapter-copy .eyebrow { margin-bottom: 36px; }
 .chapter-copy h1 { font-size: clamp(56px, 6.3vw, 104px); line-height: 1.04; font-weight: 500; letter-spacing: -.065em; }
 .serif-accent { font-family: 'Instrument Serif', Georgia, serif; font-weight: 400; font-style: italic; letter-spacing: -.035em; color: var(--ice); }
@@ -142,6 +144,8 @@
   .scene-coordinate-top { top: 186px; font-size: 12px; }
   .scene-coordinate-bottom { display: none; }
   .story-chapter { min-height: 145svh; padding-top: 160px; padding-bottom: 140px; }
+  #approach.story-chapter { margin-top: 35svh; }
+  #impact.story-chapter { margin-top: 51svh; min-height: 161svh; }
   .chapter-intro { min-height: 100svh; padding-top: 170px; padding-bottom: 160px; }
   .chapter-copy h1 { font-size: clamp(42px, 8.8vw, 68px); }
   .chapter-copy h2 { font-size: clamp(44px, 8.3vw, 65px); }
@@ -184,6 +188,7 @@
 @media (prefers-reduced-motion: reduce) {
   .intro-ambient, .intro-visual-sequence, .intro-particle-sequence, .intro-copy, .intro-bottom-entrance { animation: none !important; opacity: 1; transform: none; filter: none; clip-path: none; }
   .story-chapter { min-height: auto; padding-block: 130px; }
+  #approach.story-chapter, #impact.story-chapter { min-height: auto; margin-top: 0; }
   .scroll-reveal-copy { position: static; translate: none; }
   .chapter-intro { min-height: 90svh; padding-bottom: 160px; }
   .portfolio-home *, .portfolio-home *::before, .portfolio-home *::after { animation: none !important; transition: none !important; }
