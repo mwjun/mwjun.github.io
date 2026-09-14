@@ -85,13 +85,14 @@ function geometryFor(lines: number, samples: number) {
   return shapes;
 }
 
-// The intro morphs through every shape in order and ends on the donut that the scroll sequence starts from.
+// The intro morphs through these shapes and ends on the donut the scroll sequence starts from; the helix is saved for scrolling.
+const INTRO_SHAPES = (["Sphere", "Crystal", "Wave", "Ribbon", "Donut"] as const).map(name => SCULPTURE_SHAPES.indexOf(name));
 function introShapeState(intro: number) {
-  const last = SCULPTURE_SHAPES.length - 1;
+  const last = INTRO_SHAPES.length - 1;
   const phase = intro * last;
   const base = Math.floor(phase);
-  const from = Math.min(last - 1, Math.max(0, base));
-  return { from, to: from + 1, amount: smooth(phase - base) };
+  const step = Math.min(last - 1, Math.max(0, base));
+  return { from: INTRO_SHAPES[step], to: INTRO_SHAPES[step + 1], amount: smooth(phase - base) };
 }
 
 // While the intro scales this canvas up, its rectangle is visible on screen, so fade the glow and lines out before the edges.
@@ -169,8 +170,14 @@ export default function ScrollSculpture({ progress, introProgress, paused }: Scr
       halo.addColorStop(0.6, mobile ? "rgba(71, 137, 191, 0.06)" : "rgba(55, 111, 160, 0.04)");
       halo.addColorStop(0.8, mobile ? "rgba(71, 137, 191, 0.018)" : "rgba(55, 111, 160, 0.012)");
       halo.addColorStop(1, "rgba(10, 14, 21, 0)");
-      ctx!.fillStyle = halo;
-      ctx!.fillRect(0, 0, width, height);
+      // No glow while the intro is still expanding the sculpture; it fades in as the intro finishes.
+      const haloStrength = introActive ? smooth((intro - 0.9) / 0.1) : 1;
+      if (haloStrength > 0) {
+        ctx!.globalAlpha = haloStrength;
+        ctx!.fillStyle = halo;
+        ctx!.fillRect(0, 0, width, height);
+        ctx!.globalAlpha = 1;
+      }
       const project = (x: number, y: number, z: number) => {
         const rx = x * cosY + z * sinY, rz = -x * sinY + z * cosY;
         const ry = y * cosT - rz * sinT, depth = y * sinT + rz * cosT;
