@@ -34,15 +34,15 @@
 .milestone-active .milestone-card { border-color: #a1dad6; box-shadow: 0 24px 70px #00000030, 0 0 30px #72d8d514, inset 0 1px 0 #ffffff14; }
 .journey-controls { position: sticky; bottom: 18px; height: 64px; margin-top: -64px; padding-inline: var(--page-gutter); display: flex; align-items: center; justify-content: flex-end; gap: 20px; z-index: 3; pointer-events: none; }
 .journey-controls > * { pointer-events: auto; }
-.about-perspective { background: #0d141b; border-top: 1px solid #293740; }
-.about-perspective > .eyebrow { margin-bottom: 40px; }
-.about-perspective-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 65px; }
-.about-perspective h2 { font-size: clamp(39px, 4.1vw, 65px); }
-.about-perspective-copy { font-size: 17px; line-height: 1.85; color: #a6b5bf; max-width: 480px; margin: 25px 0 18px; }
-.about-results { display: grid; grid-template-columns: 1fr 1fr; gap: 35px; align-items: start; padding-top: 10px; }
-.about-results strong { display: block; font-size: clamp(32px, 3.3vw, 50px); font-weight: 400; letter-spacing: -.045em; color: #c8e8e5; }
-.about-results span { display: block; margin-top: 7px; font-size: 14px; line-height: 1.65; color: #b7c4cb; }
-.about-results p { font-size: 14px; line-height: 1.8; color: #899eac; margin-top: 18px; }
+.about-perspective { background: #0d141b; border-top: 1px solid #293740; padding-block: clamp(56px, 6vw, 84px); }
+.about-perspective > .eyebrow { margin-bottom: 26px; }
+.about-perspective-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: start; }
+.about-perspective h2 { font-size: clamp(34px, 3.5vw, 54px); }
+.about-perspective-copy { font-size: 17px; line-height: 1.8; color: #a6b5bf; max-width: 480px; margin: 18px 0 10px; }
+.about-results { display: grid; grid-template-columns: 1fr 1fr; gap: 24px 32px; align-items: start; }
+.about-results strong { display: block; font-size: clamp(28px, 2.6vw, 40px); font-weight: 400; letter-spacing: -.045em; color: #c8e8e5; }
+.about-results span { display: block; margin-top: 4px; font-size: 14px; line-height: 1.6; color: #b7c4cb; }
+.about-results p { font-size: 14px; line-height: 1.7; color: #899eac; margin-top: 8px; }
 @media (max-width: 1000px) {
   .about-intro-grid { gap: 35px; }
   .milestone-card { width: 48%; padding: 28px; }
