@@ -138,8 +138,6 @@ const HeroSection = () => {
         <div ref={introParticles} className="intro-particle-sequence">
           <StoryParticles paused={paused || !!reducedMotion} />
         </div>
-        <div className="scene-coordinate scene-coordinate-top">{['POSSIBILITY', 'CONNECTION', 'IMPACT'][chapter]}</div>
-        <div className="scene-coordinate scene-coordinate-bottom">IDEAS → SYSTEMS → EXPERIENCES</div>
         <div className="scene-vignette scene-vignette-base" />
         <div ref={primaryVignette} className="scene-vignette scene-vignette-left" style={{ opacity: 1 }} />
         <div ref={alternateVignette} className="scene-vignette scene-vignette-right" style={{ opacity: 0 }} />

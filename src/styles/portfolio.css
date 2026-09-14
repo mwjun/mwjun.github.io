@@ -14,9 +14,6 @@
 .scene-vignette-base { background: linear-gradient(0deg, #080b10 0%, transparent 15%, transparent 85%, #080b1070 100%); }
 .scene-vignette-left { background: linear-gradient(90deg, #080b10 0%, #080b10e8 19%, #080b1070 40%, transparent 66%); }
 .scene-vignette-right { background: linear-gradient(270deg, #080b10 0%, #080b10e8 19%, #080b1070 40%, transparent 66%); }
-.scene-coordinate { position: absolute; right: var(--page-gutter); font: 500 12px 'JetBrains Mono', monospace; color: #849eab; letter-spacing: .12em; }
-.scene-coordinate-top { top: 164px; }
-.scene-coordinate-bottom { bottom: 120px; }
 .story-chapter { position: relative; min-height: 160svh; padding: 140px var(--page-gutter) 130px; display: flex; align-items: center; }
 .chapter-intro { min-height: 100svh; padding-top: 140px; padding-bottom: 155px; }
 .chapter-copy { max-width: 850px; width: 100%; }
@@ -136,8 +133,6 @@
   .scene-vignette-base { background: linear-gradient(0deg, #080b10, transparent 30%, #080b1099 100%); }
   .scene-vignette-left { background: linear-gradient(90deg, #080b10d9, #080b1085 58%, #080b101a); }
   .scene-vignette-right { background: linear-gradient(270deg, #080b10d9, #080b1085 58%, #080b101a); }
-  .scene-coordinate-top { top: 186px; font-size: 12px; }
-  .scene-coordinate-bottom { display: none; }
   .story-chapter { min-height: 145svh; padding-top: 160px; padding-bottom: 140px; }
   #approach.story-chapter { margin-top: 35svh; }
   #impact.story-chapter { margin-top: 51svh; min-height: 161svh; }
