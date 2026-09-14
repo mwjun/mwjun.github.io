@@ -1,6 +1,7 @@
-import { ArrowDown, ArrowUpRight, ArrowUp, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Github, Linkedin, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
 import ExperienceLogos from "./ExperienceLogos";
+import SiteFooter from "./SiteFooter";
 
 const expertise = [
   {
@@ -44,7 +45,7 @@ export default function PortfolioStory() {
         </div>
         <div className="contact-links"><a href="mailto:Jun.w.matthew@gmail.com"><Mail size={17} /> Email</a><a href="https://github.com/mwjun" target="_blank" rel="noopener noreferrer" aria-label="GitHub (opens in a new tab)"><Github size={17} /> GitHub</a><a href="https://www.linkedin.com/in/matt-jun-72a520319/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn (opens in a new tab)"><Linkedin size={17} /> LinkedIn</a><a href="/Matthew_Jun.pdf" download><ArrowDown size={17} /> Résumé</a><Link to="/contact">Contact details <ArrowUpRight size={17} /></Link></div>
       </section>
-      <footer className="home-footer"><a href="#story" className="footer-name">Matthew Jun<span>Thoughtfully engineered.</span></a><p>© {new Date().getFullYear()} Matthew Jun</p><a href="#story" className="back-to-top">Back to top <ArrowUp size={15} /></a></footer>
+      <SiteFooter topHref="#story" />
     </>
   );
 }

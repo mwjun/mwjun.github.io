@@ -1,6 +1,6 @@
-import BackToTop from "@/components/BackToTop";
 import ContactSection from "@/components/ContactSection";
+import SiteFooter from "@/components/SiteFooter";
 
-const Contact = () => <><ContactSection /><BackToTop /></>;
+const Contact = () => <><ContactSection /><SiteFooter /></>;
 
 export default Contact;

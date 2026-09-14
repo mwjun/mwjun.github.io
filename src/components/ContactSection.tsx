@@ -119,18 +119,6 @@ const ContactSection = () => {
             Download CV
           </motion.a>
         </motion.div>
-
-        {/* Footer */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ delay: 1, duration: 0.8 }}
-          className="mt-32 pt-8 border-t border-border/30 text-center"
-        >
-          <p className="text-xs text-muted-foreground font-mono-tech tracking-wider">
-            © 2026 Matthew Jun. Designed & Built with care
-          </p>
-        </motion.div>
       </div>
     </section>
   );

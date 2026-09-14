@@ -15,7 +15,9 @@ describe("Work collection", () => {
     expect(screen.getByRole("heading", { name: "Blackjack Pro" })).toBeInTheDocument();
     expect(screen.getAllByText("Private repository")).toHaveLength(3);
     expect(screen.getByRole("link", { name: /View Website Portfolio \(Previous Version\)/ })).toHaveAttribute("href", "https://matthew-w-jun.vercel.app/");
+    expect(screen.getByRole("link", { name: /View Website Portfolio \(Previous Version\)/ })).toHaveAttribute("target", "_blank");
     expect(screen.getByRole("link", { name: /View Website Portfolio \(V2\)/ })).toHaveAttribute("href", "/versions/v2/");
+    expect(screen.getByRole("link", { name: /View Website Portfolio \(V2\)/ })).not.toHaveAttribute("target");
     fireEvent.click(screen.getByRole("button", { name: "Web experiences" }));
     await waitFor(() => expect(screen.getAllByRole("article")).toHaveLength(4));
     for (const name of ["Darwin's Paradox!", "Brushmo", "JSL Benefits", "Vessel Church OC"]) expect(screen.getByRole("heading", { name })).toBeInTheDocument();

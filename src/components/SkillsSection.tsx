@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Search, X, ArrowUpRight } from "lucide-react";
 import { skillGroups } from "@/data/skills";
-import BackToTop from "./BackToTop";
+import SiteFooter from "./SiteFooter";
 import SkillConstellation from "./SkillConstellation";
 import "@/styles/collections.css";
 
@@ -27,6 +27,6 @@ export default function SkillsSection() {
       </motion.section>)}</AnimatePresence></motion.div>
       {!matches.length && <div className="collection-empty"><Search size={28} /><h2>No connections found.</h2><p>Try a different term or explore another discipline.</p><button type="button" className="collection-link" onClick={reset}>Reset exploration <ArrowUpRight size={18} /></button></div>}
     </div></div></section>
-    <BackToTop />
+    <SiteFooter />
   </div>;
 }

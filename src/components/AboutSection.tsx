@@ -1,7 +1,7 @@
 import { ArrowDownToLine, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import BackToTop from "./BackToTop";
 import HelixTimeline3D, { type TimelineItem } from "./HelixTimeline3D";
+import SiteFooter from "./SiteFooter";
 import "@/styles/portfolio.css";
 import "@/styles/about.css";
 
@@ -49,7 +49,7 @@ export default function AboutSection() {
         </div>
         <div className="about-skill-list" aria-label="Areas of expertise">{skills.map(skill => <span key={skill}>{skill}</span>)}</div>
       </section>
-      <BackToTop />
+      <SiteFooter />
     </div>
   );
 }

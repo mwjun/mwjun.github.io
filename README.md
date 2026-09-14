@@ -18,7 +18,7 @@ The production build also emits `dist/404.html` so GitHub Pages can render direc
 
 ### Previous versions
 
-The Projects page links to V1 at `https://matthew-w-jun.vercel.app/` and V2 at `/versions/v2/index.html`. The homepage is the current V3. V2 is a frozen build in `public/versions/v2`, recovered from commit `18647fd45b55299eea07405bad9419c289777213`. Its only archive adaptations are hash-based routing, a `/versions/v2/` asset base, an archive document title, and a return link. Keep this folder when updating the current site; normal builds copy it into the deployment automatically. V1 continues to use its existing hosted site; V2 needs no separate Vercel deployment.
+The Projects page links to V1 at `https://matthew-w-jun.vercel.app/` in a new tab and to V2 at `/versions/v2/` in the same tab. The homepage is the current V3. V2 is a frozen build in `public/versions/v2`, recovered from commit `18647fd45b55299eea07405bad9419c289777213`. Its only archive adaptations are hash-based routing, a `/versions/v2/` asset base, an archive document title, and a return link that goes back to the page that opened the archive (or the home page on a direct visit). Keep this folder when updating the current site; normal builds copy it into the deployment automatically. V1 continues to use its existing hosted site; V2 needs no separate Vercel deployment.
 
 ## Tech Stack
 

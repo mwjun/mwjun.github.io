@@ -21,6 +21,7 @@
 
   <body>
     <div id="root"></div>
-    <a href="/" style="position:fixed;right:20px;bottom:20px;z-index:100;padding:12px 18px;border:1px solid #4f656e;border-radius:6px;background:#090d12;color:#c2e9e4;font:14px sans-serif;text-decoration:none">Back to current portfolio</a>
+    <!-- Archive adaptation: step back past any pages viewed inside V2 to the page that opened it; a direct visit goes to the home page. -->
+    <a href="/" onclick="var state = history.state, depth = state && typeof state.idx === 'number' ? state.idx : 0; if (document.referrer.indexOf(location.origin + '/') === 0 && history.length > depth + 1) { history.go(-(depth + 1)); return false; }" style="position:fixed;right:20px;bottom:20px;z-index:100;padding:12px 18px;border:1px solid #4f656e;border-radius:6px;background:#090d12;color:#c2e9e4;font:14px sans-serif;text-decoration:none">Back to current portfolio</a>
   </body>
 </html>
