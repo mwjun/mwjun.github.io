@@ -3,8 +3,8 @@ export const projects = [
     title: "NeuralVision",
     category: "AI & data",
     description:
-      "Real-time object detection and scene understanding powered by custom transformer models.",
-    tags: ["PyTorch", "ONNX", "React", "WebGL", "Docker"],
+      "Object detection for photos and webcam video that runs entirely on your machine. Switch between YOLO, OWLv2, and DETR, type the objects you want to find, and get labeled boxes with confidence scores in a drag-and-drop desktop app.",
+    tags: ["Computer Vision", "Python", "PyTorch", "Hugging Face", "YOLO", "OpenCV", "MediaPipe"],
     link: "https://github.com/mwjun/NeuralVision",
   },
   {
