@@ -6,7 +6,8 @@
 .about-intro-copy p + p { margin-top: 18px; color: #8f9ca8; }
 .about-intro-actions { display: flex; flex-wrap: wrap; gap: 25px; margin-top: 22px; }
 .about-context { display: flex; flex-wrap: wrap; gap: 30px; margin-top: 66px; color: #8e9faa; font: 400 12px/1.8 'JetBrains Mono', monospace; letter-spacing: .06em; }
-.career-journey { position: relative; isolation: isolate; background: #080b10; }
+/* Clip keeps the sticky scene from hanging past the journey onto the sections and footer below. */
+.career-journey { position: relative; isolation: isolate; background: #080b10; overflow: clip; }
 .portfolio-home #journey, .journey-item[id] { scroll-margin-top: 0; }
 .journey-scene { position: sticky; top: 0; height: 100svh; margin-bottom: -100svh; overflow: hidden; pointer-events: none; z-index: -1; }
 .journey-canvas, .journey-particles { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
