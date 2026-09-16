@@ -3,7 +3,9 @@
 .lab-page.is-card-hover { cursor: pointer; }
 html.lab-dragging, html.lab-dragging * { cursor: grabbing !important; user-select: none; }
 
-.lab-stage { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+/* Pinned to the large viewport, not the visual one: a phone's URL bar sliding away must not resize the canvas box,
+   or the scene stretches against its own drawing buffer mid-scroll. While the bar shows, the bottom sits behind it. */
+.lab-stage { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100lvh; z-index: 0; pointer-events: none; }
 .lab-stage canvas { display: block; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease; }
 .lab-page.is-ready .lab-stage canvas { opacity: 1; }
 /* Fixed layers fade in with the page instead of sliding. */

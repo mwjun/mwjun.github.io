@@ -51,11 +51,32 @@ export function createLabEngine(options: LabEngineOptions): LabEngine | null {
   // full-width card rasterized into only ~585 device pixels on a 390pt screen. 2 is the compromise.
   const dpr = Math.min(window.devicePixelRatio || 1, compact ? 2 : 1.75);
   renderer.setPixelRatio(dpr);
+  // Measure the canvas's own box, never the window. On a phone the visual viewport shrinks and grows under the
+  // browser's chrome while the canvas is pinned to the large viewport, and sizing to the window would leave the
+  // drawing buffer disagreeing with the box the browser paints it into.
+  const boxWidth = () => canvas.clientWidth || window.innerWidth;
+  const boxHeight = () => canvas.clientHeight || window.innerHeight;
+  // A phone's chrome grows and shrinks the visual viewport as the page scrolls, and viewport units follow it closely
+  // enough that the canvas box moves underneath the drawing buffer. Pin the stage in script instead: hold the tallest
+  // viewport seen at this width, and start again when the width changes, which is a rotation or a real relayout.
+  const stage = canvas.parentElement;
+  let pinnedWidth = 0;
+  let pinnedHeight = 0;
+  const pinStage = () => {
+    if (!compact || !stage) return;
+    if (window.innerWidth !== pinnedWidth) {
+      pinnedWidth = window.innerWidth;
+      pinnedHeight = 0;
+    }
+    pinnedHeight = Math.max(pinnedHeight, window.innerHeight);
+    stage.style.height = `${pinnedHeight}px`;
+  };
+  pinStage();
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.05;
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(CAMERA_FOV, window.innerWidth / window.innerHeight, 0.1, 420);
+  const camera = new THREE.PerspectiveCamera(CAMERA_FOV, boxWidth() / boxHeight(), 0.1, 420);
   const lookTarget = new THREE.Vector3();
   const lookOffset = new THREE.Vector3();
   const UP = new THREE.Vector3(0, 1, 0);
@@ -112,7 +133,7 @@ export function createLabEngine(options: LabEngineOptions): LabEngine | null {
   composer.setPixelRatio(dpr);
   composer.addPass(new RenderPass(scene, camera));
   // A higher threshold keeps the bloom off the readable core of text shapes and only lights up the brightest points.
-  const bloom = new UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), compact ? 0.32 : 0.38, 0.35, 0.5);
+  const bloom = new UnrealBloomPass(new THREE.Vector2(boxWidth(), boxHeight()), compact ? 0.32 : 0.38, 0.35, 0.5);
   composer.addPass(bloom);
   // Cards live in their own scene, drawn after the bloom so their text stays sharp.
   const overlay = new THREE.Scene();
@@ -133,17 +154,13 @@ export function createLabEngine(options: LabEngineOptions): LabEngine | null {
   let disposed = false;
   let frameId = 0;
   let resizeTimer = 0;
-  // A phone grows and shrinks its viewport as the browser's own URL bar hides and returns, firing resize the whole
-  // way down a slow scroll. The layout is in svh and does not move with it, so answering those height-only changes
-  // just reframes the scene under a still finger. Anything that genuinely matters - a rotation, a real relayout -
-  // changes the width or moves the height far more than the chrome ever does.
-  const CHROME_HEIGHT = 200;
   let sizedWidth = 0;
   let sizedHeight = 0;
 
   const resize = () => {
-    const width = window.innerWidth;
-    const height = window.innerHeight;
+    pinStage();
+    const width = boxWidth();
+    const height = boxHeight();
     sizedWidth = width;
     sizedHeight = height;
     camera.aspect = width / height;
@@ -168,7 +185,9 @@ export function createLabEngine(options: LabEngineOptions): LabEngine | null {
     }
   };
   const onResize = () => {
-    if (compact && window.innerWidth === sizedWidth && Math.abs(window.innerHeight - sizedHeight) < CHROME_HEIGHT) return;
+    pinStage();
+    // The browser's chrome moving does not change the pinned box, so there is nothing to redraw for it.
+    if (boxWidth() === sizedWidth && boxHeight() === sizedHeight) return;
     window.clearTimeout(resizeTimer);
     resizeTimer = window.setTimeout(resize, 120);
   };
@@ -177,8 +196,8 @@ export function createLabEngine(options: LabEngineOptions): LabEngine | null {
   const pointer = { x: 0, y: 0, targetX: 0, targetY: 0, force: 0, targetForce: 0, mouse: false };
   const drag = { active: false, lastX: 0, lastY: 0, travel: 0, yaw: 0, pitch: 0, targetYaw: 0, targetPitch: 0 };
   const toPointer = (event: PointerEvent) => {
-    pointer.targetX = (event.clientX / window.innerWidth) * 2 - 1;
-    pointer.targetY = -((event.clientY / window.innerHeight) * 2 - 1);
+    pointer.targetX = (event.clientX / boxWidth()) * 2 - 1;
+    pointer.targetY = -((event.clientY / boxHeight()) * 2 - 1);
   };
   const onPointerMove = (event: PointerEvent) => {
     toPointer(event);
@@ -211,7 +230,7 @@ export function createLabEngine(options: LabEngineOptions): LabEngine | null {
     document.documentElement.classList.remove("lab-dragging");
     if (event.pointerType !== "mouse") pointer.targetForce = 0;
     if (!tapped || isControl(event.target) || !cards) return;
-    const picked = cards.pick((event.clientX / window.innerWidth) * 2 - 1, -((event.clientY / window.innerHeight) * 2 - 1), camera);
+    const picked = cards.pick((event.clientX / boxWidth()) * 2 - 1, -((event.clientY / boxHeight()) * 2 - 1), camera);
     if (picked) options.onOpenCard(picked);
   };
   const onPointerOut = (event: PointerEvent) => {
