@@ -50,7 +50,7 @@ export const projects = [
     description:
       "Earlier portfolio built with vanilla JavaScript and MVC architecture. Responsive design, dark/light theme, interactive timeline, and audio feedback. No frameworks. Pure HTML5, CSS3/SCSS, and ES6 modules.",
     tags: ["HTML5", "CSS3", "SCSS", "Vanilla JavaScript", "ES6 Modules"],
-    link: "https://matthew-w-jun.vercel.app/",
+    link: "/versions/v1/",
   },
   {
     title: "Website Portfolio (V2)",
@@ -74,6 +74,7 @@ export const projects = [
     description:
       "Action RPG capstone project using Godot 4 Engine. C# and GDScript with Blender and Mixamo for 3D creation. State machines, UML design patterns, AGILE/SCRUM, JIRA.",
     tags: ["C#", "GDScript", "Godot 4", "Blender", "Mixamo"],
+    link: "https://tuto-rial.itch.io/tuto-rial",
   },
   {
     title: "Blackjack Pro",

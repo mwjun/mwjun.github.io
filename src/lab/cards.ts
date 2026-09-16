@@ -95,10 +95,8 @@ export function paintProject(card: LabCard, index: number) {
   const { canvas, context, width, height } = surface(index);
   if (!context) return canvas;
   context.font = '500 24px "JetBrains Mono", monospace';
-  context.fillStyle = "rgba(185, 233, 230, 0.9)";
-  context.fillText(String(index + 1).padStart(2, "0"), 64, 94);
   context.fillStyle = "rgba(170, 188, 196, 0.8)";
-  context.fillText(card.category.toUpperCase(), 118, 94);
+  context.fillText(card.category.toUpperCase(), 64, 94);
   context.textAlign = "right";
   context.fillText(card.link ? "OPEN" : "PRIVATE", width - 64, 94);
   context.textAlign = "left";
@@ -118,10 +116,8 @@ export function paintMilestone(item: TimelineItem, index: number) {
   const { canvas, context, height } = surface(index + 11);
   if (!context) return canvas;
   context.font = '500 24px "JetBrains Mono", monospace';
-  context.fillStyle = "rgba(185, 233, 230, 0.9)";
-  context.fillText(String(index + 1).padStart(2, "0"), 64, 94);
   context.fillStyle = "rgba(170, 188, 196, 0.8)";
-  context.fillText((item.period ?? "Next").replace(/ - /g, " to ").toUpperCase(), 118, 94);
+  context.fillText((item.period ?? "Next").replace(/ - /g, " to ").toUpperCase(), 64, 94);
 
   // Laid out from the bottom up so long companies and titles push upward instead of off the card.
   context.font = '500 21px "JetBrains Mono", monospace';

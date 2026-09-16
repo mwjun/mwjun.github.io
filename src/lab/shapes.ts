@@ -129,10 +129,24 @@ export function buildShapes(count: number, aspect: number): Record<ShapeName, Fl
   const H = VIEW_HEIGHT;
   const wide = aspect >= 1;
 
+  // Every hero word is drawn at the same cap height as COMPLEXITY, so a short word like INTO reads as one size in the
+  // sequence instead of being blown up to fill the box.
+  const wordWidth = W * 0.82;
+  const reference = textMask("COMPLEXITY", 700);
+  const wordHeight = reference.aspect * wordWidth;
+  // How much ink a word has once it is drawn at that height, in world units.
+  const inkArea = (mask: Mask) => {
+    const scale = Math.min(wordWidth, wordHeight / mask.aspect);
+    return mask.area * scale * scale;
+  };
+  const referenceInk = inkArea(reference);
   const word = (text: string, seed: number) => {
     const writer = new ShapeWriter(count);
     const rng = seeded(seed);
-    scatterText(writer, rng, text, 700, 0, 0, HERO.z, W * 0.82, H * 0.3, Math.floor(count * 0.9));
+    // Particles are budgeted by the ink the word actually has, so a short word like INTO keeps COMPLEXITY's density
+    // instead of packing every particle into four letters and blowing out under bloom. The rest join the dim field.
+    const budget = Math.floor(count * 0.9 * Math.min(1, inkArea(textMask(text, 700)) / referenceInk));
+    scatterText(writer, rng, text, 700, 0, 0, HERO.z, wordWidth, wordHeight, budget);
     scatterBox(writer, rng, writer.remaining, 0, 0, W * 0.6, H * 0.45, 3, -6, 0.05, 0.2);
     return writer.finish(rng);
   };
@@ -303,6 +317,7 @@ export function buildShapes(count: number, aspect: number): Record<ShapeName, Fl
   return {
     galaxy: galaxy(),
     complexity: word("COMPLEXITY", 7),
+    into: word("INTO", 5),
     possibility: word("POSSIBILITY", 11),
     network: network(),
     staircase: staircase(),

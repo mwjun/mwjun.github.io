@@ -242,8 +242,9 @@ export function createLabEngine(options: LabEngineOptions): LabEngine | null {
     uniforms.uSwirl.value = swirlFor(morph);
     uniforms.uFlow.value = reducedMotion ? 0 : ambientFlow(s);
 
-    // The glitch only marks the opening word turning over; scrolling itself stays clean.
-    if (!reducedMotion && introBefore < INTRO.turn[0] && introTime >= INTRO.turn[0]) glitch = 0.8;
+    // The glitch marks each time the opening word turns over; scrolling itself stays clean.
+    const turnedAt = (at: number) => introBefore < at && introTime >= at;
+    if (!reducedMotion && (turnedAt(INTRO.turn[0]) || turnedAt(INTRO.turn2[0]))) glitch = 0.8;
     glitch *= Math.exp(-delta * 5);
 
     pointer.x += (pointer.targetX - pointer.x) * damp(3, delta);

@@ -16,7 +16,11 @@ html.lab-dragging, html.lab-dragging * { cursor: grabbing !important; user-selec
 
 .lab-hud { position: fixed; inset: 0; z-index: 2; pointer-events: none; font: 500 11px/1 'JetBrains Mono', monospace; letter-spacing: .16em; text-transform: uppercase; color: #6f8a93; opacity: 0; transition: opacity 800ms ease 400ms; }
 .lab-page.is-ready .lab-hud { opacity: 1; }
-.lab-hud-depth { position: absolute; top: 28px; right: var(--lab-gutter); font-variant-numeric: tabular-nums; }
+/* The camera's height, kept for debugging but hidden. */
+/* A hairline along the top edge: how much of the story is left to scroll. */
+.lab-hud-progress { position: absolute; inset: 0 0 auto; height: 2px; background: #ffffff14; }
+.lab-hud-progress i { display: block; height: 100%; background: rgb(var(--accent-rgb)); box-shadow: 0 0 12px rgb(var(--accent-rgb) / .55); opacity: .9; transform: scaleX(0); transform-origin: left; }
+.lab-hud-depth { display: none; position: absolute; top: 28px; right: var(--lab-gutter); font-variant-numeric: tabular-nums; }
 .lab-hud-card { position: absolute; left: 50%; bottom: 34px; padding: 11px 17px; border: 1px solid rgb(var(--accent-rgb) / .35); border-radius: 999px; background: #03060acc; color: #eafffc; white-space: nowrap; opacity: 0; transform: translate(-50%, 8px); transition: opacity 180ms ease, transform 220ms ease; }
 .lab-hud-card.is-visible { opacity: 1; transform: translate(-50%, 0); }
 
@@ -25,7 +29,7 @@ html.lab-dragging, html.lab-dragging * { cursor: grabbing !important; user-selec
 .lab-scene-intro { height: 150svh; }
 .lab-page .theme-preview { position: fixed; }
 /* Paced like the About page journey: roughly a screen of scroll per milestone and per project card. */
-.lab-scene-timeline { height: 1250svh; }
+.lab-scene-timeline { height: 1450svh; }
 .lab-scene-work { height: 1100svh; }
 .lab-scene-contact { height: 150svh; }
 .lab-frame { position: sticky; top: 0; height: 100svh; display: flex; padding: 150px var(--lab-gutter) clamp(40px, 7svh, 72px); opacity: var(--reveal, 0); transform: translate3d(0, calc((1 - var(--reveal, 0)) * 26px), 0); }
@@ -35,25 +39,33 @@ html.lab-dragging, html.lab-dragging * { cursor: grabbing !important; user-selec
 .lab-frame-right { justify-content: flex-end; }
 .lab-frame-center { justify-content: center; text-align: center; }
 
-.lab-copy { align-self: flex-end; width: min(600px, 100%); }
+/* Copy leaves by burning off: it lifts, blurs and flares out before the scene takes the screen. */
+.lab-copy { align-self: flex-end; width: min(600px, 100%); filter: blur(calc(var(--burn, 0) * 16px)); transform: translate3d(0, calc(var(--burn, 0) * -46px), 0); }
+.lab-frame-middle .lab-copy { align-self: center; }
+.lab-copy .lab-heading { text-shadow: 0 0 calc(var(--burn, 0) * 42px) rgb(var(--accent-rgb) / calc(var(--burn, 0) * 0.85)); }
 .lab-frame-center .lab-copy { width: min(900px, 100%); }
 .lab-kicker { margin: 0 0 20px; font: 500 11px/1.7 'JetBrains Mono', monospace; letter-spacing: .2em; text-transform: uppercase; color: #7f9ba4; }
 .lab-heading { margin: 0; font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: clamp(30px, 4.3vw, 70px); line-height: 1; letter-spacing: -.055em; text-transform: uppercase; color: #eef5f6; }
 .lab-heading > span { display: block; }
+.lab-page.is-open .lab-cue { opacity: 1; }
 .lab-accent { color: var(--accent); }
+/* The closing line fades in after the heading, on its own beat. */
+.lab-closing { margin: 26px 0 0; font: 500 15px/1.6 'JetBrains Mono', monospace; letter-spacing: .14em; text-transform: uppercase; color: #c2d0d6; opacity: var(--closing, 1); transform: translate3d(0, calc((1 - var(--closing, 1)) * 12px), 0); }
 .lab-body { margin: 24px 0 0; max-width: 46ch; font-size: clamp(15px, 1.1vw, 17px); line-height: 1.6; color: #a7b6be; }
 .lab-body + .lab-body { margin-top: 10px; }
 .lab-hint { margin: 26px 0 0; font: 500 10px/1 'JetBrains Mono', monospace; letter-spacing: .24em; text-transform: uppercase; color: #5f7a83; }
 .lab-hint a { display: inline-flex; align-items: center; gap: 6px; color: #8fb3b8; transition: color 160ms ease; }
 
 .lab-title { margin: 0; }
-.lab-title-lead { position: absolute; top: calc(50% - 5.9vw - 46px); left: 0; right: 0; text-align: center; font: 500 clamp(11px, .95vw, 14px)/1 'JetBrains Mono', monospace; letter-spacing: .34em; text-transform: uppercase; color: #8fb3b8; }
+/* The particles spell the whole line, so the heading text is carried for screen readers and the no-WebGL page only. */
+.lab-title-lead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .lab-title-word { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .lab-scene-intro .lab-frame { flex-direction: column; justify-content: flex-end; }
 .lab-intro-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; }
 .lab-roles { max-width: 34ch; margin: 0; }
-.lab-intro-body { margin: 0; max-width: 40ch; text-align: right; }
-.lab-cue { position: absolute; left: 50%; bottom: clamp(40px, 7svh, 72px); display: grid; justify-items: center; gap: 12px; margin: 0; transform: translateX(-50%); font: 500 10px/1 'JetBrains Mono', monospace; letter-spacing: .3em; text-transform: uppercase; color: #6f8a93; }
+/* Matches the roles line beside it exactly. */
+.lab-intro-body { margin: 0; max-width: 34ch; font: 500 11px/1.7 'JetBrains Mono', monospace; letter-spacing: .2em; text-transform: uppercase; color: #7f9ba4; text-align: right; }
+.lab-cue { opacity: 0; transition: opacity 900ms ease; position: absolute; left: 50%; bottom: clamp(40px, 7svh, 72px); display: grid; justify-items: center; gap: 12px; margin: 0; transform: translateX(-50%); font: 500 10px/1 'JetBrains Mono', monospace; letter-spacing: .3em; text-transform: uppercase; color: #6f8a93; }
 .lab-cue i { width: 1px; height: 44px; background: linear-gradient(var(--accent), transparent) no-repeat; background-size: 100% 40%; animation: lab-cue 1.8s ease-in-out infinite; }
 @keyframes lab-cue { from { background-position: 0 -40%; } to { background-position: 0 160%; } }
 

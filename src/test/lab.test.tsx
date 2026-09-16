@@ -2,7 +2,7 @@ import { cleanup, render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import { projects } from "@/data/projects";
-import { AXIS_Z, CAMERA_FOV, CARD_COUNT, CARD_SIZE, INTRO, LAST_SCENE, MILESTONE_COUNT, MORPHS, NAV_ANCHORS, NETWORK, ORDERED_PROJECTS, PROJECT_CATEGORIES, STAIRS, STOPS, STOP_COUNT, TRANSITION, WINDOWS, ambientFlow, beatWeights, cameraPoseAt, categoryStop, copyVisibility, cursorRepel, introMorph, layerX, milestoneDissolve, milestonePlacement, milestoneReveal, morphAt, networkLayers, networkSynapses, projectPlacement, projectReveal, stopOf, stopScene, swirlFor } from "@/lab/timeline";
+import { AXIS_Z, CAMERA_FOV, CARD_COUNT, CARD_SIZE, INTRO, LAST_SCENE, MILESTONE_COUNT, MORPHS, NAV_ANCHORS, NETWORK, ORDERED_PROJECTS, PROJECT_CATEGORIES, STAIRS, STOPS, STOP_COUNT, TRANSITION, WINDOWS, ambientFlow, beatWeights, cameraPoseAt, categoryStop, closingReveal, copyBurn, copyVisibility, cursorRepel, introMorph, layerX, milestoneDissolve, milestoneScene, milestonePlacement, milestoneReveal, morphAt, networkLayers, networkSynapses, projectPlacement, projectReveal, stopOf, stopScene, swirlFor } from "@/lab/timeline";
 
 vi.mock("@/lab/engine", () => ({ createLabEngine: () => null }));
 const { default: Test } = await import("@/pages/Test");
@@ -21,7 +21,7 @@ const cross = (a: V3, b: V3): V3 => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[
 // Horizontal direction from the staircase's vertical axis to a point.
 const aroundAxis = (point: V3) => unit([point[0], 0, point[2] - AXIS_Z]);
 const fromAxis = (point: V3): V3 => [point[0], 0, point[2] - AXIS_Z];
-const timelineAt = (index: number) => WINDOWS.timeline[0] + (index / (MILESTONE_COUNT - 1)) * (WINDOWS.timeline[1] - WINDOWS.timeline[0]);
+const timelineAt = (index: number) => milestoneScene(index);
 const WIDE = 16 / 10;
 const PHONE = 390 / 844;
 const TAN = Math.tan((CAMERA_FOV / 2) * (Math.PI / 180));
@@ -43,6 +43,11 @@ describe("Test page choreography", () => {
     expect(morphAt(1.3)).toEqual({ from: "possibility", to: "staircase", mix: 1 });
     expect(morphAt(2.5)).toEqual({ from: "staircase", to: "network", mix: 1 });
     expect(morphAt(LAST_SCENE + 1).to).toBe("monogram");
+    // The opening is spoken by the particles: COMPLEXITY, then INTO, then POSSIBILITY, handing over to the scroll chain.
+    expect(introMorph(1)).toMatchObject({ from: "galaxy", to: "complexity" });
+    expect(introMorph(INTRO.turn[0] + 0.5)).toMatchObject({ from: "complexity", to: "into" });
+    expect(introMorph(INTRO.turn2[0] + 0.5)).toMatchObject({ from: "into", to: "possibility" });
+    expect(introMorph(INTRO.end)).toMatchObject({ to: MORPHS[0].from, mix: 1 });
   });
 
   it("keeps the particle swirl for the opening and the closing mark, and scrolls through the staircase and network without it", () => {
@@ -163,7 +168,6 @@ describe("Test page choreography", () => {
           for (const [sx, sy] of [[-1, -1], [-1, 1], [1, -1], [1, 1]]) {
             const corner = project(pose, aspect, add(add(place.card, right, sx * halfWidth), up, sy * halfHeight));
             expect(Math.abs(corner.x)).toBeLessThan(1);
-            expect(Math.abs(corner.x)).toBeLessThan(1);
             // Below the site header, which covers the top tenth of a desktop view.
             expect(corner.y).toBeLessThan(aspect >= 1 ? 0.75 : 0.8);
             expect(corner.y).toBeGreaterThan(-1);
@@ -265,6 +269,12 @@ describe("Test page choreography", () => {
     expect(copyVisibility(1, 0, LAST_SCENE)).toBe(0);
     expect(copyVisibility(1, 1.05, LAST_SCENE)).toBe(1);
     expect(copyVisibility(1, 1.5, LAST_SCENE)).toBe(0);
+    // The timeline copy burns off before a single milestone card arrives.
+    expect(copyBurn(1, 1.05, LAST_SCENE)).toBe(0);
+    expect(copyBurn(1, 1.24, LAST_SCENE)).toBe(1);
+    for (let s = 1; s <= 2; s += 0.002) {
+      for (let i = 0; i < MILESTONE_COUNT; i++) expect(copyVisibility(1, s, LAST_SCENE) * milestoneReveal(i, s)).toBe(0);
+    }
     // The work copy stays hidden through the dive, shows while the network forms, and is gone before any project appears.
     expect(copyVisibility(2, TRANSITION.dive[1], LAST_SCENE)).toBe(0);
     expect(copyVisibility(2, 2.165, LAST_SCENE)).toBe(1);
@@ -272,14 +282,19 @@ describe("Test page choreography", () => {
       for (let i = 0; i < CARD_COUNT; i++) expect(copyVisibility(2, s, LAST_SCENE) * projectReveal(i, s)).toBe(0);
     }
     expect(copyVisibility(LAST_SCENE, LAST_SCENE + 1, LAST_SCENE)).toBe(1);
+    // The closing line waits until the last heading has settled.
+    expect(closingReveal(LAST_SCENE + 0.3)).toBe(0);
+    expect(closingReveal(LAST_SCENE + 0.8)).toBe(0);
+    expect(closingReveal(LAST_SCENE + 1)).toBe(1);
   });
 });
 
 describe("Home navigation anchors", () => {
-  it("lands About at the top of the staircase, Work on its question, and Contact at the end of the page", () => {
+  it("lands About on its opening words, Work on its question, and Contact at the end of the page", () => {
     const about = NAV_ANCHORS.about.section + NAV_ANCHORS.about.at;
     expect(copyVisibility(1, about, LAST_SCENE)).toBe(1);
-    for (let i = 0; i < MILESTONE_COUNT; i++) expect(milestoneReveal(i, about)).toBe(1);
+    // The words have the screen to themselves; the staircase cards come in after they burn off.
+    for (let i = 0; i < MILESTONE_COUNT; i++) expect(milestoneReveal(i, about)).toBe(0);
     const work = NAV_ANCHORS.work.section + NAV_ANCHORS.work.at;
     expect(copyVisibility(2, work, LAST_SCENE)).toBe(1);
     // The staircase is gone and no project cards have come in yet.
@@ -301,7 +316,7 @@ describe("Test page without WebGL", () => {
     expect(container.firstElementChild).toHaveClass("is-fallback");
     expect(container.querySelector(".lab-hud-scene")).toBeNull();
     expect(screen.getByRole("heading", { level: 1, name: "Complexity into possibility." })).toBeInTheDocument();
-    for (const name of ["Every chapter built the next one.", "What are you looking for?", "How can I best serve you?"]) expect(screen.getByRole("heading", { name })).toBeInTheDocument();
+    for (const name of ["Every chapter built the next one.", "What are you looking for?", "The rest of the story isn't written yet."]) expect(screen.getByRole("heading", { name })).toBeInTheDocument();
     expect(within(screen.getByRole("list", { name: "Career and education timeline" })).getAllByRole("listitem")).toHaveLength(MILESTONE_COUNT);
     expect(within(screen.getByRole("list", { name: "Projects" })).getAllByRole("listitem")).toHaveLength(CARD_COUNT);
     for (const category of PROJECT_CATEGORIES) expect(screen.getByRole("button", { name: category })).toBeInTheDocument();

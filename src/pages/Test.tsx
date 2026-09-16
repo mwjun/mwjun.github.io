@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
-import { ArrowDown, Github, Linkedin, Mail, Sparkles } from "lucide-react";
+import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
 import ScrambleText from "@/components/ScrambleText";
 import SiteFooter from "@/components/SiteFooter";
 import { timeline } from "@/data/timeline";
 import { createLabEngine, type LabCard } from "@/lab/engine";
-import { LAST_SCENE, NAV_ANCHORS, ORDERED_PROJECTS, PROJECT_CATEGORIES, categoryStop, copyVisibility, stopScene } from "@/lab/timeline";
+import { INTRO, LAST_SCENE, NAV_ANCHORS, ORDERED_PROJECTS, PROJECT_CATEGORIES, categoryStop, closingReveal, copyBurn, copyVisibility, stopScene } from "@/lab/timeline";
 import "@/styles/lab.css";
 
 // Every project from the Work page, grouped by category in the order the network shows them.
@@ -22,6 +22,7 @@ export default function Test() {
   const canvas = useRef<HTMLCanvasElement>(null);
   const scenes = useRef<(HTMLElement | null)[]>([]);
   const hudDepth = useRef<HTMLSpanElement>(null);
+  const hudProgress = useRef<HTMLElement>(null);
   const jumpToScene = useRef<(s: number) => void>(() => undefined);
   const [status, setStatus] = useState<Status>("loading");
   const [active, setActive] = useState(0);
@@ -69,22 +70,28 @@ export default function Test() {
       onOpenCard: card => {
         if (card.link) window.open(card.link, "_blank", "noopener,noreferrer");
       },
-      onFrame: ({ s, cameraY }) => {
+      onFrame: ({ s, cameraY, introTime }) => {
+        // The scroll cue waits until the opening word has finished spelling POSSIBILITY.
+        page.current?.classList.toggle("is-open", introTime >= INTRO.end);
         let best = 0;
         let bestVisibility = -1;
         sections.forEach((element, i) => {
           const visibility = copyVisibility(i, s, LAST_SCENE);
           element.style.setProperty("--reveal", visibility.toFixed(3));
+          element.style.setProperty("--burn", copyBurn(i, s, LAST_SCENE).toFixed(3));
           if (visibility > bestVisibility) {
             bestVisibility = visibility;
             best = i;
           }
         });
+        sections[LAST_SCENE]?.style.setProperty("--closing", closingReveal(s).toFixed(3));
         if (best !== shown && bestVisibility > 0.4) {
           shown = best;
           setActive(best);
         }
         if (hudDepth.current) hudDepth.current.textContent = `Y ${cameraY < 0 ? "−" : "+"}${Math.abs(cameraY).toFixed(1)}`;
+        // The hairline fills as the whole story is scrolled, so the end is never a surprise.
+        if (hudProgress.current) hudProgress.current.style.transform = `scaleX(${(s / (LAST_SCENE + 1)).toFixed(4)})`;
       },
     });
     if (!engine) setStatus("fallback");
@@ -110,6 +117,7 @@ export default function Test() {
       <div className="lab-stage" aria-hidden="true"><canvas ref={canvas} /></div>
       <div className="lab-loader" aria-hidden="true"><span>Loading scene</span><i /></div>
       <div className="lab-hud" aria-hidden="true">
+        <div className="lab-hud-progress"><i ref={hudProgress} /></div>
         <div className="lab-hud-depth"><span ref={hudDepth}>Y +0.0</span></div>
         <div className={`lab-hud-card${hovered ? " is-visible" : ""}`}>{hovered ? `${hovered.link ? "Open" : "Private repository"} · ${hovered.title}` : ""}</div>
       </div>
@@ -127,7 +135,7 @@ export default function Test() {
 
       <section ref={sceneRef(1)} className="lab-scene lab-scene-timeline" data-nav="about" aria-labelledby="lab-timeline">
         <NavAnchor id="about" />
-        <div className="lab-frame">
+        <div className="lab-frame lab-frame-center lab-frame-middle">
           <div className="lab-copy">
             <p className="lab-kicker">The climb so far</p>
             <h2 id="lab-timeline" className="lab-heading"><span><ScrambleText text="Every chapter" active={decoding(1)} still={still} /></span><span className="lab-accent"><ScrambleText text="built the next one." active={decoding(1)} still={still} /></span></h2>
@@ -156,10 +164,10 @@ export default function Test() {
         <NavAnchor id="contact" />
         <div className="lab-frame lab-frame-center">
           <div className="lab-copy">
-            <p className="lab-kicker">Let's make it a good one</p>
-            <h2 id="lab-contact" className="lab-heading"><span><ScrambleText text="How can I" active={decoding(3)} still={still} /></span><span className="lab-accent"><ScrambleText text="best serve you?" active={decoding(3)} still={still} /></span></h2>
+            <h2 id="lab-contact" className="lab-heading"><span><ScrambleText text="The rest of the story" active={decoding(3)} still={still} /></span><span className="lab-accent"><ScrambleText text="isn't written yet." active={decoding(3)} still={still} /></span></h2>
+            <p className="lab-closing">So let's make it a good one.</p>
             <div className="lab-cta-row">
-              <a href="/skills" target="_blank" rel="noopener noreferrer" className="lab-cta">Check my skillset <Sparkles size={16} aria-hidden="true" /></a>
+              <a href="/skills" target="_blank" rel="noopener noreferrer" className="lab-cta">Check my skillset</a>
             </div>
             <div className="lab-contact-links">
               <a href="mailto:Jun.w.matthew@gmail.com"><Mail size={15} aria-hidden="true" /> Email</a>

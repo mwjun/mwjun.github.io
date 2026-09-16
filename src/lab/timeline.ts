@@ -7,7 +7,7 @@ import { timeline } from "@/data/timeline";
 // card dissolves, and the camera carries on through it to the network.
 // A scene coordinate is the section index plus progress through that section, from 0 to 4.
 
-export const SHAPES = ["galaxy", "complexity", "possibility", "staircase", "network", "monogram"] as const;
+export const SHAPES = ["galaxy", "complexity", "into", "possibility", "staircase", "network", "monogram"] as const;
 export type ShapeName = (typeof SHAPES)[number];
 
 export const SCENE_LABELS = ["Possibility", "Timeline", "Work", "Contact"] as const;
@@ -68,8 +68,11 @@ export const CLOSE = { x: layerX(STOP_COUNT - 1) + 18, y: NETWORK.y, z: NETWORK.
 // Where each beat plays in scene coordinates.
 // The work copy ("What are you looking for?") plays over the network as it forms, in section-local coordinates, and
 // the first stop only appears once it has gone. The transition and copy take the first fifth of the work section.
+// The timeline copy ("Every chapter built the next one.") holds centre screen, burns off, and only then does the
+// staircase bring its cards in, so the first card never lands behind the words.
+const TIMELINE_COPY = [-0.1, 0.02, 0.12, 0.24] as const;
 const WORK_COPY = [0.1, 0.14, 0.19, 0.22] as const;
-export const WINDOWS = { timeline: [1.04, 1.86], work: [2 + WORK_COPY[3] + 0.03, 2.97], close: 3.3 } as const;
+export const WINDOWS = { timeline: [1 + TIMELINE_COPY[3] + 0.03, 1.86], work: [2 + WORK_COPY[3] + 0.03, 2.97], close: 3.3 } as const;
 // The handoff from the staircase to the network: dive until the last card fills the screen, dissolve it, go through.
 // After going through, the camera holds on the first stop while the copy plays, then the pan begins.
 export const TRANSITION = { dive: [WINDOWS.timeline[1], 2.0], dissolve: [2.0, 2.035], through: [2.03, 2.14] } as const;
@@ -84,8 +87,9 @@ export const MORPHS: readonly Morph[] = [
   { from: "network", to: "monogram", start: WINDOWS.work[1], end: WINDOWS.close },
 ];
 
-// Particles gather from the toolkit into COMPLEXITY, then turn into POSSIBILITY. Times in seconds.
-export const INTRO = { gather: [0.15, 2.3], turn: [3, 4.4], copy: 4.1, end: 4.4 } as const;
+// Particles gather from the toolkit into COMPLEXITY, turn to INTO, then to POSSIBILITY, so the opening line is spoken
+// by the particles themselves rather than repeated as page text. Times in seconds.
+export const INTRO = { gather: [0.15, 2.3], turn: [3, 3.9], turn2: [4.5, 5.4], copy: 5.1, end: 5.4 } as const;
 
 const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
 const ease = (value: number) => value * value * (3 - 2 * value);
@@ -102,7 +106,8 @@ export function morphAt(s: number) {
 
 export function introMorph(seconds: number) {
   if (seconds < INTRO.turn[0]) return { from: "galaxy" as ShapeName, to: "complexity" as ShapeName, mix: clamp01((seconds - INTRO.gather[0]) / (INTRO.gather[1] - INTRO.gather[0])) };
-  return { from: "complexity" as ShapeName, to: "possibility" as ShapeName, mix: clamp01((seconds - INTRO.turn[0]) / (INTRO.turn[1] - INTRO.turn[0])) };
+  if (seconds < INTRO.turn2[0]) return { from: "complexity" as ShapeName, to: "into" as ShapeName, mix: clamp01((seconds - INTRO.turn[0]) / (INTRO.turn[1] - INTRO.turn[0])) };
+  return { from: "into" as ShapeName, to: "possibility" as ShapeName, mix: clamp01((seconds - INTRO.turn2[0]) / (INTRO.turn2[1] - INTRO.turn2[0])) };
 }
 
 // The scattering swirl belongs to the opening gather and the closing mark. While scrolling through the staircase and
@@ -121,8 +126,15 @@ export function ambientFlow(s: number) {
   return 1 - 0.75 * (weights.timeline + weights.work);
 }
 
+// The climb holds on the oldest chapter for the first twentieth of the window, so that card arrives square to the
+// camera and stays square for a beat instead of already leaning into the spiral as it fades in.
+const CLIMB_LEAD = 0.05;
+const climbStart = WINDOWS.timeline[0] + (WINDOWS.timeline[1] - WINDOWS.timeline[0]) * CLIMB_LEAD;
+
 // Progress through a beat, measured in milestones or stops.
-export const timelinePosition = (s: number) => clamp01((s - WINDOWS.timeline[0]) / (WINDOWS.timeline[1] - WINDOWS.timeline[0])) * (MILESTONE_COUNT - 1);
+export const timelinePosition = (s: number) => clamp01((s - climbStart) / (WINDOWS.timeline[1] - climbStart)) * (MILESTONE_COUNT - 1);
+// The scene coordinate at which the camera is square on a milestone.
+export const milestoneScene = (index: number) => climbStart + (MILESTONE_COUNT <= 1 ? 0 : index / (MILESTONE_COUNT - 1)) * (WINDOWS.timeline[1] - climbStart);
 export const workPosition = (s: number) => clamp01((s - WINDOWS.work[0]) / (WINDOWS.work[1] - WINDOWS.work[0])) * (STOP_COUNT - 1);
 // The scene coordinate at which the camera is centered on a stop.
 export const stopScene = (stop: number) => WINDOWS.work[0] + (STOP_COUNT <= 1 ? 0 : stop / (STOP_COUNT - 1)) * (WINDOWS.work[1] - WINDOWS.work[0]);
@@ -139,7 +151,9 @@ export function beatWeights(s: number) {
 // Milestone cards hang on the front of their step, just past the rail and a little below the tread, centered in view.
 export function stairsFrame(aspect: number) {
   const narrow = aspect < 1;
-  return { distance: 14, lift: 1.1, cardRadius: STAIRS.rail + 0.45, cardDrop: 0.35, scale: narrow ? 1.15 : 2.38 };
+  // The camera rides at the height of the card itself (lift 0), so the current milestone's card is exactly square to
+  // the view instead of being looked down on and reading as tilted.
+  return { distance: 14, lift: 0, cardRadius: STAIRS.rail + 0.45, cardDrop: 0.35, scale: narrow ? 1.15 : 2.38 };
 }
 
 // Layer rings are taller than they are deep so they read as columns. On wide screens a stop's layer is a spine with its
@@ -274,9 +288,10 @@ function stairsPose(s: number, aspect: number): Pose {
   const milestone = timelinePosition(s);
   const y = STAIRS.base + milestone * STAIRS.spacing;
   const { front } = around(milestone * STAIRS.turn);
+  const cardY = y - frame.cardDrop;
   return {
-    position: [front[0] * frame.distance, y + frame.lift, AXIS_Z + front[2] * frame.distance],
-    target: [front[0] * frame.cardRadius, y - frame.cardDrop, AXIS_Z + front[2] * frame.cardRadius],
+    position: [front[0] * frame.distance, cardY + frame.lift, AXIS_Z + front[2] * frame.distance],
+    target: [front[0] * frame.cardRadius, cardY, AXIS_Z + front[2] * frame.cardRadius],
   };
 }
 
@@ -314,8 +329,10 @@ export function cameraPoseAt(s: number, aspect: number): Pose {
 // Milestone cards stay on their steps for the whole climb. The others fade as the dive begins; the last one holds
 // until it fills the screen and then dissolves.
 export function milestoneReveal(index: number, s: number) {
-  // Late in the arrival, so the cards appear once the stairs have formed rather than floating in mid-transition.
-  const arrival = smoothRange(0.6, 0.97, smoothRange(0.45, WINDOWS.timeline[0], s));
+  // Late in the arrival, so the cards appear once the stairs have formed rather than floating in mid-transition,
+  // and never before the section copy has burned off the screen.
+  const afterCopy = smoothRange(1 + TIMELINE_COPY[3], WINDOWS.timeline[0], s);
+  const arrival = afterCopy * smoothRange(0.6, 0.97, smoothRange(0.45, WINDOWS.timeline[0], s));
   if (index === MILESTONE_COUNT - 1) return arrival * (1 - smoothRange(TRANSITION.dissolve[0], TRANSITION.dissolve[1], s));
   return arrival * (1 - smoothRange(TRANSITION.dive[0], TRANSITION.dive[0] + 0.08, s));
 }
@@ -332,10 +349,10 @@ export function projectReveal(index: number, s: number) {
   return beatWeights(s).work * afterCopy * (1 - smoothRange(0.4, 1, away));
 }
 
-// Where the navigation links land, as a section and a fraction of the way through it: About at the top of the staircase,
+// Where the navigation links land, as a section and a fraction of the way through it: About on its opening words,
 // Work with "What are you looking for?" on screen, and Contact at the end of the page.
 export const NAV_ANCHORS = {
-  about: { section: 1, at: WINDOWS.timeline[0] - 1 },
+  about: { section: 1, at: (TIMELINE_COPY[1] + TIMELINE_COPY[2]) / 2 },
   work: { section: 2, at: (WORK_COPY[1] + WORK_COPY[2]) / 2 },
   contact: { section: LAST_SCENE, at: 1 },
 } as const;
@@ -343,9 +360,23 @@ export const NAV_ANCHORS = {
 // How visible a section's copy is at scene coordinate s. The timeline copy steps aside early so the staircase has the
 // screen, and the work copy plays while the network forms, before the first stop.
 const COPY_WINDOWS: Record<number, readonly [number, number, number, number]> = {
-  1: [-0.1, 0.02, 0.1, 0.2],
+  1: TIMELINE_COPY,
   2: WORK_COPY,
 };
+
+// The closing line is held back until the very end of the last section, arriving in the moment before the sticky frame
+// releases and the words move to the middle of the screen.
+export const closingReveal = (s: number) => smoothRange(LAST_SCENE + 0.86, LAST_SCENE + 0.95, s);
+
+// How far through its burn-off a section's copy is, 0 to 1: the exit half of copyVisibility, which the page uses to
+// lift, blur and flare the words as they go.
+export function copyBurn(index: number, s: number, lastIndex: number) {
+  if (index === lastIndex) return 0;
+  const local = s - index;
+  if (index === 0) return smoothRange(0.35, 0.6, local);
+  const [, , exitStart, exitEnd] = COPY_WINDOWS[index] ?? [0.08, 0.3, 0.68, 0.9];
+  return smoothRange(exitStart, exitEnd, local);
+}
 
 export function copyVisibility(index: number, s: number, lastIndex: number) {
   const local = s - index;
