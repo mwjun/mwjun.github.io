@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import type { MotionValue } from "framer-motion";
 import { HELIX_MORPH, SCULPTURE_SHAPES, SPHERE_MORPH } from "@/lib/sculptureShapes";
+import { THEME_CHANGE_EVENT, currentTheme, themed } from "@/lib/themeColors";
 
 const TAU = Math.PI * 2;
 const clamp = (n: number) => Math.min(1, Math.max(0, n));
@@ -20,13 +21,20 @@ const DEPTH_LEVELS = 32;
 function buildLevels<T>(value: (depth: number) => T) {
   return Array.from({ length: DEPTH_LEVELS }, (_, level) => value((level + 0.5) / DEPTH_LEVELS));
 }
-const palettes = [false, true].map(mobile => ({
-  accent: buildLevels(depth => `rgba(196, 187, 255, ${mobile ? 0.2 + depth * 0.72 : 0.13 + depth * 0.59})`),
-  base: buildLevels(depth => `rgba(${Math.round(83 + depth * 100)}, ${Math.round(176 + depth * 70)}, ${Math.round(193 + depth * 62)}, ${mobile ? 0.09 + depth * 0.56 : 0.06 + depth * 0.45})`),
-  accentWidth: buildLevels(depth => (mobile ? 1.08 : 0.98) * (0.7 + depth * 0.5)),
-  baseWidth: buildLevels(depth => (mobile ? 0.78 : 0.67) * (0.7 + depth * 0.5)),
-  dot: buildLevels(depth => `rgba(207, 255, 253, ${mobile ? 0.38 + depth * 0.62 : 0.27 + depth * 0.7})`),
-}));
+function buildPalettes() {
+  return [false, true].map(mobile => ({
+    accent: buildLevels(depth => `rgba(${themed("196, 187, 255", "b")}, ${mobile ? 0.2 + depth * 0.72 : 0.13 + depth * 0.59})`),
+    base: buildLevels(depth => `rgba(${themed(`${Math.round(83 + depth * 100)}, ${Math.round(176 + depth * 70)}, ${Math.round(193 + depth * 62)}`, "a")}, ${mobile ? 0.09 + depth * 0.56 : 0.06 + depth * 0.45})`),
+    accentWidth: buildLevels(depth => (mobile ? 1.08 : 0.98) * (0.7 + depth * 0.5)),
+    baseWidth: buildLevels(depth => (mobile ? 0.78 : 0.67) * (0.7 + depth * 0.5)),
+    dot: buildLevels(depth => `rgba(${themed("207, 255, 253", "a")}, ${mobile ? 0.38 + depth * 0.62 : 0.27 + depth * 0.7})`),
+  }));
+}
+const paletteCache = new Map<string, ReturnType<typeof buildPalettes>>();
+function palettesFor(theme: string) {
+  if (!paletteCache.has(theme)) paletteCache.set(theme, buildPalettes());
+  return paletteCache.get(theme)!;
+}
 
 function geometryFor(lines: number, samples: number) {
   const cacheKey = `${lines}:${samples}`;
@@ -158,7 +166,7 @@ export default function ScrollSculpture({ progress, introProgress, paused }: Scr
       const lines = mobile ? 36 : 56;
       const samples = mobile ? 66 : 90;
       const shapes = geometryFor(lines, samples);
-      const palette = palettes[mobile ? 1 : 0];
+      const palette = palettesFor(currentTheme())[mobile ? 1 : 0];
       let lastStroke = "", lastWidth = -1;
       const sphereArrival = smooth((p - SPHERE_MORPH_START) / (1 - SPHERE_MORPH_START));
       const spin = sphereArrival * TAU * 0.7 + exit * TAU * 0.7;
@@ -166,9 +174,10 @@ export default function ScrollSculpture({ progress, introProgress, paused }: Scr
       const halo = ctx!.createRadialGradient(cx, cy, radius * 0.2, cx, cy, radius * 1.6);
       const introHalo = 0.12 * (1 - smooth(p / 0.18));
       const shapeGlow = Math.max(introHalo, normalGlobe * 0.04);
-      halo.addColorStop(0, `rgba(38, 176, 184, ${mobile ? 0.12 + shapeGlow : 0.08 + shapeGlow * 0.75})`);
-      halo.addColorStop(0.6, mobile ? "rgba(71, 137, 191, 0.06)" : "rgba(55, 111, 160, 0.04)");
-      halo.addColorStop(0.8, mobile ? "rgba(71, 137, 191, 0.018)" : "rgba(55, 111, 160, 0.012)");
+      const haloMid = themed(mobile ? "71, 137, 191" : "55, 111, 160", "c");
+      halo.addColorStop(0, `rgba(${themed("38, 176, 184", "a")}, ${mobile ? 0.12 + shapeGlow : 0.08 + shapeGlow * 0.75})`);
+      halo.addColorStop(0.6, `rgba(${haloMid}, ${mobile ? 0.06 : 0.04})`);
+      halo.addColorStop(0.8, `rgba(${haloMid}, ${mobile ? 0.018 : 0.012})`);
       halo.addColorStop(1, "rgba(10, 14, 21, 0)");
       // No glow while the intro is still expanding the sculpture; it fades in as the intro finishes.
       const haloStrength = introActive ? smooth((intro - 0.9) / 0.1) : 1;
@@ -282,6 +291,7 @@ export default function ScrollSculpture({ progress, introProgress, paused }: Scr
     const unsubscribeIntro = paused ? () => {} : introProgress.on("change", schedule);
     const handleVisibility = () => { if (document.hidden) stop(); else updateExitProgress(); };
     document.addEventListener("visibilitychange", handleVisibility);
+    window.addEventListener(THEME_CHANGE_EVENT, schedule);
     if (!paused) window.addEventListener("scroll", updateExitProgress, { passive: true });
     resize();
     return () => {
@@ -292,6 +302,7 @@ export default function ScrollSculpture({ progress, introProgress, paused }: Scr
       unsubscribe();
       unsubscribeIntro();
       document.removeEventListener("visibilitychange", handleVisibility);
+      window.removeEventListener(THEME_CHANGE_EVENT, schedule);
       if (!paused) window.removeEventListener("scroll", updateExitProgress);
     };
   }, [progress, introProgress, paused]);

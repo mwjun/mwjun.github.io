@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { THEME_CHANGE_EVENT, themed } from "@/lib/themeColors";
 
 type Particle = {
   angle: number;
@@ -68,7 +69,7 @@ export default function StoryParticles({ paused }: { paused: boolean }) {
         const y = centerY + Math.sin(theta) * orbit * (mobile ? 0.9 : 0.72) + Math.cos(seconds * 0.19 + particle.phase) * 7;
         const shimmer = 0.72 + Math.sin(seconds * 0.9 + particle.phase) * 0.28;
         const alpha = particle.alpha * shimmer;
-        const color = particle.violet ? "190, 177, 255" : "166, 250, 246";
+        const color = particle.violet ? themed("190, 177, 255", "b") : themed("166, 250, 246", "a");
 
         const trailLength = 7 + particle.size * 5;
         context.beginPath();
@@ -146,6 +147,7 @@ export default function StoryParticles({ paused }: { paused: boolean }) {
     resizeObserver.observe(element);
     intersectionObserver.observe(element);
     document.addEventListener("visibilitychange", schedule);
+    window.addEventListener(THEME_CHANGE_EVENT, schedule);
     window.addEventListener("scroll", handleScroll, { passive: true });
     resize();
 
@@ -156,6 +158,7 @@ export default function StoryParticles({ paused }: { paused: boolean }) {
       intersectionObserver.disconnect();
       window.clearTimeout(scrollResumeTimer);
       document.removeEventListener("visibilitychange", schedule);
+      window.removeEventListener(THEME_CHANGE_EVENT, schedule);
       window.removeEventListener("scroll", handleScroll);
     };
   }, [paused]);

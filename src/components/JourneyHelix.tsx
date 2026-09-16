@@ -1,6 +1,7 @@
 import { useEffect, useRef, type RefObject } from "react";
 import type { MotionValue } from "framer-motion";
 import { getTimelineAnchor } from "@/lib/timeline-anchor";
+import { THEME_CHANGE_EVENT, themed } from "@/lib/themeColors";
 
 const TAU = Math.PI * 2;
 const SPACING = 1.55;
@@ -43,8 +44,8 @@ export default function JourneyHelix({ position, count, paused, cards }: { posit
         return edge * (0.28 + (z + 1) * 0.31);
       };
       const halo = ctx!.createRadialGradient(cx, cy, 0, cx, cy, unit * 2.2);
-      halo.addColorStop(0, "rgba(75, 202, 204, .32)");
-      halo.addColorStop(0.48, "rgba(94, 127, 194, .12)");
+      halo.addColorStop(0, `rgba(${themed("75, 202, 204", "a")}, .32)`);
+      halo.addColorStop(0.48, `rgba(${themed("94, 127, 194", "c")}, .12)`);
       halo.addColorStop(1, "rgba(8, 11, 16, 0)");
       ctx!.fillStyle = halo; ctx!.fillRect(0, 0, width, height);
 
@@ -59,11 +60,11 @@ export default function JourneyHelix({ position, count, paused, cards }: { posit
           if (step === 0) ctx!.moveTo(point.x, point.y);
           else ctx!.lineTo(point.x, point.y);
         }
-        ctx!.strokeStyle = strand === 0 ? "rgba(101, 240, 230, .18)" : "rgba(180, 151, 255, .16)";
+        ctx!.strokeStyle = strand === 0 ? `rgba(${themed("101, 240, 230", "a")}, .18)` : `rgba(${themed("180, 151, 255", "b")}, .16)`;
         ctx!.lineWidth = mobile ? 14 : 22; ctx!.stroke();
-        ctx!.shadowColor = strand === 0 ? "#79e6de" : "#aa93ed";
+        ctx!.shadowColor = strand === 0 ? `rgb(${themed("121, 230, 222", "a")})` : `rgb(${themed("170, 147, 237", "b")})`;
         ctx!.shadowBlur = mobile ? 16 : 28;
-        ctx!.strokeStyle = strand === 0 ? "rgba(160, 255, 245, .84)" : "rgba(207, 188, 255, .78)";
+        ctx!.strokeStyle = strand === 0 ? `rgba(${themed("160, 255, 245", "a")}, .84)` : `rgba(${themed("207, 188, 255", "b")}, .78)`;
         ctx!.lineWidth = mobile ? 3.2 : 3; ctx!.stroke();
         ctx!.shadowBlur = 0;
         ctx!.shadowColor = "transparent";
@@ -75,7 +76,7 @@ export default function JourneyHelix({ position, count, paused, cards }: { posit
         const a = project(y), b = project(y, Math.PI);
         const alpha = alphaAt((a.y + b.y) / 2, 0) * 0.72;
         ctx!.beginPath(); ctx!.moveTo(a.x, a.y); ctx!.lineTo(b.x, b.y);
-        ctx!.strokeStyle = `rgba(151, 200, 225, ${alpha})`; ctx!.lineWidth = 0.9; ctx!.stroke();
+        ctx!.strokeStyle = `rgba(${themed("151, 200, 225", "a")}, ${alpha})`; ctx!.lineWidth = 0.9; ctx!.stroke();
       }
       for (let strand = 0; strand < 2; strand++) {
         for (let filament = -3; filament <= 3; filament++) {
@@ -85,7 +86,7 @@ export default function JourneyHelix({ position, count, paused, cards }: { posit
             const next = project(y, strand * Math.PI, filament);
             ctx!.beginPath(); ctx!.moveTo(previous.x, previous.y); ctx!.lineTo(next.x, next.y);
             const alpha = Math.min(1, alphaAt(next.y, next.z) * (filament === 0 ? 1.15 : 0.78));
-            ctx!.strokeStyle = strand === 0 ? `rgba(181, 255, 247, ${alpha})` : `rgba(205, 190, 255, ${alpha})`;
+            ctx!.strokeStyle = strand === 0 ? `rgba(${themed("181, 255, 247", "a")}, ${alpha})` : `rgba(${themed("205, 190, 255", "b")}, ${alpha})`;
             ctx!.lineWidth = filament === 0 ? 2.2 : 0.9; ctx!.stroke();
             previous = next;
           }
@@ -98,7 +99,7 @@ export default function JourneyHelix({ position, count, paused, cards }: { posit
           const y = cameraY - 3 + ((bead * 1.2 + value * 0.42) % 6);
           const point = project(y, strand * Math.PI);
           const alpha = alphaAt(point.y, point.z);
-          const color = strand === 0 ? "168, 255, 246" : "210, 193, 255";
+          const color = strand === 0 ? themed("168, 255, 246", "a") : themed("210, 193, 255", "b");
           ctx!.beginPath(); ctx!.arc(point.x, point.y, 5, 0, TAU);
           ctx!.fillStyle = `rgba(${color}, ${alpha * 0.32})`; ctx!.fill();
           ctx!.beginPath(); ctx!.arc(point.x, point.y, 2, 0, TAU);
@@ -122,22 +123,22 @@ export default function JourneyHelix({ position, count, paused, cards }: { posit
           ctx!.lineTo(anchor.x - 12, anchor.y);
           ctx!.lineTo(anchor.x, anchor.y);
           ctx!.strokeStyle = violet
-            ? `rgba(211, 193, 255, ${Math.max(0.3, alpha)})`
-            : `rgba(190, 255, 247, ${Math.max(0.3, alpha)})`;
+            ? `rgba(${themed("211, 193, 255", "b")}, ${Math.max(0.3, alpha)})`
+            : `rgba(${themed("190, 255, 247", "a")}, ${Math.max(0.3, alpha)})`;
           ctx!.lineWidth = 1.25; ctx!.stroke();
           ctx!.beginPath(); ctx!.arc(anchor.x, anchor.y, 3, 0, TAU);
-          ctx!.fillStyle = violet ? "#d5c4ff" : "#c9fff7"; ctx!.fill();
+          ctx!.fillStyle = violet ? `rgb(${themed("213, 196, 255", "b")})` : `rgb(${themed("201, 255, 247", "a")})`; ctx!.fill();
         }
         if (selected) {
           const aura = ctx!.createRadialGradient(point.x, point.y, 0, point.x, point.y, 28);
-          aura.addColorStop(0, violet ? `rgba(190, 164, 255, ${alpha * 0.62})` : `rgba(151, 255, 238, ${alpha * 0.62})`);
-          aura.addColorStop(1, violet ? "rgba(190, 164, 255, 0)" : "rgba(151, 255, 238, 0)");
+          aura.addColorStop(0, violet ? `rgba(${themed("190, 164, 255", "b")}, ${alpha * 0.62})` : `rgba(${themed("151, 255, 238", "a")}, ${alpha * 0.62})`);
+          aura.addColorStop(1, violet ? `rgba(${themed("190, 164, 255", "b")}, 0)` : `rgba(${themed("151, 255, 238", "a")}, 0)`);
           ctx!.fillStyle = aura; ctx!.fillRect(point.x - 28, point.y - 28, 56, 56);
         }
         ctx!.beginPath(); ctx!.arc(point.x, point.y, selected ? 15 : 8, 0, TAU);
-        ctx!.strokeStyle = violet ? `rgba(209, 193, 255, ${alpha})` : `rgba(185, 255, 245, ${alpha})`; ctx!.lineWidth = 1.25; ctx!.stroke();
+        ctx!.strokeStyle = violet ? `rgba(${themed("209, 193, 255", "b")}, ${alpha})` : `rgba(${themed("185, 255, 245", "a")}, ${alpha})`; ctx!.lineWidth = 1.25; ctx!.stroke();
         ctx!.beginPath(); ctx!.arc(point.x, point.y, selected ? 5 : 2.5, 0, TAU);
-        ctx!.fillStyle = violet ? `rgba(224, 213, 255, ${Math.min(1, alpha + 0.3)})` : `rgba(211, 255, 248, ${Math.min(1, alpha + 0.3)})`; ctx!.fill();
+        ctx!.fillStyle = violet ? `rgba(${themed("224, 213, 255", "b")}, ${Math.min(1, alpha + 0.3)})` : `rgba(${themed("211, 255, 248", "a")}, ${Math.min(1, alpha + 0.3)})`; ctx!.fill();
       }
     }
 
@@ -172,8 +173,9 @@ export default function JourneyHelix({ position, count, paused, cards }: { posit
     // Native scrolling still moves cards at clamped progress 0/1 and while paused.
     window.addEventListener("scroll", schedule, { passive: true });
     document.addEventListener("visibilitychange", schedule);
+    window.addEventListener(THEME_CHANGE_EVENT, schedule);
     resize();
-    return () => { disposed = true; cancelAnimationFrame(frame); resizeObserver.disconnect(); cardObserver.disconnect(); observer.disconnect(); unsubscribe(); window.removeEventListener("scroll", schedule); document.removeEventListener("visibilitychange", schedule); };
+    return () => { disposed = true; cancelAnimationFrame(frame); resizeObserver.disconnect(); cardObserver.disconnect(); observer.disconnect(); unsubscribe(); window.removeEventListener("scroll", schedule); document.removeEventListener("visibilitychange", schedule); window.removeEventListener(THEME_CHANGE_EVENT, schedule); };
   }, [position, count, paused, cards]);
 
   return <canvas ref={canvas} className="journey-canvas" aria-hidden="true" />;

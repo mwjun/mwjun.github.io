@@ -9,7 +9,7 @@ afterEach(cleanup);
 describe("Work collection", () => {
   it("keeps all projects and both working version destinations, then filters and restores the collection", async () => {
     render(<MemoryRouter><ProjectsSection /></MemoryRouter>);
-    expect(screen.getAllByRole("article")).toHaveLength(15);
+    expect(screen.getAllByRole("article")).toHaveLength(16);
     expect(screen.getByRole("heading", { name: "Crypto Arcade" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Meal Roulette" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Blackjack Pro" })).toBeInTheDocument();
@@ -18,11 +18,13 @@ describe("Work collection", () => {
     expect(screen.getByRole("link", { name: /View Website Portfolio \(Previous Version\)/ })).toHaveAttribute("target", "_blank");
     expect(screen.getByRole("link", { name: /View Website Portfolio \(V2\)/ })).toHaveAttribute("href", "/versions/v2/");
     expect(screen.getByRole("link", { name: /View Website Portfolio \(V2\)/ })).not.toHaveAttribute("target");
+    expect(screen.getByRole("link", { name: /View Website Portfolio \(V3\)/ })).toHaveAttribute("href", "/versions/v3/");
+    expect(screen.getByRole("link", { name: /View Website Portfolio \(V3\)/ })).not.toHaveAttribute("target");
     fireEvent.click(screen.getByRole("button", { name: "Web experiences" }));
     await waitFor(() => expect(screen.getAllByRole("article")).toHaveLength(4));
     for (const name of ["Darwin's Paradox!", "Brushmo", "JSL Benefits", "Vessel Church OC"]) expect(screen.getByRole("heading", { name })).toBeInTheDocument();
     fireEvent.click(screen.getByRole("button", { name: "All work" }));
-    await waitFor(() => expect(screen.getAllByRole("article")).toHaveLength(15));
+    await waitFor(() => expect(screen.getAllByRole("article")).toHaveLength(16));
   });
 });
 

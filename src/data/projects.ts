@@ -61,6 +61,14 @@ export const projects = [
     link: "/versions/v2/",
   },
   {
+    title: "Website Portfolio (V3)",
+    category: "Portfolio evolution",
+    description:
+      "The third iteration of my portfolio: a scroll-driven story with a morphing particle sculpture, a 3D career journey, a searchable skills atom, and a filterable collection of work.",
+    tags: ["React", "TypeScript", "Vite", "Framer Motion", "Canvas"],
+    link: "/versions/v3/",
+  },
+  {
     title: "TutoRial",
     category: "Games",
     description:

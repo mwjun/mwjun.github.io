@@ -6,7 +6,7 @@
 .site-footer p { font-size: 13px; color: #aab8c1; }
 .back-to-top { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 18px; border: 1px solid #4f656e; border-radius: 999px; font-size: 13px; color: #dce9ec; transition: color 180ms ease, background-color 180ms ease, border-color 180ms ease; }
 .back-to-top svg { transition: transform 200ms ease-out; }
-.site-footer a:focus-visible { outline: 2px solid #b9e9e6; outline-offset: 5px; border-radius: 2px; }
+.site-footer a:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; border-radius: 2px; }
 @media (hover: hover) and (pointer: fine) {
   .back-to-top:hover { color: #fff; background: #1a2a31; border-color: #8fb9bd; }
   .back-to-top:hover svg { transform: translateY(-3px); }

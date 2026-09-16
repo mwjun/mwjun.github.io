@@ -1,0 +1,61 @@
+/* Site color themes. Ice is the original palette; the others are restrained two and three tone palettes selected with data-theme on <html>. */
+:root {
+  --bg: #080b10; --bg-rgb: 8 11 16; --bg-raised: #10171d; --bg-panel: #0d141b; --bg-card: #10171f; --header-bg-rgb: 9 13 18;
+  --accent: #b9e9e6; --accent-rgb: 185 233 230; --accent-soft: #c2e9e4; --accent-2: #c0b8ef; --accent-3: #9cebe4; --accent-art: #a6dfdc; --on-accent: #10232a;
+  --glow-rgb: 61 193 201; --glow-2-rgb: 119 106 203; --glow-mobile-rgb: 65 205 211; --glow-2-mobile-rgb: 128 111 218; --glow-soft-rgb: 82 186 190; --nav-glow-rgb: 101 217 209;
+  --particle: #cafff8; --particle-glow-rgb: 177 255 246; --particle-glow-2-rgb: 112 236 226;
+  --accent-gradient: linear-gradient(var(--accent), var(--accent));
+}
+/* Graphite: charcoal with warm white and stone. */
+html[data-theme="graphite"] {
+  --bg: #0b0b0c; --bg-rgb: 11 11 12; --bg-raised: #151516; --bg-panel: #111112; --bg-card: #141415; --header-bg-rgb: 12 12 13;
+  --accent: #e8e6e1; --accent-rgb: 232 230 225; --accent-soft: #f0eee9; --accent-2: #7d7a74; --accent-3: #bdb9b1; --accent-art: #cfcbc4; --on-accent: #141414;
+  --glow-rgb: 150 150 155; --glow-2-rgb: 110 108 104; --glow-mobile-rgb: 155 155 160; --glow-2-mobile-rgb: 115 113 109; --glow-soft-rgb: 160 158 150; --nav-glow-rgb: 232 230 225;
+  --particle: #f2f0ea; --particle-glow-rgb: 232 230 225; --particle-glow-2-rgb: 125 122 116;
+  --accent-gradient: linear-gradient(100deg, #f3f1ec, #bdb9b1);
+}
+/* Brass: warm charcoal with brass and steel. */
+html[data-theme="brass"] {
+  --bg: #0d0c0a; --bg-rgb: 13 12 10; --bg-raised: #17150f; --bg-panel: #12110d; --bg-card: #181610; --header-bg-rgb: 14 13 11;
+  --accent: #d4b483; --accent-rgb: 212 180 131; --accent-soft: #e2c89f; --accent-2: #8a8f98; --accent-3: #e9d6b0; --accent-art: #cdb488; --on-accent: #1d160a;
+  --glow-rgb: 200 160 100; --glow-2-rgb: 110 115 125; --glow-mobile-rgb: 210 170 110; --glow-2-mobile-rgb: 120 125 135; --glow-soft-rgb: 190 160 110; --nav-glow-rgb: 212 180 131;
+  --particle: #f4e7cf; --particle-glow-rgb: 212 180 131; --particle-glow-2-rgb: 138 143 152;
+  --accent-gradient: linear-gradient(100deg, #ecdcb9, #c9a46a);
+}
+/* Copper: midnight navy with copper and slate blue. */
+html[data-theme="copper"] {
+  --bg: #0a0f1c; --bg-rgb: 10 15 28; --bg-raised: #111a2c; --bg-panel: #0e1526; --bg-card: #121b2e; --header-bg-rgb: 11 16 30;
+  --accent: #e0a47a; --accent-rgb: 224 164 122; --accent-soft: #eab894; --accent-2: #6f86b3; --accent-3: #f0c4a4; --accent-art: #d9a987; --on-accent: #24130a;
+  --glow-rgb: 210 140 95; --glow-2-rgb: 90 115 170; --glow-mobile-rgb: 220 150 105; --glow-2-mobile-rgb: 100 125 180; --glow-soft-rgb: 200 150 115; --nav-glow-rgb: 224 164 122;
+  --particle: #f7e2d2; --particle-glow-rgb: 224 164 122; --particle-glow-2-rgb: 111 134 179;
+  --accent-gradient: linear-gradient(100deg, #f0c4a4, #d58f60);
+}
+/* Sage: deep forest with sage and sand. */
+html[data-theme="sage"] {
+  --bg: #0b120f; --bg-rgb: 11 18 15; --bg-raised: #121c17; --bg-panel: #0f1713; --bg-card: #131e18; --header-bg-rgb: 12 19 16;
+  --accent: #b9cfa6; --accent-rgb: 185 207 166; --accent-soft: #cadbb9; --accent-2: #d9c9a3; --accent-3: #dfe8d3; --accent-art: #b3c9a2; --on-accent: #152012;
+  --glow-rgb: 140 175 125; --glow-2-rgb: 190 170 125; --glow-mobile-rgb: 150 185 135; --glow-2-mobile-rgb: 200 180 135; --glow-soft-rgb: 160 180 140; --nav-glow-rgb: 185 207 166;
+  --particle: #eef4e6; --particle-glow-rgb: 185 207 166; --particle-glow-2-rgb: 217 201 163;
+  --accent-gradient: linear-gradient(100deg, #dfe8d3, #a9c294);
+}
+/* Rosewood: ink with dusty rose and cool gray. */
+html[data-theme="rosewood"] {
+  --bg: #111014; --bg-rgb: 17 16 20; --bg-raised: #1a181e; --bg-panel: #151419; --bg-card: #1b191f; --header-bg-rgb: 18 17 21;
+  --accent: #e3a6a1; --accent-rgb: 227 166 161; --accent-soft: #eab9b5; --accent-2: #9aa3b5; --accent-3: #f1cfcb; --accent-art: #d9a9a5; --on-accent: #2a1416;
+  --glow-rgb: 200 130 125; --glow-2-rgb: 130 140 165; --glow-mobile-rgb: 210 140 135; --glow-2-mobile-rgb: 140 150 175; --glow-soft-rgb: 200 150 145; --nav-glow-rgb: 227 166 161;
+  --particle: #f8e6e4; --particle-glow-rgb: 227 166 161; --particle-glow-2-rgb: 154 163 181;
+  --accent-gradient: linear-gradient(100deg, #f1cfcb, #d38f8a);
+}
+
+/* Tonal accents for the alternate themes; Ice keeps its solid accents. */
+html[data-theme]:not([data-theme="ice"]) :is(.serif-accent, .collection-page em) { background-image: var(--accent-gradient); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+html[data-theme]:not([data-theme="ice"]) :is(.reading-progress, .chapter-progress a.is-active::after, .desktop-navigation a::after) { background: var(--accent-gradient); }
+html[data-theme]:not([data-theme="ice"]) .collection-filters button[aria-pressed="true"] { background: var(--accent-gradient); border-color: transparent; }
+html[data-theme]:not([data-theme="ice"]) .story-ambient { background: radial-gradient(circle at 74% 50%, transparent 0 13%, rgb(var(--glow-rgb) / .12) 30%, rgb(var(--glow-2-rgb) / .06) 43%, transparent 61%), var(--bg); }
+html[data-theme]:not([data-theme="ice"]) .collection-intro { background: radial-gradient(ellipse at 90% 10%, rgb(var(--glow-rgb) / .1), transparent 60%); }
+html[data-theme]:not([data-theme="ice"]) .work-art { background: radial-gradient(ellipse at center, rgb(var(--glow-rgb) / .22), var(--bg) 72%); }
+html[data-theme]:not([data-theme="ice"]) :is(.art-1, .art-4) { background: radial-gradient(ellipse at center, rgb(var(--glow-2-rgb) / .22), var(--bg) 72%); }
+html[data-theme]:not([data-theme="ice"]) :is(.art-3 svg, .art-4 svg) { stroke: var(--accent-2); }
+html[data-theme]:not([data-theme="ice"]) :is(.skill-group, .milestone-card) { background: linear-gradient(135deg, rgb(var(--glow-rgb) / .08), var(--bg-card) 65%); border-color: rgb(var(--accent-rgb) / .2); }
+html[data-theme]:not([data-theme="ice"]) .skill-list li { background: rgb(var(--accent-rgb) / .05); border-color: rgb(var(--accent-rgb) / .16); }
+html[data-theme]:not([data-theme="ice"]) .milestone-active .milestone-card { border-color: rgb(var(--accent-rgb) / .55); }

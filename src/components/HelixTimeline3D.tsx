@@ -3,8 +3,9 @@ import { useMotionValueEvent, useReducedMotion, useScroll, useTransform } from "
 import { Pause, Play } from "lucide-react";
 import JourneyHelix from "./JourneyHelix";
 import JourneyParticles from "./JourneyParticles";
+import type { TimelineItem } from "@/data/timeline";
 
-export type TimelineItem = { period?: string; title: string; company: string; chapter: string };
+export type { TimelineItem };
 
 function Milestone({ item, index, active, registerCard }: { item: TimelineItem; index: number; active: boolean; registerCard: (element: HTMLElement | null) => void }) {
   return (

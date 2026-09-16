@@ -145,7 +145,7 @@ const HeroSection = () => {
       <div ref={introChapter} className="story-chapter chapter-intro">
         <div ref={introCopy} className="chapter-copy intro-copy" aria-hidden={!introReady}>
           <p className="eyebrow hero-eyebrow"><span className="eyebrow-roles">FULLSTACK SOFTWARE DEVELOPER · AI ENGINEER · CLOUD ENGINEER · DATA PROFESSIONAL</span></p>
-          <h1>Complexity<br />into <span className={`serif-accent serif-shine${paused ? ' is-paused' : ''}`}>possibility.</span></h1>
+          <h1>Complexity<br />into <span className={`serif-accent serif-glitch${paused ? ' is-paused' : ''}`}>possibility.<span className="glitch-layer glitch-a" aria-hidden="true">possibility.</span><span className="glitch-layer glitch-b" aria-hidden="true">possibility.</span></span></h1>
           <p className="hero-description">Full-stack engineering, amplified through applied AI.<br className="desktop-break" /> Grounded in data science, with range across business channels.</p>
         </div>
         <div className="intro-bottom intro-bottom-entrance"><a href="#approach" className="scroll-prompt"><span className="scroll-track"><span /></span> SCROLL TO UNFOLD THE STORY</a></div>

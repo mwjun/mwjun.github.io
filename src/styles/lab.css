@@ -1,0 +1,104 @@
+/* Test page: a WebGL scene with a scroll-synced copy layer on top. */
+.lab-page { --lab-gutter: clamp(22px, 5.5vw, 96px); position: relative; background: #03060a; color: #e6eef0; font-family: 'Space Grotesk', sans-serif; }
+.lab-page.is-card-hover { cursor: pointer; }
+html.lab-dragging, html.lab-dragging * { cursor: grabbing !important; user-select: none; }
+
+.lab-stage { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.lab-stage canvas { display: block; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease; }
+.lab-page.is-ready .lab-stage canvas { opacity: 1; }
+/* Fixed layers fade in with the page instead of sliding. */
+.page-transition-content.is-transitioning.page-transition-cascade > .lab-page > :is(.lab-stage, .lab-hud, .lab-loader) { animation-name: page-enter-fade; }
+
+.lab-loader { position: fixed; inset: 0; z-index: 2; display: grid; place-content: center; justify-items: center; gap: 16px; pointer-events: none; font: 500 11px/1 'JetBrains Mono', monospace; letter-spacing: .3em; text-transform: uppercase; color: #6f8a93; transition: opacity 600ms ease, visibility 0s linear 600ms; }
+.lab-loader i { display: block; width: 140px; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent) no-repeat; background-size: 40% 100%; animation: lab-load 1.2s ease-in-out infinite; }
+.lab-page:not(.is-loading) .lab-loader { opacity: 0; visibility: hidden; }
+@keyframes lab-load { from { background-position: -60% 0; } to { background-position: 160% 0; } }
+
+.lab-hud { position: fixed; inset: 0; z-index: 2; pointer-events: none; font: 500 11px/1 'JetBrains Mono', monospace; letter-spacing: .16em; text-transform: uppercase; color: #6f8a93; opacity: 0; transition: opacity 800ms ease 400ms; }
+.lab-page.is-ready .lab-hud { opacity: 1; }
+.lab-hud-depth { position: absolute; top: 28px; right: var(--lab-gutter); font-variant-numeric: tabular-nums; }
+.lab-hud-card { position: absolute; left: 50%; bottom: 34px; padding: 11px 17px; border: 1px solid rgb(var(--accent-rgb) / .35); border-radius: 999px; background: #03060acc; color: #eafffc; white-space: nowrap; opacity: 0; transform: translate(-50%, 8px); transition: opacity 180ms ease, transform 220ms ease; }
+.lab-hud-card.is-visible { opacity: 1; transform: translate(-50%, 0); }
+
+.lab-scene { position: relative; z-index: 1; height: 190svh; pointer-events: none; }
+.lab-anchor { position: absolute; left: 0; width: 1px; height: 1px; pointer-events: none; }
+.lab-scene-intro { height: 150svh; }
+.lab-page .theme-preview { position: fixed; }
+/* Paced like the About page journey: roughly a screen of scroll per milestone and per project card. */
+.lab-scene-timeline { height: 1250svh; }
+.lab-scene-work { height: 1100svh; }
+.lab-scene-contact { height: 150svh; }
+.lab-frame { position: sticky; top: 0; height: 100svh; display: flex; padding: 150px var(--lab-gutter) clamp(40px, 7svh, 72px); opacity: var(--reveal, 0); transform: translate3d(0, calc((1 - var(--reveal, 0)) * 26px), 0); }
+.lab-frame::before { content: ""; position: absolute; inset: auto 0 0; z-index: -1; height: 60%; background: linear-gradient(to top, #03060ad9, #03060a00); pointer-events: none; }
+.lab-frame:focus-within { opacity: 1; transform: none; }
+.lab-frame :is(a, button) { pointer-events: auto; }
+.lab-frame-right { justify-content: flex-end; }
+.lab-frame-center { justify-content: center; text-align: center; }
+
+.lab-copy { align-self: flex-end; width: min(600px, 100%); }
+.lab-frame-center .lab-copy { width: min(900px, 100%); }
+.lab-kicker { margin: 0 0 20px; font: 500 11px/1.7 'JetBrains Mono', monospace; letter-spacing: .2em; text-transform: uppercase; color: #7f9ba4; }
+.lab-heading { margin: 0; font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: clamp(30px, 4.3vw, 70px); line-height: 1; letter-spacing: -.055em; text-transform: uppercase; color: #eef5f6; }
+.lab-heading > span { display: block; }
+.lab-accent { color: var(--accent); }
+.lab-body { margin: 24px 0 0; max-width: 46ch; font-size: clamp(15px, 1.1vw, 17px); line-height: 1.6; color: #a7b6be; }
+.lab-body + .lab-body { margin-top: 10px; }
+.lab-hint { margin: 26px 0 0; font: 500 10px/1 'JetBrains Mono', monospace; letter-spacing: .24em; text-transform: uppercase; color: #5f7a83; }
+.lab-hint a { display: inline-flex; align-items: center; gap: 6px; color: #8fb3b8; transition: color 160ms ease; }
+
+.lab-title { margin: 0; }
+.lab-title-lead { position: absolute; top: calc(50% - 5.9vw - 46px); left: 0; right: 0; text-align: center; font: 500 clamp(11px, .95vw, 14px)/1 'JetBrains Mono', monospace; letter-spacing: .34em; text-transform: uppercase; color: #8fb3b8; }
+.lab-title-word { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.lab-scene-intro .lab-frame { flex-direction: column; justify-content: flex-end; }
+.lab-intro-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; }
+.lab-roles { max-width: 34ch; margin: 0; }
+.lab-intro-body { margin: 0; max-width: 40ch; text-align: right; }
+.lab-cue { position: absolute; left: 50%; bottom: clamp(40px, 7svh, 72px); display: grid; justify-items: center; gap: 12px; margin: 0; transform: translateX(-50%); font: 500 10px/1 'JetBrains Mono', monospace; letter-spacing: .3em; text-transform: uppercase; color: #6f8a93; }
+.lab-cue i { width: 1px; height: 44px; background: linear-gradient(var(--accent), transparent) no-repeat; background-size: 100% 40%; animation: lab-cue 1.8s ease-in-out infinite; }
+@keyframes lab-cue { from { background-position: 0 -40%; } to { background-position: 0 160%; } }
+
+
+.lab-links { display: grid; gap: 2px; margin: 28px 0 0; padding: 0; list-style: none; }
+.lab-links button { display: inline-flex; border: 0; background: none; cursor: pointer; align-items: center; gap: 12px; padding: 7px 0; font: 500 13px/1.2 'JetBrains Mono', monospace; letter-spacing: .08em; text-transform: uppercase; color: #b9c8ce; transition: color 160ms ease, transform 200ms cubic-bezier(.23, 1, .32, 1); }
+.lab-links button::before { content: "→"; color: var(--accent); }
+
+.lab-cta-row { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 32px; }
+.lab-cta { display: inline-flex; align-items: center; gap: 12px; padding: 15px 22px; border: 1px solid rgb(var(--accent-rgb) / .45); border-radius: 999px; background: rgb(var(--accent-rgb) / .06); font: 500 13px/1 'JetBrains Mono', monospace; letter-spacing: .1em; text-transform: uppercase; color: #eafffc; backdrop-filter: blur(8px); transition: background-color 180ms ease, border-color 180ms ease; }
+.lab-contact-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 26px; margin-top: 28px; }
+.lab-contact-links a { display: inline-flex; align-items: center; gap: 8px; font: 500 12px/1 'JetBrains Mono', monospace; letter-spacing: .08em; text-transform: uppercase; color: #9fb2b9; transition: color 160ms ease; }
+
+.lab-page .site-footer { position: relative; z-index: 1; background: #03060ae6; }
+
+@media (hover: hover) and (pointer: fine) {
+  .lab-links button:hover { color: #fff; transform: translateX(6px); }
+  .lab-cta:hover { background: rgb(var(--accent-rgb) / .14); border-color: rgb(var(--accent-rgb) / .8); }
+  .lab-contact-links a:hover { color: #fff; }
+}
+@media (hover: none), (pointer: coarse) { .lab-hint { display: none; } }
+
+/* Without WebGL the copy reads as a normal page. */
+.lab-page.is-fallback { background: radial-gradient(120% 80% at 70% 15%, #0d2a31, #03060a 60%); }
+.lab-page.is-fallback .lab-scene { height: auto; }
+.lab-page.is-fallback .lab-frame { position: relative; height: auto; min-height: 100svh; opacity: 1; transform: none; }
+.lab-page.is-fallback :is(.lab-title-lead, .lab-title-word) { position: static; display: block; width: auto; height: auto; overflow: visible; clip: auto; text-align: left; font: 500 clamp(40px, 7vw, 110px)/.95 'JetBrains Mono', monospace; letter-spacing: -.055em; text-transform: uppercase; color: #eef5f6; }
+.lab-page.is-fallback .lab-title-word { margin-bottom: 40px; color: var(--accent); }
+.lab-page.is-fallback :is(.lab-hud, .lab-loader, .lab-cue, .lab-hint) { display: none; }
+.lab-page.is-fallback .lab-milestones.sr-only { position: static; display: grid; gap: 14px; width: auto; height: auto; margin: 30px 0 0; padding: 0; overflow: visible; clip: auto; white-space: normal; list-style: none; }
+.lab-page.is-fallback .lab-milestones li { display: grid; gap: 2px; font-size: 14px; color: #a7b6be; }
+.lab-page.is-fallback .lab-milestones span:first-child { font: 500 11px/1.6 'JetBrains Mono', monospace; letter-spacing: .16em; color: var(--accent); }
+.lab-page.is-fallback .lab-milestones strong { font-weight: 600; color: #eef5f6; }
+.lab-page.is-fallback .lab-projects.sr-only { position: static; display: grid; gap: 8px; width: auto; height: auto; margin: 26px 0 0; padding: 0; overflow: visible; clip: auto; white-space: normal; list-style: none; font-size: 14px; color: #a7b6be; }
+.lab-page.is-fallback .lab-projects a { color: #eef5f6; }
+
+@media (max-width: 759px) {
+  .lab-frame { padding: 160px 22px 34px; }
+  .lab-heading { font-size: clamp(27px, 8.2vw, 40px); }
+  .lab-intro-bottom { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .lab-intro-body { text-align: left; }
+  .lab-cue, .lab-hud-depth { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lab-frame { transform: none; }
+  .lab-loader i, .lab-cue i { animation: none; }
+}
