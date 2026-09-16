@@ -181,8 +181,8 @@ export function buildShapes(count: number, aspect: number): Record<ShapeName, Fl
   const staircase = () => {
     const writer = new ShapeWriter(count);
     const rng = seeded(13);
-    const top = STAIRS.top + 3;
-    const bottom = STAIRS.top - (MILESTONE_COUNT - 1) * STAIRS.spacing - 3;
+    const bottom = STAIRS.base - 3;
+    const top = STAIRS.base + (MILESTONE_COUNT - 1) * STAIRS.spacing + 3;
     const steps = Math.floor((top - bottom) / STAIRS.stepHeight);
     const stepArc = ((STAIRS.turn + Math.PI * 2) * STAIRS.stepHeight) / STAIRS.spacing;
     const depth = STAIRS.outer - STAIRS.inner;

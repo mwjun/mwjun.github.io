@@ -68,14 +68,14 @@ describe("Test page choreography", () => {
     }
   });
 
-  it("orbits one full turn down the staircase with each milestone's large card centered on the front of its step", () => {
+  it("climbs one full turn up the staircase with each milestone's large card centered on the front of its step", () => {
     for (const aspect of [WIDE, PHONE]) {
-      let previousY = Infinity;
+      let previousY = -Infinity;
       for (let i = 0; i < MILESTONE_COUNT; i++) {
         const pose = cameraPoseAt(timelineAt(i), aspect);
         const { edge, card, front, scale } = milestonePlacement(i, aspect);
         expect(dot(aroundAxis(pose.position), aroundAxis(edge))).toBeGreaterThan(0.999);
-        expect(pose.position[1]).toBeLessThan(previousY);
+        expect(pose.position[1]).toBeGreaterThan(previousY);
         previousY = pose.position[1];
         // Straight out from the axis on the camera's side, just past the rail, and dead center in the view.
         expect(dot(aroundAxis(card), front)).toBeGreaterThan(0.9999);
@@ -179,7 +179,7 @@ describe("Test page choreography", () => {
         for (const index of stop.members) expect(projectReveal(index, stopScene(s))).toBeCloseTo(1);
       });
     }
-    expect(NETWORK.y).toBeLessThan(STAIRS.top - (MILESTONE_COUNT - 1) * STAIRS.spacing);
+    expect(NETWORK.y).toBeGreaterThan(STAIRS.base + (MILESTONE_COUNT - 1) * STAIRS.spacing);
   });
 
   it("wires the network layer to layer, reaches every neuron, and sends a signal from each project to the next stop", () => {

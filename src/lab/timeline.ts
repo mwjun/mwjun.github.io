@@ -2,7 +2,7 @@ import { projects } from "@/data/projects";
 import { timeline } from "@/data/timeline";
 
 // Scroll choreography for the Test page: one continuous scroll through four beats. The opening word, a spiral staircase
-// down through the career timeline (a step for every chapter), a neural network of project work, and the closing mark.
+// climbed through the career timeline (a step for every chapter), a neural network of project work, and the closing mark.
 // Between the staircase and the network, the camera dives into the last chapter's card until it fills the screen, the
 // card dissolves, and the camera carries on through it to the network.
 // A scene coordinate is the section index plus progress through that section, from 0 to 4.
@@ -50,16 +50,17 @@ export const categoryStop = (category: string) => STOPS.findIndex(stop => stop.c
 // The staircase stands on the vertical axis x = 0, z = AXIS_Z.
 export const AXIS_Z = -40;
 
-// Timeline: a spiral staircase, one milestone per `spacing` of descent. The camera orbits outside it `turn` radians per
-// milestone, one turn in all, while the stairs wind a full extra turn per milestone (`turn + 2π`), so each milestone's
-// step faces the camera when it is current, with its card hanging on the front of that step in the middle of the view.
-export const STAIRS = { top: 0, spacing: 5.3, inner: 0.6, outer: 4.4, rail: 4.5, stepHeight: 0.26, turn: (Math.PI * 2) / Math.max(1, MILESTONE_COUNT - 1) } as const;
-// Work: a neural network laid out left to right, below the stairs and further along the dive, so passing through the
-// last card carries the camera forward to it. Each layer is a ring of neurons around the network's horizontal axis
+// Timeline: a spiral staircase climbed from `base`, the oldest chapter, one milestone per `spacing` of rise. The camera
+// orbits outside it `turn` radians per milestone, one turn in all, while the stairs wind a full extra turn per milestone
+// (`turn + 2π`), so each milestone's step faces the camera when it is current, with its card hanging on the front of
+// that step in the middle of the view.
+export const STAIRS = { base: 0, spacing: 5.3, inner: 0.6, outer: 4.4, rail: 4.5, stepHeight: 0.26, turn: (Math.PI * 2) / Math.max(1, MILESTONE_COUNT - 1) } as const;
+// Work: a neural network laid out left to right, just above the top of the stairs and further along the dive, so
+// passing through the last card carries the camera forward to it. Each layer is a ring of neurons around the network's horizontal axis
 // (y = NETWORK.y, z = NETWORK.axisZ), one layer every `spacing` along x, with an input layer before the first stop and
 // an output layer after the last. Each stop is a layer whose projects sit on the front of its ring with their cards
 // beside it, and the camera pans right from one stop to the next.
-export const NETWORK = { axisZ: AXIS_Z - 24, y: STAIRS.top - (MILESTONE_COUNT - 1) * STAIRS.spacing - 10, spacing: 14, perLayer: 7, edgeLayer: 5 } as const;
+export const NETWORK = { axisZ: AXIS_Z - 24, y: STAIRS.base + (MILESTONE_COUNT - 1) * STAIRS.spacing + 6, spacing: 14, perLayer: 7, edgeLayer: 5 } as const;
 export const layerX = (layer: number) => layer * NETWORK.spacing;
 // The closing mark sits further right, so the camera keeps panning into it after the last stop.
 export const CLOSE = { x: layerX(STOP_COUNT - 1) + 18, y: NETWORK.y, z: NETWORK.axisZ - 10, distance: 14 } as const;
@@ -164,7 +165,7 @@ export function slotPlace(slot: number, size: number, aspect: number) {
 }
 
 // The staircase's angle around the axis at height y; steps, rail, and milestones all share it.
-export const stairsAngleAt = (y: number) => ((STAIRS.top - y) / STAIRS.spacing) * (STAIRS.turn + Math.PI * 2);
+export const stairsAngleAt = (y: number) => ((y - STAIRS.base) / STAIRS.spacing) * (STAIRS.turn + Math.PI * 2);
 
 // Facing (toward a camera at this angle) and screen-right directions for a camera orbiting an axis.
 const around = (angle: number) => ({ front: [Math.sin(angle), 0, Math.cos(angle)] as V3, right: [Math.cos(angle), 0, -Math.sin(angle)] as V3 });
@@ -242,7 +243,7 @@ export function networkSynapses(layers: Neuron[][]): Synapse[] {
 
 export function milestonePlacement(index: number, aspect: number) {
   const frame = stairsFrame(aspect);
-  const y = STAIRS.top - index * STAIRS.spacing;
+  const y = STAIRS.base + index * STAIRS.spacing;
   const { front, right } = around(index * STAIRS.turn);
   const edge: V3 = [front[0] * STAIRS.outer, y, AXIS_Z + front[2] * STAIRS.outer];
   const card: V3 = [front[0] * frame.cardRadius, y - frame.cardDrop, AXIS_Z + front[2] * frame.cardRadius];
@@ -271,7 +272,7 @@ export function diveDistance(aspect: number) {
 function stairsPose(s: number, aspect: number): Pose {
   const frame = stairsFrame(aspect);
   const milestone = timelinePosition(s);
-  const y = STAIRS.top - milestone * STAIRS.spacing;
+  const y = STAIRS.base + milestone * STAIRS.spacing;
   const { front } = around(milestone * STAIRS.turn);
   return {
     position: [front[0] * frame.distance, y + frame.lift, AXIS_Z + front[2] * frame.distance],
