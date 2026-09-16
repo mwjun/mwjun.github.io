@@ -47,7 +47,9 @@ export function createLabEngine(options: LabEngineOptions): LabEngine | null {
   const compact = window.matchMedia("(max-width: 759px), (pointer: coarse)").matches;
   const side = compact ? 256 : 384;
   const count = side * side;
-  const dpr = Math.min(window.devicePixelRatio || 1, compact ? 1.5 : 1.75);
+  // Phones are capped below their native ratio to keep the fill rate sane, but 1.5 left card text visibly soft: a
+  // full-width card rasterized into only ~585 device pixels on a 390pt screen. 2 is the compromise.
+  const dpr = Math.min(window.devicePixelRatio || 1, compact ? 2 : 1.75);
   renderer.setPixelRatio(dpr);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.05;
@@ -131,10 +133,19 @@ export function createLabEngine(options: LabEngineOptions): LabEngine | null {
   let disposed = false;
   let frameId = 0;
   let resizeTimer = 0;
+  // A phone grows and shrinks its viewport as the browser's own URL bar hides and returns, firing resize the whole
+  // way down a slow scroll. The layout is in svh and does not move with it, so answering those height-only changes
+  // just reframes the scene under a still finger. Anything that genuinely matters - a rotation, a real relayout -
+  // changes the width or moves the height far more than the chrome ever does.
+  const CHROME_HEIGHT = 200;
+  let sizedWidth = 0;
+  let sizedHeight = 0;
 
   const resize = () => {
     const width = window.innerWidth;
     const height = window.innerHeight;
+    sizedWidth = width;
+    sizedHeight = height;
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
     renderer.setSize(width, height, false);
@@ -157,6 +168,7 @@ export function createLabEngine(options: LabEngineOptions): LabEngine | null {
     }
   };
   const onResize = () => {
+    if (compact && window.innerWidth === sizedWidth && Math.abs(window.innerHeight - sizedHeight) < CHROME_HEIGHT) return;
     window.clearTimeout(resizeTimer);
     resizeTimer = window.setTimeout(resize, 120);
   };

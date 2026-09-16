@@ -26,8 +26,9 @@ function wrap(context: CanvasRenderingContext2D, text: string, maxWidth: number)
   return lines;
 }
 
-// Phones draw card faces at three-quarter resolution, since there are close to thirty of them.
-const TEXTURE_RESOLUTION = typeof window !== "undefined" && window.matchMedia?.("(max-width: 759px), (pointer: coarse)").matches ? 0.75 : 1;
+// Card faces are drawn at full resolution everywhere: at three quarters the text was softer than the phone's render
+// buffer, so the saving cost sharpness the device could actually resolve.
+const TEXTURE_RESOLUTION = 1;
 
 // The shared card face: a dark rounded panel with flow lines unique to its seed and a shade for the text side. Drawing
 // happens in 1024 x 640 units regardless of the canvas's actual resolution.

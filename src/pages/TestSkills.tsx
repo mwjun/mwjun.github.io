@@ -34,6 +34,11 @@ export default function TestSkills() {
         setQuery(entry.skill);
         setCategory(null);
       },
+      // Clicking or tapping away from the dots leaves the selection, the same as Escape or the clear button.
+      onDismiss: () => {
+        setQuery("");
+        setCategory(null);
+      },
       onVisibleCount: setShown,
     });
     sphere.current = instance;

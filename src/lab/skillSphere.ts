@@ -70,6 +70,8 @@ type Options = {
   labels: (HTMLElement | null)[];
   reducedMotion: boolean;
   onPick: (entry: SkillEntry) => void;
+  // A tap that lands on no dot, which the page treats as leaving the selection.
+  onDismiss: () => void;
   onVisibleCount: (shown: number) => void;
 };
 
@@ -78,7 +80,7 @@ const easeInOut = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t 
 const CAMERA_Z = 10;
 const LAYOUT_Z = 3;
 
-export function createSkillSphere({ canvas, labels, reducedMotion, onPick, onVisibleCount }: Options): SkillSphere | null {
+export function createSkillSphere({ canvas, labels, reducedMotion, onPick, onDismiss, onVisibleCount }: Options): SkillSphere | null {
   let renderer: THREE.WebGLRenderer;
   try {
     renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "high-performance" });
@@ -239,7 +241,8 @@ export function createSkillSphere({ canvas, labels, reducedMotion, onPick, onVis
   const observer = new ResizeObserver(resize);
   observer.observe(canvas);
 
-  // Pointer: drag spins the sphere with inertia, hover names a dot, a click without dragging picks it.
+  // Pointer: drag spins the sphere with inertia, hover names a dot, a click without dragging picks it, and a
+  // click that misses every dot clears the selection.
   const pointer = new THREE.Vector2(9, 9);
   const drag = { active: false, moved: 0, lastX: 0, lastY: 0, spinX: 0, spinY: 0 };
   let hovered = -1;
@@ -273,7 +276,10 @@ export function createSkillSphere({ canvas, labels, reducedMotion, onPick, onVis
     if (drag.moved < 6) {
       toNdc(event);
       const index = pick();
+      // Tapping a dot picks it; tapping past them all is the way back out, so leaving a selection never means hunting
+      // for the clear button.
       if (index >= 0) onPick(SKILLS[index]);
+      else onDismiss();
     }
   };
   const onPointerLeave = () => pointer.set(9, 9);
