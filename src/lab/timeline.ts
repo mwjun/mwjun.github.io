@@ -364,9 +364,14 @@ const COPY_WINDOWS: Record<number, readonly [number, number, number, number]> = 
   2: WORK_COPY,
 };
 
-// The closing line is held back until the very end of the last section, arriving in the moment before the sticky frame
-// releases and the words move to the middle of the screen.
-export const closingReveal = (s: number) => smoothRange(LAST_SCENE + 0.86, LAST_SCENE + 0.95, s);
+// The closing plays as a sequence rather than arriving all at once: the mark forms from the particles, then the first
+// line, then a stretch of scroll, then the second, and only then do the words settle to the middle of the screen with
+// the last phrase. Fractions of the way through the final section.
+export const CLOSING = { lines: [[0.38, 0.48], [0.58, 0.68]], settle: [0.8, 0.9] } as const;
+export const closingLine = (index: number, s: number) => smoothRange(LAST_SCENE + CLOSING.lines[index][0], LAST_SCENE + CLOSING.lines[index][1], s);
+// How many of the closing lines have started arriving, so each one decodes on its own beat instead of together.
+export const closingStep = (s: number) => CLOSING.lines.filter(([start]) => s >= LAST_SCENE + start).length;
+export const closingReveal = (s: number) => smoothRange(LAST_SCENE + CLOSING.settle[0], LAST_SCENE + CLOSING.settle[1], s);
 
 // How far through its burn-off a section's copy is, 0 to 1: the exit half of copyVisibility, which the page uses to
 // lift, blur and flare the words as they go.

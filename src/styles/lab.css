@@ -33,7 +33,7 @@ html.lab-dragging, html.lab-dragging * { cursor: grabbing !important; user-selec
 /* Paced like the About page journey: roughly a screen of scroll per milestone and per project card. */
 .lab-scene-timeline { height: 1450svh; }
 .lab-scene-work { height: 1100svh; }
-.lab-scene-contact { height: 150svh; }
+.lab-scene-contact { height: 420svh; }
 .lab-frame { position: sticky; top: 0; height: 100svh; display: flex; padding: 150px var(--lab-gutter) clamp(40px, 7svh, 72px); opacity: var(--reveal, 0); transform: translate3d(0, calc((1 - var(--reveal, 0)) * 26px), 0); }
 .lab-frame::before { content: ""; position: absolute; inset: auto 0 0; z-index: -1; height: 60%; background: linear-gradient(to top, #03060ad9, #03060a00); pointer-events: none; }
 .lab-frame:focus-within { opacity: 1; transform: none; }
@@ -49,6 +49,12 @@ html.lab-dragging, html.lab-dragging * { cursor: grabbing !important; user-selec
 .lab-kicker { margin: 0 0 20px; font: 500 11px/1.7 'JetBrains Mono', monospace; letter-spacing: .2em; text-transform: uppercase; color: #7f9ba4; }
 .lab-heading { margin: 0; font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: clamp(30px, 4.3vw, 70px); line-height: 1; letter-spacing: -.055em; text-transform: uppercase; color: #eef5f6; }
 .lab-heading > span { display: block; }
+/* Each closing line arrives on its own beat, and the words settle to the middle of the screen with the last one.
+   The vars default to 1 so the page without WebGL, which never drives them, simply shows the finished text. */
+.lab-line { opacity: var(--line, 1); transform: translate3d(0, calc((1 - var(--line, 1)) * 16px), 0); }
+.lab-line-1 { --line: var(--line1, 1); }
+.lab-line-2 { --line: var(--line2, 1); }
+.lab-scene-contact .lab-copy { transform: translate3d(0, calc(var(--settle, 0) * -11vh), 0); }
 .lab-page.is-open .lab-cue { opacity: 1; }
 .lab-accent { color: var(--accent); }
 /* The closing line fades in after the heading, on its own beat. */

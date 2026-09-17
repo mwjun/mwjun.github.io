@@ -2,7 +2,7 @@ import { cleanup, render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import { projects } from "@/data/projects";
-import { AXIS_Z, CAMERA_FOV, CARD_COUNT, CARD_SIZE, INTRO, LAST_SCENE, MILESTONE_COUNT, MORPHS, NAV_ANCHORS, NETWORK, ORDERED_PROJECTS, PROJECT_CATEGORIES, STAIRS, STOPS, STOP_COUNT, TRANSITION, WINDOWS, ambientFlow, beatWeights, cameraPoseAt, categoryStop, closingReveal, copyBurn, copyVisibility, cursorRepel, introMorph, layerX, milestoneDissolve, milestoneScene, milestonePlacement, milestoneReveal, morphAt, networkLayers, networkSynapses, projectPlacement, projectReveal, stopOf, stopScene, swirlFor } from "@/lab/timeline";
+import { AXIS_Z, CAMERA_FOV, CARD_COUNT, CARD_SIZE, INTRO, LAST_SCENE, MILESTONE_COUNT, MORPHS, NAV_ANCHORS, NETWORK, ORDERED_PROJECTS, PROJECT_CATEGORIES, STAIRS, STOPS, STOP_COUNT, TRANSITION, WINDOWS, ambientFlow, beatWeights, cameraPoseAt, categoryStop, closingLine, closingReveal, closingStep, copyBurn, copyVisibility, cursorRepel, introMorph, layerX, milestoneDissolve, milestoneScene, milestonePlacement, milestoneReveal, morphAt, networkLayers, networkSynapses, projectPlacement, projectReveal, stopOf, stopScene, swirlFor } from "@/lab/timeline";
 
 vi.mock("@/lab/engine", () => ({ createLabEngine: () => null }));
 const { default: Test } = await import("@/pages/Test");
@@ -282,9 +282,16 @@ describe("Test page choreography", () => {
       for (let i = 0; i < CARD_COUNT; i++) expect(copyVisibility(2, s, LAST_SCENE) * projectReveal(i, s)).toBe(0);
     }
     expect(copyVisibility(LAST_SCENE, LAST_SCENE + 1, LAST_SCENE)).toBe(1);
-    // The closing line waits until the last heading has settled.
-    expect(closingReveal(LAST_SCENE + 0.3)).toBe(0);
-    expect(closingReveal(LAST_SCENE + 0.8)).toBe(0);
+    // The closing is a sequence: first line, then the second a stretch of scroll later, then the settle and last phrase.
+    expect(closingLine(0, LAST_SCENE + 0.3)).toBe(0);
+    expect(closingLine(0, LAST_SCENE + 0.5)).toBe(1);
+    expect(closingLine(1, LAST_SCENE + 0.5)).toBe(0);
+    expect(closingLine(1, LAST_SCENE + 0.7)).toBe(1);
+    expect(closingStep(LAST_SCENE + 0.3)).toBe(0);
+    expect(closingStep(LAST_SCENE + 0.5)).toBe(1);
+    expect(closingStep(LAST_SCENE + 0.7)).toBe(2);
+    // Nothing settles to the middle until both lines are up.
+    expect(closingReveal(LAST_SCENE + 0.7)).toBe(0);
     expect(closingReveal(LAST_SCENE + 1)).toBe(1);
   });
 });

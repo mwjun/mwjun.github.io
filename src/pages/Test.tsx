@@ -5,7 +5,7 @@ import ScrambleText from "@/components/ScrambleText";
 import SiteFooter from "@/components/SiteFooter";
 import { timeline } from "@/data/timeline";
 import { createLabEngine, type LabCard } from "@/lab/engine";
-import { INTRO, LAST_SCENE, NAV_ANCHORS, ORDERED_PROJECTS, PROJECT_CATEGORIES, categoryStop, closingReveal, copyBurn, copyVisibility, stopScene } from "@/lab/timeline";
+import { INTRO, LAST_SCENE, NAV_ANCHORS, ORDERED_PROJECTS, PROJECT_CATEGORIES, categoryStop, closingLine, closingReveal, closingStep, copyBurn, copyVisibility, stopScene } from "@/lab/timeline";
 import "@/styles/lab.css";
 
 // Every project from the Work page, grouped by category in the order the network shows them.
@@ -26,6 +26,8 @@ export default function Test() {
   const jumpToScene = useRef<(s: number) => void>(() => undefined);
   const [status, setStatus] = useState<Status>("loading");
   const [active, setActive] = useState(0);
+  // How far through the closing sequence the scroll has reached, so each line decodes as it arrives.
+  const [closing, setClosing] = useState(0);
   const [hovered, setHovered] = useState<LabCard | null>(null);
 
   useEffect(() => {
@@ -57,6 +59,7 @@ export default function Test() {
     const arrival = window.location.hash ? requestAnimationFrame(() => document.getElementById(window.location.hash.slice(1))?.scrollIntoView({ behavior: "instant" })) : 0;
 
     let shown = -1;
+    let shownClosing = -1;
     const engine = canvas.current && createLabEngine({
       canvas: canvas.current,
       reducedMotion: still,
@@ -84,7 +87,18 @@ export default function Test() {
             best = i;
           }
         });
-        sections[LAST_SCENE]?.style.setProperty("--closing", closingReveal(s).toFixed(3));
+        const closingSection = sections[LAST_SCENE];
+        if (closingSection) {
+          closingSection.style.setProperty("--line1", closingLine(0, s).toFixed(3));
+          closingSection.style.setProperty("--line2", closingLine(1, s).toFixed(3));
+          closingSection.style.setProperty("--settle", closingReveal(s).toFixed(3));
+          closingSection.style.setProperty("--closing", closingReveal(s).toFixed(3));
+        }
+        const step = closingStep(s);
+        if (step !== shownClosing) {
+          shownClosing = step;
+          setClosing(step);
+        }
         if (best !== shown && bestVisibility > 0.4) {
           shown = best;
           setActive(best);
@@ -164,7 +178,7 @@ export default function Test() {
         <NavAnchor id="contact" />
         <div className="lab-frame lab-frame-center">
           <div className="lab-copy">
-            <h2 id="lab-contact" className="lab-heading"><span><ScrambleText text="The rest of the story" active={decoding(3)} still={still} /></span><span className="lab-accent"><ScrambleText text="isn't written yet." active={decoding(3)} still={still} /></span></h2>
+            <h2 id="lab-contact" className="lab-heading"><span className="lab-line lab-line-1"><ScrambleText text="The rest of the story" active={status === "ready" && closing >= 1} still={still} /></span><span className="lab-accent lab-line lab-line-2"><ScrambleText text="isn't written yet." active={status === "ready" && closing >= 2} still={still} /></span></h2>
             <p className="lab-closing">So let's make it a good one.</p>
             <div className="lab-cta-row">
               <a href="/skills" target="_blank" rel="noopener noreferrer" className="lab-cta">Check my skillset</a>
