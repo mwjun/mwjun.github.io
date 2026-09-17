@@ -73,9 +73,11 @@ html.lab-dragging, html.lab-dragging * { cursor: grabbing !important; user-selec
 .lab-roles { max-width: 34ch; margin: 0; }
 /* Matches the roles line beside it exactly. */
 .lab-intro-body { margin: 0; max-width: 34ch; font: 500 11px/1.7 'JetBrains Mono', monospace; letter-spacing: .2em; text-transform: uppercase; color: #7f9ba4; text-align: right; }
-.lab-cue { opacity: 0; transition: opacity 900ms ease; position: absolute; left: 50%; bottom: clamp(40px, 7svh, 72px); display: grid; justify-items: center; gap: 12px; margin: 0; transform: translateX(-50%); font: 500 10px/1 'JetBrains Mono', monospace; letter-spacing: .3em; text-transform: uppercase; color: #6f8a93; }
-.lab-cue i { width: 1px; height: 44px; background: linear-gradient(var(--accent), transparent) no-repeat; background-size: 100% 40%; animation: lab-cue 1.8s ease-in-out infinite; }
+.lab-cue { opacity: 0; transition: opacity 900ms ease; position: absolute; left: 50%; bottom: clamp(40px, 7svh, 72px); display: grid; justify-items: center; gap: 12px; margin: 0; transform: translateX(-50%); font: 500 11px/1 'JetBrains Mono', monospace; letter-spacing: .3em; text-transform: uppercase; color: #8fb3b8; }
+.lab-cue i { width: 1px; height: 44px; background: linear-gradient(rgb(var(--accent-rgb)), transparent) no-repeat; background-size: 100% 40%; animation: lab-cue 1.8s ease-in-out infinite; }
 @keyframes lab-cue { from { background-position: 0 -40%; } to { background-position: 0 160%; } }
+.lab-cue span { animation: lab-cue-flash 1.7s ease-in-out infinite; }
+@keyframes lab-cue-flash { 0%, 100% { opacity: 1; } 50% { opacity: .28; } }
 
 
 .lab-links { display: grid; gap: 2px; margin: 28px 0 0; padding: 0; list-style: none; }
@@ -120,5 +122,5 @@ html.lab-dragging, html.lab-dragging * { cursor: grabbing !important; user-selec
 
 @media (prefers-reduced-motion: reduce) {
   .lab-frame { transform: none; }
-  .lab-loader i, .lab-cue i { animation: none; }
+  .lab-loader i, .lab-cue i, .lab-cue span { animation: none; }
 }

@@ -143,7 +143,7 @@ export default function Test() {
             <p className="lab-kicker lab-roles">Fullstack software developer · AI engineer · Cloud engineer · Data professional</p>
             <p className="lab-body lab-intro-body">Full-stack engineering, amplified through applied AI. Grounded in data science, with range across business channels.</p>
           </div>
-          <p className="lab-cue"><i />Scroll</p>
+          <p className="lab-cue"><i /><span>Keep scrolling</span></p>
         </div>
       </section>
 
