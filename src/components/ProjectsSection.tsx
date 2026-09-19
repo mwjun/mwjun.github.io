@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { projects } from "@/data/projects";
-import SiteFooter from "./SiteFooter";
 import "@/styles/collections.css";
 
 const categories = ["All work", "Web experiences", "AI & data", "Games", "Portfolio evolution"];
@@ -48,6 +47,5 @@ export default function ProjectsSection() {
         </AnimatePresence>
       </motion.div>
     </section>
-    <SiteFooter />
   </div>;
 }

@@ -2,7 +2,6 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useReducedMotion } from "framer-motion";
 import { ArrowLeft, Search, X } from "lucide-react";
-import SiteFooter from "@/components/SiteFooter";
 import { CATEGORIES, CATEGORY_COLORS, SKILLS, rankSkills } from "@/lab/skillSearch";
 import { createSkillSphere, type SkillSphere } from "@/lab/skillSphere";
 import "@/styles/test-skills.css";
@@ -105,7 +104,6 @@ export default function TestSkills() {
           {(focused ? results : SKILLS).map(entry => <li key={entry.index}><span style={{ background: CATEGORY_COLORS[entry.groupIndex] }} aria-hidden="true" />{entry.skill}<small>{entry.category}</small></li>)}
         </ul>
       </section>
-      <SiteFooter />
     </div>
   );
 }

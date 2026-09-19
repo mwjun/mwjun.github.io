@@ -1,7 +1,6 @@
 import { ArrowDownToLine, ArrowUpRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import HelixTimeline3D from "./HelixTimeline3D";
-import SiteFooter from "./SiteFooter";
 import { timeline } from "@/data/timeline";
 import "@/styles/portfolio.css";
 import "@/styles/about.css";
@@ -31,7 +30,6 @@ export default function AboutSection() {
           <div className="about-results"><div><strong>10+</strong><span>years across industries</span><p>Insurance, healthcare, e-commerce, entertainment, hospitality, and IT.</p></div><div><strong>7-figure</strong><span>monthly e-commerce revenue</span><p>Data insights helped grow monthly revenue from $175K to seven figures.</p></div><div><strong>Full stack + AI</strong><span>not limited to one role</span><p>Interfaces, backend services, data, cloud, and AI, so I can take an idea from design to deployment.</p></div><div><strong>Mentor</strong><span>learning well and teaching well</span><p>I mentor new team members and help them get up to speed, and I take pride in explaining things clearly, from code to complex ideas.</p></div></div>
         </div>
       </section>
-      <SiteFooter />
     </div>
   );
 }

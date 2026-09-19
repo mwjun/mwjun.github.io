@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
 import ScrambleText from "@/components/ScrambleText";
-import SiteFooter from "@/components/SiteFooter";
 import { timeline } from "@/data/timeline";
 import { createLabEngine, type LabCard } from "@/lab/engine";
 import { INTRO, LAST_SCENE, NAV_ANCHORS, ORDERED_PROJECTS, PROJECT_CATEGORIES, categoryStop, closingLine, closingReveal, closingStep, copyBurn, copyVisibility, stopScene } from "@/lab/timeline";
@@ -193,7 +192,6 @@ export default function Test() {
         </div>
       </section>
 
-      <SiteFooter />
     </div>
   );
 }

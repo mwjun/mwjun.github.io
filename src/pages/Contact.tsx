@@ -1,6 +1,5 @@
 import ContactSection from "@/components/ContactSection";
-import SiteFooter from "@/components/SiteFooter";
 
-const Contact = () => <><ContactSection /><SiteFooter /></>;
+const Contact = () => <ContactSection />;
 
 export default Contact;
