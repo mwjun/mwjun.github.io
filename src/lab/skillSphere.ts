@@ -241,7 +241,7 @@ export function createSkillSphere({ canvas, labels, reducedMotion, onPick, onDis
   const observer = new ResizeObserver(resize);
   observer.observe(canvas);
 
-  // Pointer: drag spins the sphere with inertia, hover names a dot, a click without dragging picks it, and a
+  // Pointer: drag spins the sphere with inertia, hover highlights a dot, a click without dragging reveals it, and a
   // click that misses every dot clears the selection.
   const pointer = new THREE.Vector2(9, 9);
   const drag = { active: false, moved: 0, lastX: 0, lastY: 0, spinX: 0, spinY: 0 };
@@ -372,14 +372,13 @@ export function createSkillSphere({ canvas, labels, reducedMotion, onPick, onDis
 
       const label = labels[i];
       if (!label) continue;
-      const labelOpacity = Math.max(t > 0.55 ? (t - 0.55) / 0.45 : 0, i === hovered ? 1 : 0);
+      const labelOpacity = t > 0.55 ? (t - 0.55) / 0.45 : 0;
       if (labelOpacity > 0.01) {
         projected.copy(world).project(camera);
         const x = (projected.x * 0.5 + 0.5) * width;
         const y = (-projected.y * 0.5 + 0.5) * height;
         label.style.opacity = labelOpacity.toFixed(3);
         label.style.transform = `translate3d(${(x + 14).toFixed(1)}px, ${y.toFixed(1)}px, 0) translateY(-50%)`;
-        label.classList.toggle("is-hover", i === hovered && t < 0.55);
         labelShown[i] = 1;
       } else if (labelShown[i]) {
         label.style.opacity = "0";

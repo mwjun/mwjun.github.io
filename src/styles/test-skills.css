@@ -6,14 +6,15 @@
 
 .ts-labels { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
 .ts-label { position: absolute; top: 0; left: 0; opacity: 0; font: 500 13px/1 'JetBrains Mono', monospace; letter-spacing: .03em; color: #e8f3f4; white-space: nowrap; max-width: var(--ts-cell, 260px); overflow: hidden; text-overflow: ellipsis; text-shadow: 0 0 12px #03060a, 0 0 4px #03060a; will-change: transform, opacity; }
-.ts-label.is-hover { max-width: none; padding: 6px 10px; border: 1px solid color-mix(in srgb, var(--dot) 45%, transparent); border-radius: 999px; background: #03060ae0; text-shadow: none; }
 
 .ts-back { position: absolute; top: 28px; left: var(--ts-gutter); z-index: 2; display: inline-flex; align-items: center; gap: 8px; font: 500 11px/1 'JetBrains Mono', monospace; letter-spacing: .16em; text-transform: uppercase; color: #8aa4ac; transition: color 160ms ease; }
 
 .ts-ui { position: absolute; left: 50%; bottom: clamp(26px, 6svh, 60px); z-index: 2; display: grid; justify-items: center; gap: 12px; width: min(680px, calc(100vw - 32px)); transform: translateX(-50%); }
 .ts-search { display: flex; align-items: center; gap: 12px; width: 100%; height: 58px; padding: 0 12px 0 20px; border: 1px solid rgb(var(--accent-rgb) / .28); border-radius: 999px; background: #050a0fd9; color: #8fb3b8; backdrop-filter: blur(14px); box-shadow: 0 18px 60px #0009; transition: border-color 200ms ease, box-shadow 200ms ease; }
-.ts-search:focus-within { border-color: rgb(var(--accent-rgb) / .7); box-shadow: 0 18px 60px #0009, 0 0 0 4px rgb(var(--accent-rgb) / .08); }
+.ts-search:focus-within { border-color: rgb(var(--accent-rgb) / .9); box-shadow: 0 18px 60px #0009, 0 0 0 3px rgb(var(--accent-rgb) / .18); }
 .ts-search input { flex: 1; min-width: 0; height: 100%; border: 0; outline: 0; background: transparent; font-size: 16px; color: #eef5f6; }
+/* The pill supplies the focus indicator, replacing the global rectangular input ring. */
+.ts-search input:focus-visible { outline: none; box-shadow: none; }
 .ts-search input::placeholder { color: #6f8a93; }
 .ts-search input::-webkit-search-cancel-button { display: none; }
 .ts-search button { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; color: #9fb2b9; }
