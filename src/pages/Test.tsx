@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
-import { ArrowDown, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowDown, ArrowUp, Github, Linkedin, Mail } from "lucide-react";
 import ScrambleText from "@/components/ScrambleText";
 import { timeline } from "@/data/timeline";
 import { createLabEngine, type LabCard } from "@/lab/engine";
 import { INTRO, LAST_SCENE, NAV_ANCHORS, ORDERED_PROJECTS, PROJECT_CATEGORIES, categoryStop, closingLine, closingReveal, closingStep, copyBurn, copyVisibility, stopScene } from "@/lab/timeline";
+import { createScrollGuide } from "@/lab/scrollGuide";
 import "@/styles/lab.css";
 
 // Every project from the Work page, grouped by category in the order the network shows them.
@@ -22,7 +23,7 @@ export default function Test() {
   const scenes = useRef<(HTMLElement | null)[]>([]);
   const hudDepth = useRef<HTMLSpanElement>(null);
   const hudProgress = useRef<HTMLElement>(null);
-  const jumpToScene = useRef<(s: number) => void>(() => undefined);
+  const jumpToScene = useRef<(s: number, instant?: boolean) => void>(() => undefined);
   const [status, setStatus] = useState<Status>("loading");
   const [active, setActive] = useState(0);
   // How far through the closing sequence the scroll has reached, so each line decodes as it arrives.
@@ -34,7 +35,12 @@ export default function Test() {
     let tops: number[] = [];
     let spans: number[] = [];
     const measure = () => {
-      tops = sections.map(element => element.getBoundingClientRect().top + window.scrollY);
+      // Measure layout rather than the animated visual bounds: Cascade temporarily translates the page on entry.
+      tops = sections.map(element => {
+        let top = 0;
+        for (let node: HTMLElement | null = element; node; node = node.offsetParent as HTMLElement | null) top += node.offsetTop;
+        return top;
+      });
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       // The last section runs to the bottom of the page so the final scene always completes.
       spans = sections.map((_, i) => Math.max(1, i < LAST_SCENE ? tops[i + 1] - tops[i] : maxScroll - tops[i]));
@@ -46,12 +52,18 @@ export default function Test() {
     const sceneCoordinate = () => {
       const y = window.scrollY;
       for (let i = LAST_SCENE; i > 0; i--) if (y >= tops[i]) return i + Math.min(1, (y - tops[i]) / spans[i]);
-      return Math.min(1, Math.max(0, y / (spans[0] || 1)));
+      return Math.min(1, Math.max(0, (y - (tops[0] || 0)) / (spans[0] || 1)));
     };
     // The inverse of sceneCoordinate: scroll so the scene sits at s.
-    jumpToScene.current = s => {
+    const sceneTop = (s: number) => {
       const i = Math.min(LAST_SCENE, Math.max(0, Math.floor(s)));
-      window.scrollTo({ top: tops[i] + (s - i) * spans[i], behavior: still ? "auto" : "smooth" });
+      return tops[i] + (s - i) * spans[i];
+    };
+    let scrollGuide: ReturnType<typeof createScrollGuide> | null = null;
+    let renderedScene = sceneCoordinate();
+    jumpToScene.current = (s, instant = false) => {
+      scrollGuide?.cancel();
+      window.scrollTo({ top: sceneTop(s), behavior: still || instant ? "instant" : "smooth" });
     };
 
     // Arriving with a hash (from another page, or after the page chunk loaded) lands on its anchor once it exists.
@@ -65,7 +77,17 @@ export default function Test() {
       cards,
       milestones: timeline,
       sceneCoordinate,
-      onReady: () => setStatus("ready"),
+      onReady: () => {
+        setStatus("ready");
+        if (page.current) scrollGuide = createScrollGuide({
+          root: page.current,
+          scene: sceneCoordinate,
+          renderedScene: () => renderedScene,
+          // Instant writes avoid competing with the document's CSS smooth-scroll behavior.
+          scrollToScene: s => window.scrollTo({ top: sceneTop(s), behavior: "instant" }),
+          reducedMotion: still,
+        });
+      },
       onHoverCard: setHovered,
       // Private repositories have nothing to open. Everything else opens in a new tab, so coming back doesn't mean
       // scrolling the whole story again.
@@ -73,6 +95,7 @@ export default function Test() {
         if (card.link) window.open(card.link, "_blank", "noopener,noreferrer");
       },
       onFrame: ({ s, cameraY, introTime }) => {
+        renderedScene = s;
         // The scroll cue waits until the opening word has finished spelling POSSIBILITY.
         page.current?.classList.toggle("is-open", introTime >= INTRO.end);
         let best = 0;
@@ -93,6 +116,7 @@ export default function Test() {
           closingSection.style.setProperty("--settle", closingReveal(s).toFixed(3));
           closingSection.style.setProperty("--closing", closingReveal(s).toFixed(3));
         }
+        page.current?.classList.toggle("is-finished", closingReveal(s) > 0.01);
         const step = closingStep(s);
         if (step !== shownClosing) {
           shownClosing = step;
@@ -111,6 +135,7 @@ export default function Test() {
     return () => {
       cancelAnimationFrame(arrival);
       observer?.disconnect();
+      scrollGuide?.dispose();
       engine?.dispose();
     };
   }, [still]);
@@ -123,6 +148,11 @@ export default function Test() {
   const openCategory = (category: string) => {
     if (status === "fallback") document.getElementById("lab-projects")?.scrollIntoView({ behavior: still ? "auto" : "smooth" });
     else jumpToScene.current(stopScene(categoryStop(category)));
+  };
+  const returnToBeginning = (instant: boolean) => {
+    if (status === "fallback") window.scrollTo({ top: 0, behavior: still || instant ? "instant" : "smooth" });
+    else jumpToScene.current(0, instant);
+    page.current?.querySelector<HTMLElement>("#lab-title")?.focus({ preventScroll: true });
   };
 
   return (
@@ -137,10 +167,9 @@ export default function Test() {
 
       <section ref={sceneRef(0)} className="lab-scene lab-scene-intro" data-nav="story" aria-labelledby="lab-title">
         <div className="lab-frame">
-          <h1 id="lab-title" className="lab-title"><span className="lab-title-lead">Complexity into</span> <span className="lab-title-word">possibility.</span></h1>
+          <h1 id="lab-title" className="lab-title" tabIndex={-1}><span className="lab-title-lead">Complexity into</span> <span className="lab-title-word">possibility.</span></h1>
           <div className="lab-intro-bottom">
             <p className="lab-kicker lab-roles">Fullstack software developer · AI engineer · Cloud engineer · Data professional</p>
-            <p className="lab-body lab-intro-body">Full-stack engineering, amplified through applied AI. Grounded in data science, with range across business channels.</p>
           </div>
           <p className="lab-cue"><i /><span>Keep scrolling</span></p>
         </div>
@@ -188,6 +217,7 @@ export default function Test() {
               <a href="https://www.linkedin.com/in/matt-jun-72a520319/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn (opens in a new tab)"><Linkedin size={15} aria-hidden="true" /> LinkedIn</a>
               <a href="/Matthew_Jun.pdf" download><ArrowDown size={15} aria-hidden="true" /> Résumé</a>
             </div>
+            <button type="button" className="lab-restart" onClick={event => returnToBeginning(event.detail === 0)}><ArrowUp size={16} aria-hidden="true" /> Back to beginning</button>
           </div>
         </div>
       </section>

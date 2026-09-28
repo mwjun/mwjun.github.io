@@ -16,14 +16,6 @@ export const projects = [
     note: "Private repository",
   },
   {
-    title: "Meal Roulette",
-    category: "AI & data",
-    description:
-      "A nutrition-focused meal discovery platform that generates recipes around macro goals, suggests ingredient substitutions, and tracks meals, daily progress, history, and streaks.",
-    tags: ["TypeScript", "React", "Vite", "GraphQL", "Zustand", "Vitest", "LLMs"],
-    note: "Private repository",
-  },
-  {
     title: "SynthMind",
     category: "AI & data",
     description:

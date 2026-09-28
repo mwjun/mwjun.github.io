@@ -51,10 +51,15 @@ export const categoryStop = (category: string) => STOPS.findIndex(stop => stop.c
 export const AXIS_Z = -40;
 
 // Timeline: a spiral staircase climbed from `base`, the oldest chapter, one milestone per `spacing` of rise. The camera
-// orbits outside it `turn` radians per milestone, one turn in all, while the stairs wind a full extra turn per milestone
-// (`turn + 2π`), so each milestone's step faces the camera when it is current, with its card hanging on the front of
-// that step in the middle of the view.
+// travels on the treads at eye level and looks toward the next part of the spiral, so the climb reads in first person.
 export const STAIRS = { base: 0, spacing: 5.3, inner: 0.6, outer: 4.4, rail: 4.5, stepHeight: 0.26, turn: (Math.PI * 2) / Math.max(1, MILESTONE_COUNT - 1) } as const;
+export const STAIR_STEP_ARC = ((STAIRS.turn + Math.PI * 2) * STAIRS.stepHeight) / STAIRS.spacing;
+export const STAIR_LANDING_Y = STAIRS.base + (MILESTONE_COUNT - 1) * STAIRS.spacing;
+export const STAIR_TREAD_INNER = 1.35;
+export const STAIR_TREAD_OUTER = 3.85;
+export const STAIR_LANDING = { length: 7, width: STAIR_TREAD_OUTER - STAIR_TREAD_INNER, eye: 0.65, card: 3.5 } as const;
+// Count down from the landing so every stair renderer and particle layer shares the exact same tread heights.
+export const stairStepY = (stepFromLanding: number) => STAIR_LANDING_Y - stepFromLanding * STAIRS.stepHeight;
 // Work: a neural network laid out left to right, just above the top of the stairs and further along the dive, so
 // passing through the last card carries the camera forward to it. Each layer is a ring of neurons around the network's horizontal axis
 // (y = NETWORK.y, z = NETWORK.axisZ), one layer every `spacing` along x, with an input layer before the first stop and
@@ -73,6 +78,9 @@ export const CLOSE = { x: layerX(STOP_COUNT - 1) + 18, y: NETWORK.y, z: NETWORK.
 const TIMELINE_COPY = [-0.1, 0.02, 0.12, 0.24] as const;
 const WORK_COPY = [0.1, 0.14, 0.19, 0.22] as const;
 export const WINDOWS = { timeline: [1 + TIMELINE_COPY[3] + 0.03, 1.86], work: [2 + WORK_COPY[3] + 0.03, 2.97], close: 3.3 } as const;
+// Once the work prompt has cleared, hold the camera on the first three projects before beginning the horizontal pan.
+// This gives that opening group the same readable pause as every later stop instead of revealing it during departure.
+const WORK_PAN_START = WINDOWS.work[0] + 0.05;
 // The handoff from the staircase to the network: dive until the last card fills the screen, dissolve it, go through.
 // After going through, the camera holds on the first stop while the copy plays, then the pan begins.
 export const TRANSITION = { dive: [WINDOWS.timeline[1], 2.0], dissolve: [2.0, 2.035], through: [2.03, 2.14] } as const;
@@ -131,13 +139,22 @@ export function ambientFlow(s: number) {
 const CLIMB_LEAD = 0.05;
 const climbStart = WINDOWS.timeline[0] + (WINDOWS.timeline[1] - WINDOWS.timeline[0]) * CLIMB_LEAD;
 
-// Progress through a beat, measured in milestones or stops.
-export const timelinePosition = (s: number) => clamp01((s - climbStart) / (WINDOWS.timeline[1] - climbStart)) * (MILESTONE_COUNT - 1);
+// Progress through the climb, measured in milestones. Each chapter holds squarely in the center, then the camera
+// makes a shorter eased climb to the next one. This keeps a card readable instead of letting it immediately drift away.
+export const timelinePosition = (s: number) => {
+  const last = MILESTONE_COUNT - 1;
+  const raw = clamp01((s - climbStart) / (WINDOWS.timeline[1] - climbStart)) * last;
+  if (raw >= last) return last;
+  const chapter = Math.floor(raw);
+  return chapter + smoothRange(0.2, 0.8, raw - chapter);
+};
 // The scene coordinate at which the camera is square on a milestone.
 export const milestoneScene = (index: number) => climbStart + (MILESTONE_COUNT <= 1 ? 0 : index / (MILESTONE_COUNT - 1)) * (WINDOWS.timeline[1] - climbStart);
-export const workPosition = (s: number) => clamp01((s - WINDOWS.work[0]) / (WINDOWS.work[1] - WINDOWS.work[0])) * (STOP_COUNT - 1);
+export const workPosition = (s: number) => clamp01((s - WORK_PAN_START) / (WINDOWS.work[1] - WORK_PAN_START)) * (STOP_COUNT - 1);
 // The scene coordinate at which the camera is centered on a stop.
-export const stopScene = (stop: number) => WINDOWS.work[0] + (STOP_COUNT <= 1 ? 0 : stop / (STOP_COUNT - 1)) * (WINDOWS.work[1] - WINDOWS.work[0]);
+export const stopScene = (stop: number) => stop === 0 || STOP_COUNT <= 1
+  ? WINDOWS.work[0]
+  : WORK_PAN_START + (stop / (STOP_COUNT - 1)) * (WINDOWS.work[1] - WORK_PAN_START);
 
 // How much each beat is on screen, for fades and ambient motion. The four weights always sum to one. The timeline
 // holds through the dive and hands over to the work as the camera goes through the card.
@@ -148,12 +165,16 @@ export function beatWeights(s: number) {
   return { hero: 1 - intoTimeline, timeline: intoTimeline * (1 - intoWork), work: intoWork * (1 - intoClose), close: intoClose };
 }
 
-// Milestone cards hang on the front of their step, just past the rail and a little below the tread, centered in view.
-export function stairsFrame(aspect: number) {
-  const narrow = aspect < 1;
-  // The camera rides at the height of the card itself (lift 0), so the current milestone's card is exactly square to
-  // the view instead of being looked down on and reading as tilted.
-  return { distance: 14, lift: 0, cardRadius: STAIRS.rail + 0.45, cardDrop: 0.35, scale: narrow ? 1.15 : 2.38 };
+// The camera walks along the treads and looks slightly down at the next few steps, with each card centered ahead.
+export function stairsFrame() {
+  return {
+    eyeRadius: 2.65,
+    eyeHeight: 1.3,
+    eyeShift: 0.15,
+    lookRadius: 1.6,
+    lookLead: 0.15,
+    lookLift: -0.42,
+  };
 }
 
 // Layer rings are taller than they are deep so they read as columns. On wide screens a stop's layer is a spine with its
@@ -180,6 +201,40 @@ export function slotPlace(slot: number, size: number, aspect: number) {
 
 // The staircase's angle around the axis at height y; steps, rail, and milestones all share it.
 export const stairsAngleAt = (y: number) => ((y - STAIRS.base) / STAIRS.spacing) * (STAIRS.turn + Math.PI * 2);
+// The walking camera rides near the middle of each tread instead of balancing on its leading edge.
+export const stairsViewAngleAt = (y: number) => stairsAngleAt(y) + STAIR_STEP_ARC * 0.45;
+// The last tread opens onto a straight platform. All landing geometry, particles, and the camera share this basis.
+export function landingPoint(forward: number, side = 0, lift = 0): V3 {
+  const angle = stairsAngleAt(STAIR_LANDING_Y);
+  const radius = (STAIR_TREAD_INNER + STAIR_TREAD_OUTER) / 2 + side;
+  return [
+    Math.sin(angle) * radius + Math.cos(angle) * forward,
+    STAIR_LANDING_Y + lift,
+    AXIS_Z + Math.cos(angle) * radius - Math.sin(angle) * forward,
+  ];
+}
+
+function landingPose(): Pose {
+  const { eyeHeight } = stairsFrame();
+  return { position: landingPoint(STAIR_LANDING.eye, 0, eyeHeight), target: landingPoint(STAIR_LANDING.card, 0, eyeHeight) };
+}
+
+// Size by actual projected bounds, including the closer edge of an upright card when looking down the stairs.
+// This avoids the old sudden size drop at portrait aspect ratios while retaining space around all four corners.
+function milestoneScale(eye: V3, card: V3, aspect: number) {
+  const distance = Math.hypot(eye[0] - card[0], eye[1] - card[1], eye[2] - card[2]);
+  const pitch = Math.abs(eye[1] - card[1]) / distance;
+  const vertical = Math.sqrt(1 - pitch * pitch);
+  const tan = Math.tan(CAMERA_FOV * Math.PI / 360);
+  const halfW = CARD_SIZE.width / 2;
+  const halfH = CARD_SIZE.height / 2;
+  const widthBound = 0.84 * tan * aspect;
+  const heightBound = 0.7 * tan;
+  return Math.min(
+    widthBound * distance / (halfW + widthBound * halfH * pitch),
+    heightBound * distance / (halfH * vertical + heightBound * halfH * pitch),
+  );
+}
 
 // Facing (toward a camera at this angle) and screen-right directions for a camera orbiting an axis.
 const around = (angle: number) => ({ front: [Math.sin(angle), 0, Math.cos(angle)] as V3, right: [Math.cos(angle), 0, -Math.sin(angle)] as V3 });
@@ -256,14 +311,18 @@ export function networkSynapses(layers: Neuron[][]): Synapse[] {
 }
 
 export function milestonePlacement(index: number, aspect: number) {
-  const frame = stairsFrame(aspect);
   const y = STAIRS.base + index * STAIRS.spacing;
-  const { front, right } = around(index * STAIRS.turn);
+  const { front, right } = around(stairsViewAngleAt(y));
   const edge: V3 = [front[0] * STAIRS.outer, y, AXIS_Z + front[2] * STAIRS.outer];
-  const card: V3 = [front[0] * frame.cardRadius, y - frame.cardDrop, AXIS_Z + front[2] * frame.cardRadius];
-  // Each card faces straight out from its step, so it turns with the staircase and only squares up to the camera
-  // when its milestone is current.
-  return { edge, card, front, right, normal: front, scale: frame.scale };
+  const finalChapter = index === MILESTONE_COUNT - 1;
+  const pose = finalChapter ? landingPose() : spiralPose(index);
+  // The card is on the sightline at every stop, including the level, straight final approach.
+  const card = pose.target;
+  const eye = pose.position;
+  const towardEye = [eye[0] - card[0], 0, eye[2] - card[2]] as V3;
+  const length = Math.hypot(towardEye[0], towardEye[2]);
+  const normal: V3 = [towardEye[0] / length, 0, towardEye[2] / length];
+  return { edge, card, front, right, normal, scale: milestoneScale(eye, card, aspect) };
 }
 
 export function projectPlacement(index: number, aspect: number) {
@@ -278,27 +337,48 @@ export function projectPlacement(index: number, aspect: number) {
 
 // How close the camera must be for the last card to cover the whole view, with a little to spare.
 export function diveDistance(aspect: number) {
-  const { scale } = stairsFrame(aspect);
+  const { scale } = milestonePlacement(MILESTONE_COUNT - 1, aspect);
   const tan = Math.tan((CAMERA_FOV / 2) * (Math.PI / 180));
   return 0.9 * Math.min((CARD_SIZE.height * scale) / (2 * tan), (CARD_SIZE.width * scale) / (2 * tan * aspect));
 }
 
-function stairsPose(s: number, aspect: number): Pose {
-  const frame = stairsFrame(aspect);
-  const milestone = timelinePosition(s);
+function spiralPose(milestone: number): Pose {
+  const frame = stairsFrame();
   const y = STAIRS.base + milestone * STAIRS.spacing;
-  const { front } = around(milestone * STAIRS.turn);
-  const cardY = y - frame.cardDrop;
+  const { front, right } = around(stairsViewAngleAt(y));
+  const lookProgress = milestone + frame.lookLead;
+  const lookPathY = STAIRS.base + lookProgress * STAIRS.spacing;
+  const lookY = lookPathY + frame.lookLift;
+  const look = around(stairsViewAngleAt(lookPathY)).front;
+  // Strafe the entire view rig toward the right half of the tread. Applying the same offset to the eye and target keeps
+  // the forward angle and downward pitch unchanged while placing the viewer away from the left edge of the stairs.
+  const shiftX = right[0] * frame.eyeShift;
+  const shiftZ = right[2] * frame.eyeShift;
   return {
-    position: [front[0] * frame.distance, cardY + frame.lift, AXIS_Z + front[2] * frame.distance],
-    target: [front[0] * frame.cardRadius, cardY, AXIS_Z + front[2] * frame.cardRadius],
+    position: [front[0] * frame.eyeRadius + shiftX, y + frame.eyeHeight, AXIS_Z + front[2] * frame.eyeRadius + shiftZ],
+    target: [look[0] * frame.lookRadius + shiftX, lookY, AXIS_Z + look[2] * frame.lookRadius + shiftZ],
   };
+}
+
+function stairsPose(s: number): Pose {
+  const milestone = timelinePosition(s);
+  const last = MILESTONE_COUNT - 1;
+  // Unwind the turn and raise the sightline while taking the last few steps onto the landing.
+  return blend(spiralPose(milestone), landingPose(), smoothRange(last - 0.28, last, milestone));
 }
 
 export function divePose(aspect: number): Pose {
   const { card, normal } = milestonePlacement(MILESTONE_COUNT - 1, aspect);
   const distance = diveDistance(aspect);
   return { position: [card[0] + normal[0] * distance, card[1], card[2] + normal[2] * distance], target: card };
+}
+
+function throughCardPose(aspect: number): Pose {
+  const { card, normal } = milestonePlacement(MILESTONE_COUNT - 1, aspect);
+  return {
+    position: [card[0] - normal[0] * 2, card[1], card[2] - normal[2] * 2],
+    target: [card[0] - normal[0] * 5, card[1], card[2] - normal[2] * 5],
+  };
 }
 
 function networkPose(s: number, aspect: number): Pose {
@@ -319,22 +399,26 @@ const blend = (a: Pose, b: Pose, t: number): Pose => ({
 // card, through it to the network, right along the network, then on to the close.
 export function cameraPoseAt(s: number, aspect: number): Pose {
   const hero: Pose = { position: [0, 0, HERO.z + HERO.distance], target: [0, 0, HERO.z] };
-  if (s < TRANSITION.dive[0]) return blend(hero, stairsPose(s, aspect), smoothRange(0.45, WINDOWS.timeline[0], s));
-  if (s < TRANSITION.through[0]) return blend(stairsPose(s, aspect), divePose(aspect), smoothRange(TRANSITION.dive[0], TRANSITION.dive[1], s));
-  if (s < WINDOWS.work[1]) return blend(divePose(aspect), networkPose(s, aspect), smoothRange(TRANSITION.through[0], TRANSITION.through[1], s));
+  if (s < TRANSITION.dive[0]) return blend(hero, stairsPose(s), smoothRange(0.45, WINDOWS.timeline[0], s));
+  if (s < TRANSITION.through[0]) return blend(stairsPose(s), divePose(aspect), smoothRange(TRANSITION.dive[0], TRANSITION.dive[1], s));
+  if (s < TRANSITION.through[1]) return blend(divePose(aspect), throughCardPose(aspect), smoothRange(TRANSITION.through[0], TRANSITION.through[1], s));
+  if (s < WINDOWS.work[0]) return blend(throughCardPose(aspect), networkPose(s, aspect), smoothRange(TRANSITION.through[1], WINDOWS.work[0], s));
+  if (s < WINDOWS.work[1]) return networkPose(s, aspect);
   const close: Pose = { position: [CLOSE.x, CLOSE.y, CLOSE.z + CLOSE.distance], target: [CLOSE.x, CLOSE.y, CLOSE.z] };
   return blend(networkPose(s, aspect), close, smoothRange(WINDOWS.work[1], WINDOWS.close, s));
 }
 
-// Milestone cards stay on their steps for the whole climb. The others fade as the dive begins; the last one holds
-// until it fills the screen and then dissolves.
+// Each milestone appears as the viewer approaches its landing, then gives way to the next. The final card holds for
+// the transition until it fills the screen and dissolves.
 export function milestoneReveal(index: number, s: number) {
   // Late in the arrival, so the cards appear once the stairs have formed rather than floating in mid-transition,
   // and never before the section copy has burned off the screen.
   const afterCopy = smoothRange(1 + TIMELINE_COPY[3], WINDOWS.timeline[0], s);
   const arrival = afterCopy * smoothRange(0.6, 0.97, smoothRange(0.45, WINDOWS.timeline[0], s));
-  if (index === MILESTONE_COUNT - 1) return arrival * (1 - smoothRange(TRANSITION.dissolve[0], TRANSITION.dissolve[1], s));
-  return arrival * (1 - smoothRange(TRANSITION.dive[0], TRANSITION.dive[0] + 0.08, s));
+  const nearby = 1 - smoothRange(0.42, 0.82, Math.abs(timelinePosition(s) - index));
+  const visible = arrival * nearby;
+  if (index === MILESTONE_COUNT - 1) return visible * (1 - smoothRange(TRANSITION.dissolve[0], TRANSITION.dissolve[1], s));
+  return visible * (1 - smoothRange(TRANSITION.dive[0], TRANSITION.dive[0] + 0.08, s));
 }
 
 // Only the last card uses the noise dissolve, from the start of the dive; the rest simply fade.
@@ -364,10 +448,12 @@ const COPY_WINDOWS: Record<number, readonly [number, number, number, number]> = 
   2: WORK_COPY,
 };
 
-// The closing plays as a sequence rather than arriving all at once: the mark forms from the particles, then the first
-// line, then a stretch of scroll, then the second, and only then do the words settle to the middle of the screen with
-// the last phrase. Fractions of the way through the final section.
+// The heading arrives as one complete thought, with a small stagger between its two lines. The next scroll beat
+// brings in the final phrase and settles the copy toward the middle. Fractions of the final section.
 export const CLOSING = { lines: [[0.38, 0.48], [0.58, 0.68]], settle: [0.8, 0.9] } as const;
+// Stop beyond both heading reveals, leaving a clear pause before the answer. Keep the last stop at the page end
+// so reaching it never leaves a redundant final stretch of scrolling.
+export const CLOSING_STOPS = [LAST_SCENE + 0.72, LAST_SCENE + 1] as const;
 export const closingLine = (index: number, s: number) => smoothRange(LAST_SCENE + CLOSING.lines[index][0], LAST_SCENE + CLOSING.lines[index][1], s);
 // How many of the closing lines have started arriving, so each one decodes on its own beat instead of together.
 export const closingStep = (s: number) => CLOSING.lines.filter(([start]) => s >= LAST_SCENE + start).length;

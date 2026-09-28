@@ -8,7 +8,7 @@ import type { TimelineItem } from "@/data/timeline";
 import { CardDeck, paintMilestone, paintProject, type LabCard } from "./cards";
 import { backgroundShader, finalShader, particleShader } from "./shaders";
 import { buildShapes } from "./shapes";
-import { CAMERA_FOV, INTRO, MORPHS, SHAPES, ambientFlow, cameraPoseAt, cursorRepel, introMorph, milestoneDissolve, milestonePlacement, milestoneReveal, morphAt, projectPlacement, projectReveal, swirlFor, type ShapeName } from "./timeline";
+import { AXIS_Z, CAMERA_FOV, INTRO, MORPHS, SHAPES, STAIRS, STAIR_LANDING, STAIR_LANDING_Y, STAIR_STEP_ARC, STAIR_TREAD_INNER, STAIR_TREAD_OUTER, WINDOWS, ambientFlow, cameraPoseAt, cursorRepel, introMorph, landingPoint, milestoneDissolve, milestonePlacement, milestoneReveal, morphAt, projectPlacement, projectReveal, stairStepY, stairsAngleAt, smoothRange, swirlFor, timelinePosition, type ShapeName } from "./timeline";
 
 export type { LabCard };
 export type LabFrame = { s: number; cameraY: number; cameraZ: number; velocity: number; introTime: number };
@@ -81,6 +81,84 @@ export function createLabEngine(options: LabEngineOptions): LabEngine | null {
   const lookOffset = new THREE.Vector3();
   const UP = new THREE.Vector3(0, 1, 0);
 
+  // The particle staircase keeps the morph organic, while these faint tread planes give the first-person camera a
+  // solid path to climb. A single pair of buffer geometries is cheaper than hundreds of individual step meshes.
+  const stairSurfacePositions: number[] = [];
+  const stairEdgePositions: number[] = [];
+  const stairBottom = STAIRS.base - 3;
+  const stairCount = Math.floor((STAIR_LANDING_Y - stairBottom) / STAIRS.stepHeight);
+  const stairPoint = (radius: number, angle: number, y: number) => [Math.sin(angle) * radius, y, AXIS_Z + Math.cos(angle) * radius] as const;
+  const pushDigitalEdge = (target: number[], from: readonly [number, number, number], to: readonly [number, number, number], cells: number, duty = 0.6) => {
+    for (let cell = 0; cell < cells; cell++) {
+      const start = cell / cells;
+      const end = (cell + duty) / cells;
+      target.push(
+        from[0] + (to[0] - from[0]) * start, from[1] + (to[1] - from[1]) * start, from[2] + (to[2] - from[2]) * start,
+        from[0] + (to[0] - from[0]) * end, from[1] + (to[1] - from[1]) * end, from[2] + (to[2] - from[2]) * end,
+      );
+    }
+  };
+  const stairEdgeVerticesPerStep = 32;
+  for (let step = 1; step <= stairCount; step++) {
+    const y = stairStepY(step);
+    const start = stairsAngleAt(y);
+    const end = start + STAIR_STEP_ARC * 0.9;
+    const innerFront = stairPoint(STAIR_TREAD_INNER, start, y);
+    const outerFront = stairPoint(STAIR_TREAD_OUTER, start, y);
+    const innerBack = stairPoint(STAIR_TREAD_INNER, end, y);
+    const outerBack = stairPoint(STAIR_TREAD_OUTER, end, y);
+    const innerBottom = stairPoint(STAIR_TREAD_INNER, start, y - STAIRS.stepHeight * 0.88);
+    const outerBottom = stairPoint(STAIR_TREAD_OUTER, start, y - STAIRS.stepHeight * 0.88);
+    stairSurfacePositions.push(
+      ...innerFront, ...outerFront, ...outerBack, ...innerFront, ...outerBack, ...innerBack,
+      ...innerBottom, ...outerBottom, ...outerFront, ...innerBottom, ...outerFront, ...innerFront,
+    );
+    // Broken, evenly spaced segments read as a deliberate digital guide and share the exact tread vertices.
+    pushDigitalEdge(stairEdgePositions, innerFront, outerFront, 9);
+    pushDigitalEdge(stairEdgePositions, outerFront, outerBack, 3);
+    pushDigitalEdge(stairEdgePositions, innerBottom, innerFront, 2);
+    pushDigitalEdge(stairEdgePositions, outerBottom, outerFront, 2);
+  }
+  const stairSurfaceGeometry = new THREE.BufferGeometry();
+  stairSurfaceGeometry.setAttribute("position", new THREE.Float32BufferAttribute(stairSurfacePositions, 3));
+  const stairEdgeGeometry = new THREE.BufferGeometry();
+  stairEdgeGeometry.setAttribute("position", new THREE.Float32BufferAttribute(stairEdgePositions, 3));
+  const stairSurfaceMaterial = new THREE.MeshBasicMaterial({ color: 0x23545a, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false });
+  const stairEdgeMaterial = new THREE.LineBasicMaterial({ color: 0x9cebe4, transparent: true, opacity: 0, depthWrite: false });
+  const stairSurface = new THREE.Mesh(stairSurfaceGeometry, stairSurfaceMaterial);
+  const stairEdges = new THREE.LineSegments(stairEdgeGeometry, stairEdgeMaterial);
+  stairSurface.visible = false;
+  stairEdges.visible = false;
+
+  // The spiral ends in one broad, level platform for the final chapter instead of continuing behind the card.
+  const landingSurfacePositions: number[] = [];
+  const landingEdgePositions: number[] = [];
+  const halfLanding = STAIR_LANDING.width / 2;
+  const nearLeft = landingPoint(0, -halfLanding);
+  const nearRight = landingPoint(0, halfLanding);
+  const farLeft = landingPoint(STAIR_LANDING.length, -halfLanding);
+  const farRight = landingPoint(STAIR_LANDING.length, halfLanding);
+  landingSurfacePositions.push(...nearLeft, ...nearRight, ...farRight, ...nearLeft, ...farRight, ...farLeft);
+  // Transverse guides are square to the final sightline; longitudinal guides converge directly ahead.
+  for (let distance = 0; distance <= STAIR_LANDING.length; distance += 0.7) {
+    pushDigitalEdge(landingEdgePositions, landingPoint(distance, -halfLanding, 0.003), landingPoint(distance, halfLanding, 0.003), 10, 0.5);
+  }
+  for (const side of [-halfLanding, 0, halfLanding]) {
+    pushDigitalEdge(landingEdgePositions, landingPoint(0, side, 0.003), landingPoint(STAIR_LANDING.length, side, 0.003), 22, 0.5);
+  }
+  const nearLeftBottom = landingPoint(0, -halfLanding, -STAIRS.stepHeight);
+  const nearRightBottom = landingPoint(0, halfLanding, -STAIRS.stepHeight);
+  landingSurfacePositions.push(...nearLeftBottom, ...nearRightBottom, ...nearRight, ...nearLeftBottom, ...nearRight, ...nearLeft);
+  const landingSurfaceGeometry = new THREE.BufferGeometry();
+  landingSurfaceGeometry.setAttribute("position", new THREE.Float32BufferAttribute(landingSurfacePositions, 3));
+  const landingEdgeGeometry = new THREE.BufferGeometry();
+  landingEdgeGeometry.setAttribute("position", new THREE.Float32BufferAttribute(landingEdgePositions, 3));
+  const landingSurface = new THREE.Mesh(landingSurfaceGeometry, stairSurfaceMaterial);
+  const landingEdges = new THREE.LineSegments(landingEdgeGeometry, stairEdgeMaterial);
+  landingSurface.visible = false;
+  landingEdges.visible = false;
+  scene.add(stairSurface, stairEdges, landingSurface, landingEdges);
+
   // Drifting mist, drawn small and stretched behind everything.
   const backgroundTarget = new THREE.WebGLRenderTarget(256, 160, { type: THREE.HalfFloatType });
   const backgroundScene = new THREE.Scene();
@@ -144,7 +222,8 @@ export function createLabEngine(options: LabEngineOptions): LabEngine | null {
   composer.addPass(output);
   const finalPass = new ShaderPass(finalShader);
   finalPass.uniforms.uResolution.value = new THREE.Vector2(1, 1);
-  finalPass.uniforms.uAberration.value = reducedMotion ? 0.0008 : 0.0015;
+  const baseAberration = reducedMotion ? 0.0008 : 0.0015;
+  finalPass.uniforms.uAberration.value = baseAberration;
   composer.addPass(finalPass);
 
   let textures: Record<ShapeName, THREE.DataTexture> | null = null;
@@ -194,6 +273,7 @@ export function createLabEngine(options: LabEngineOptions): LabEngine | null {
   resize();
 
   const pointer = { x: 0, y: 0, targetX: 0, targetY: 0, force: 0, targetForce: 0, mouse: false };
+  let pressedPointer: number | null = null;
   const drag = { active: false, lastX: 0, lastY: 0, travel: 0, yaw: 0, pitch: 0, targetYaw: 0, targetPitch: 0 };
   const toPointer = (event: PointerEvent) => {
     pointer.targetX = (event.clientX / boxWidth()) * 2 - 1;
@@ -203,18 +283,21 @@ export function createLabEngine(options: LabEngineOptions): LabEngine | null {
     toPointer(event);
     pointer.mouse = event.pointerType === "mouse";
     pointer.targetForce = 1;
-    if (!drag.active) return;
+    if (pressedPointer !== event.pointerId) return;
     const dx = event.clientX - drag.lastX;
     const dy = event.clientY - drag.lastY;
     drag.lastX = event.clientX;
     drag.lastY = event.clientY;
     drag.travel += Math.abs(dx) + Math.abs(dy);
+    // Touch scrolls the story, but still needs movement tracking so a swipe cannot open a project as a tap.
+    if (!drag.active) return;
     drag.targetYaw = clamp(drag.targetYaw - dx * 0.0035, -0.8, 0.8);
     drag.targetPitch = clamp(drag.targetPitch + dy * 0.0025, -0.45, 0.45);
     if (drag.travel > 6) document.documentElement.classList.add("lab-dragging");
   };
   const onPointerDown = (event: PointerEvent) => {
-    if (event.button !== 0 || isControl(event.target)) return;
+    if (event.button !== 0 || !event.isPrimary || isControl(event.target)) return;
+    pressedPointer = event.pointerId;
     toPointer(event);
     drag.travel = 0;
     drag.lastX = event.clientX;
@@ -223,7 +306,9 @@ export function createLabEngine(options: LabEngineOptions): LabEngine | null {
     pointer.targetForce = 1;
   };
   const onPointerUp = (event: PointerEvent) => {
-    const tapped = drag.travel < 6;
+    if (pressedPointer !== event.pointerId) return;
+    pressedPointer = null;
+    const tapped = drag.travel < 6 && event.type !== "pointercancel";
     drag.active = false;
     drag.targetYaw = 0;
     drag.targetPitch = 0;
@@ -258,7 +343,8 @@ export function createLabEngine(options: LabEngineOptions): LabEngine | null {
     time += delta;
 
     const raw = options.sceneCoordinate();
-    s += (raw - s) * damp(7, delta);
+    // Guided scrolling already eases its travel. Follow closely so arriving at a card doesn't add a second pause.
+    s += (raw - s) * damp(14, delta);
     const speed = Math.abs(s - previousS) / Math.max(delta, 0.0001);
     previousS = s;
     velocity += (Math.min(1.2, speed * 0.9) - velocity) * damp(5, delta);
@@ -272,6 +358,25 @@ export function createLabEngine(options: LabEngineOptions): LabEngine | null {
     uniforms.uMix.value = morph.mix;
     uniforms.uSwirl.value = swirlFor(morph);
     uniforms.uFlow.value = reducedMotion ? 0 : ambientFlow(s);
+    const stairShape = morph.to === "staircase" ? morph.mix : morph.from === "staircase" ? 1 - morph.mix : 0;
+    const stairArrival = clamp((s - (WINDOWS.timeline[0] - 0.03)) / 0.03, 0, 1);
+    const stairAmount = stairShape * stairArrival;
+    stairSurfaceMaterial.opacity = stairAmount * (compact ? 0.13 : 0.09);
+    stairEdgeMaterial.opacity = stairAmount * (compact ? 0.78 : 0.62);
+    stairSurface.visible = stairAmount > 0.002;
+    stairEdges.visible = stairAmount > 0.002;
+    landingSurface.visible = stairAmount > 0.002;
+    landingEdges.visible = stairAmount > 0.002;
+    // Keep the stair guides optically crisp. The normal chromatic split makes thin shared edges look misregistered.
+    finalPass.uniforms.uAberration.value = baseAberration * (1 - stairAmount);
+    // Only the nearby flight is drawn. Distant turns otherwise stack into horizontal bands and hide the stairs ahead.
+    const cameraPathY = STAIRS.base + timelinePosition(s) * STAIRS.spacing;
+    const stepsBelowLanding = Math.max(0, Math.floor((STAIR_LANDING_Y - cameraPathY) / STAIRS.stepHeight));
+    const finalStep = Math.min(stairCount, stepsBelowLanding);
+    const firstStep = Math.max(0, finalStep - 12);
+    const visibleSteps = Math.max(0, finalStep - firstStep);
+    stairSurfaceGeometry.setDrawRange(firstStep * 12, visibleSteps * 12);
+    stairEdgeGeometry.setDrawRange(firstStep * stairEdgeVerticesPerStep, visibleSteps * stairEdgeVerticesPerStep);
 
     // The glitch marks each time the opening word turns over; scrolling itself stays clean.
     const turnedAt = (at: number) => introBefore < at && introTime >= at;
@@ -286,9 +391,11 @@ export function createLabEngine(options: LabEngineOptions): LabEngine | null {
 
     // The scroll pose comes from the choreography; dragging and the pointer only swing the camera around its target.
     const pose = cameraPoseAt(s, builtAspect);
+    // Lock the final approach to its level guide lines even if the pointer is resting off-center.
+    const landingLock = smoothRange(WINDOWS.timeline[1] - 0.015, WINDOWS.timeline[1], s) * (1 - smoothRange(2.14, WINDOWS.work[0], s));
     const sway = reducedMotion ? 0 : 1;
-    const yaw = drag.yaw + pointer.x * 0.05 * sway;
-    const pitch = drag.pitch + pointer.y * 0.035 * sway;
+    const yaw = (drag.yaw + pointer.x * 0.05 * sway) * (1 - landingLock);
+    const pitch = (drag.pitch + pointer.y * 0.035 * sway) * (1 - landingLock);
     lookTarget.set(pose.target[0], pose.target[1], pose.target[2]);
     lookOffset.set(pose.position[0] - pose.target[0], pose.position[1] - pose.target[1], pose.position[2] - pose.target[2]);
     lookOffset.applyAxisAngle(UP, yaw);
@@ -359,6 +466,7 @@ export function createLabEngine(options: LabEngineOptions): LabEngine | null {
   window.addEventListener("pointermove", onPointerMove, { passive: true });
   window.addEventListener("pointerdown", onPointerDown, { passive: true });
   window.addEventListener("pointerup", onPointerUp);
+  window.addEventListener("pointercancel", onPointerUp);
   window.addEventListener("pointerout", onPointerOut);
 
   return {
@@ -370,10 +478,17 @@ export function createLabEngine(options: LabEngineOptions): LabEngine | null {
       window.removeEventListener("pointermove", onPointerMove);
       window.removeEventListener("pointerdown", onPointerDown);
       window.removeEventListener("pointerup", onPointerUp);
+      window.removeEventListener("pointercancel", onPointerUp);
       window.removeEventListener("pointerout", onPointerOut);
       document.documentElement.classList.remove("lab-dragging");
       geometry.dispose();
       particleMaterial.dispose();
+      stairSurfaceGeometry.dispose();
+      stairEdgeGeometry.dispose();
+      landingSurfaceGeometry.dispose();
+      landingEdgeGeometry.dispose();
+      stairSurfaceMaterial.dispose();
+      stairEdgeMaterial.dispose();
       if (textures) Object.values(textures).forEach(texture => texture.dispose());
       cards?.dispose();
       milestones?.dispose();

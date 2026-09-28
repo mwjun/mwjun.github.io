@@ -1,8 +1,8 @@
-import { cleanup, render, screen, within } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, within } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { MemoryRouter } from "react-router-dom";
 import { projects } from "@/data/projects";
-import { AXIS_Z, CAMERA_FOV, CARD_COUNT, CARD_SIZE, INTRO, LAST_SCENE, MILESTONE_COUNT, MORPHS, NAV_ANCHORS, NETWORK, ORDERED_PROJECTS, PROJECT_CATEGORIES, STAIRS, STOPS, STOP_COUNT, TRANSITION, WINDOWS, ambientFlow, beatWeights, cameraPoseAt, categoryStop, closingLine, closingReveal, closingStep, copyBurn, copyVisibility, cursorRepel, introMorph, layerX, milestoneDissolve, milestoneScene, milestonePlacement, milestoneReveal, morphAt, networkLayers, networkSynapses, projectPlacement, projectReveal, stopOf, stopScene, swirlFor } from "@/lab/timeline";
+import { AXIS_Z, CAMERA_FOV, CARD_COUNT, CARD_SIZE, CLOSING_STOPS, INTRO, LAST_SCENE, MILESTONE_COUNT, MORPHS, NAV_ANCHORS, NETWORK, ORDERED_PROJECTS, PROJECT_CATEGORIES, STAIRS, STAIR_LANDING, STAIR_LANDING_Y, STOPS, STOP_COUNT, TRANSITION, WINDOWS, ambientFlow, beatWeights, cameraPoseAt, categoryStop, closingLine, closingReveal, closingStep, copyBurn, copyVisibility, cursorRepel, introMorph, landingPoint, layerX, milestoneDissolve, milestoneScene, milestonePlacement, milestoneReveal, morphAt, networkLayers, networkSynapses, projectPlacement, projectReveal, stairsFrame, stopOf, stopScene, swirlFor, timelinePosition } from "@/lab/timeline";
 
 vi.mock("@/lab/engine", () => ({ createLabEngine: () => null }));
 const { default: Test } = await import("@/pages/Test");
@@ -73,44 +73,98 @@ describe("Test page choreography", () => {
     }
   });
 
-  it("climbs one full turn up the staircase with each milestone's large card centered on the front of its step", () => {
-    for (const aspect of [WIDE, PHONE]) {
+  it("climbs the staircase in first person with each milestone card waiting ahead on the path", () => {
+    const chapterSpan = milestoneScene(1) - milestoneScene(0);
+    for (let i = 1; i < MILESTONE_COUNT - 1; i++) {
+      expect(timelinePosition(milestoneScene(i) - chapterSpan * 0.15)).toBe(i);
+      expect(timelinePosition(milestoneScene(i) + chapterSpan * 0.15)).toBe(i);
+    }
+    for (const aspect of [WIDE, PHONE, 0.95, 1, 1.05, 2.2]) {
       let previousY = -Infinity;
       for (let i = 0; i < MILESTONE_COUNT; i++) {
         const pose = cameraPoseAt(timelineAt(i), aspect);
-        const { edge, card, front, scale } = milestonePlacement(i, aspect);
-        expect(dot(aroundAxis(pose.position), aroundAxis(edge))).toBeGreaterThan(0.999);
+        const { edge, card, front, right, scale } = milestonePlacement(i, aspect);
+        const frame = stairsFrame();
+        if (i < MILESTONE_COUNT - 1) {
+          expect(dot(fromAxis(pose.position), front)).toBeCloseTo(frame.eyeRadius, 6);
+          expect(dot(fromAxis(pose.position), right)).toBeCloseTo(frame.eyeShift, 6);
+        }
         expect(pose.position[1]).toBeGreaterThan(previousY);
         previousY = pose.position[1];
-        // Straight out from the axis on the camera's side, just past the rail, and dead center in the view.
-        expect(dot(aroundAxis(card), front)).toBeGreaterThan(0.9999);
-        expect(dot(fromAxis(card), front)).toBeGreaterThan(STAIRS.rail);
-        expect(Math.abs(card[1] - edge[1])).toBeLessThan(1);
-        expect(dot(unit(sub(pose.target, pose.position)), unit(sub(card, pose.position)))).toBeGreaterThan(0.99999);
-        // Large, and clear of the cards on the steps above and below.
+        // The camera stays on the tread, while the card waits ahead of the current step.
+        const cameraRadius = Math.hypot(...fromAxis(pose.position));
+        expect(cameraRadius).toBeGreaterThan(STAIRS.inner);
+        expect(cameraRadius).toBeLessThan(STAIRS.outer);
+        expect(card[1]).toBeGreaterThan(edge[1]);
+        // The sightline stays on the steps below eye level, while the chapter card remains visible above the path.
+        const targetRadius = Math.hypot(...fromAxis(pose.target));
+        expect(pose.target[1]).toBeGreaterThan(edge[1]);
+        if (i < MILESTONE_COUNT - 1) {
+          expect(targetRadius).toBeGreaterThan(STAIRS.inner);
+          expect(targetRadius).toBeLessThan(STAIRS.outer);
+          expect(pose.position[1] - pose.target[1]).toBeGreaterThan(0.75);
+        } else {
+          expect(pose.target[1]).toBeCloseTo(pose.position[1]);
+        }
+        const cardOnScreen = project(pose, aspect, card);
+        expect(cardOnScreen.depth).toBeGreaterThan(0);
+        expect(Math.abs(cardOnScreen.x)).toBeLessThan(1);
+        expect(Math.abs(cardOnScreen.y)).toBeLessThan(1);
+        expect(cardOnScreen.x).toBeCloseTo(0, 6);
+        expect(cardOnScreen.y).toBeCloseTo(0, 6);
+        // Test the real tilted corners, not just an approximate width at the center's depth.
+        const cardRight = unit(cross([0, 1, 0], milestonePlacement(i, aspect).normal));
+        for (const [sx, sy] of [[-1, -1], [-1, 1], [1, -1], [1, 1]]) {
+          const corner = project(pose, aspect, add(add(card, cardRight, sx * CARD_SIZE.width * scale / 2), [0, 1, 0], sy * CARD_SIZE.height * scale / 2));
+          expect(Math.abs(corner.x)).toBeLessThanOrEqual(0.840001);
+          expect(Math.abs(corner.y)).toBeLessThanOrEqual(0.700001);
+        }
+        const cardToCamera = sub(pose.position, card);
+        expect(dot(milestonePlacement(i, aspect).normal, unit([cardToCamera[0], 0, cardToCamera[2]]))).toBeGreaterThan(0.9999);
+        // Readable at the center of the climb, and clear of the cards on the steps above and below.
         const distance = Math.hypot(...sub(pose.position, card));
         const widthOfView = (CARD_SIZE.width * scale) / (2 * distance * TAN * aspect);
-        expect(widthOfView).toBeGreaterThan(aspect >= 1 ? 0.5 : 0.85);
-        expect(widthOfView).toBeLessThan(0.97);
+        expect(widthOfView).toBeGreaterThan(aspect > 2 ? 0.4 : aspect > 1.3 ? 0.6 : 0.7);
+        expect(widthOfView).toBeLessThan(0.9);
         expect(STAIRS.spacing - CARD_SIZE.height * scale).toBeGreaterThan(0.5);
+        if (i === MILESTONE_COUNT - 1) {
+          expect(card[1]).toBeCloseTo(STAIR_LANDING_Y + stairsFrame().eyeHeight, 6);
+          expect(card[1]).toBeCloseTo(pose.position[1], 6);
+        }
       }
     }
-    // Cards turn with the stairs: only the current one squares up to the camera, its neighbors are angled away.
-    for (let i = 1; i < MILESTONE_COUNT - 1; i++) {
-      const pose = cameraPoseAt(timelineAt(i), WIDE);
-      // Compared around the axis only; the camera looks slightly down on the steps.
-      const toCamera = (index: number) => {
-        const { card } = milestonePlacement(index, WIDE);
-        const offset = sub(pose.position, card);
-        return unit([offset[0], 0, offset[2]]);
-      };
-      expect(dot(milestonePlacement(i, WIDE).normal, toCamera(i))).toBeGreaterThan(0.9999);
-      for (const neighbor of [i - 1, i + 1]) expect(dot(milestonePlacement(neighbor, WIDE).normal, toCamera(neighbor))).toBeLessThan(0.93);
-    }
+    // The camera follows the same spiral as the treads instead of orbiting outside the structure.
     const facing = (index: number) => aroundAxis(cameraPoseAt(timelineAt(index), WIDE).position);
-    expect(dot(facing(0), [0, 0, 1])).toBeGreaterThan(0.999);
-    expect(dot(facing((MILESTONE_COUNT - 1) / 2), [0, 0, -1])).toBeGreaterThan(0.99);
-    expect(dot(facing(MILESTONE_COUNT - 1), [0, 0, 1])).toBeGreaterThan(0.999);
+    expect(dot(facing(0), facing((MILESTONE_COUNT - 1) / 2))).toBeLessThan(-0.98);
+    expect(dot(facing(0), facing(MILESTONE_COUNT - 1))).toBeGreaterThan(0.98);
+    // No abrupt sizing change when resizing across portrait and landscape.
+    expect(milestonePlacement(3, 1.001).scale / milestonePlacement(3, 0.999).scale).toBeCloseTo(1, 2);
+  });
+
+  it("levels the camera onto a straight landing with the final chapter directly ahead", () => {
+    for (const aspect of [WIDE, PHONE, 0.95]) {
+      const last = MILESTONE_COUNT - 1;
+      const card = milestonePlacement(last, aspect).card;
+      const pose = cameraPoseAt(milestoneScene(last), aspect);
+      expect(pose.position[1]).toBe(pose.target[1]);
+      expect(project(pose, aspect, card)).toMatchObject({ x: 0, y: 0 });
+      for (const distance of [1.5, 2.5, 4.5, 6.5]) {
+        const left = project(pose, aspect, landingPoint(distance, -STAIR_LANDING.width / 2));
+        const right = project(pose, aspect, landingPoint(distance, STAIR_LANDING.width / 2));
+        expect(left.y).toBeCloseTo(right.y, 8);
+        expect(left.x).toBeCloseTo(-right.x, 8);
+        expect(left.depth).toBeGreaterThan(0);
+      }
+      // The last turn and pitch unwind without a jump, then stay level all the way through the card.
+      let previous = cameraPoseAt(milestoneScene(last - 0.3), aspect);
+      for (let s = milestoneScene(last - 0.3) + 0.00005; s < TRANSITION.through[1]; s += 0.00005) {
+        const next = cameraPoseAt(s, aspect);
+        expect(Math.hypot(...sub(next.position, previous.position))).toBeLessThan(0.2);
+        expect(Math.hypot(...sub(next.target, previous.target))).toBeLessThan(0.2);
+        if (s >= milestoneScene(last)) expect(next.position[1]).toBeCloseTo(next.target[1]);
+        previous = next;
+      }
+    }
   });
 
   it("groups every project by category into stops of two or three, which the category links jump to", () => {
@@ -231,12 +285,13 @@ describe("Test page choreography", () => {
       expect((CARD_SIZE.width * scale) / 2).toBeGreaterThan(distance * TAN * aspect);
 
       // Only after the card has dissolved does the camera cross its plane, and it keeps moving forward to the network.
-      let previousZ = full.position[2];
+      let previousDistance = dot(sub(full.position, card), normal);
       for (let s = TRANSITION.through[0]; s <= TRANSITION.through[1]; s += 0.005) {
         const pose = cameraPoseAt(s, aspect);
         if (dot(sub(pose.position, card), normal) < 0) expect(milestoneReveal(last, s)).toBe(0);
-        expect(pose.position[2]).toBeLessThanOrEqual(previousZ + 1e-9);
-        previousZ = pose.position[2];
+        const signedDistance = dot(sub(pose.position, card), normal);
+        expect(signedDistance).toBeLessThanOrEqual(previousDistance + 1e-9);
+        previousDistance = signedDistance;
       }
       expect(dot(sub(cameraPoseAt(TRANSITION.through[1], aspect).position, card), normal)).toBeLessThan(0);
     }
@@ -250,9 +305,9 @@ describe("Test page choreography", () => {
     expect(morphAt(TRANSITION.dive[1] - 0.03)).toMatchObject({ to: "staircase", mix: 1 });
   });
 
-  it("keeps every milestone card on its step through the climb, shows a stop at a time, and never both beats at once", () => {
+  it("shows one milestone at a time through the climb, shows a project stop at a time, and never both beats at once", () => {
     for (let i = 0; i < MILESTONE_COUNT; i++) {
-      for (let j = 0; j < MILESTONE_COUNT; j++) expect(milestoneReveal(j, timelineAt(i))).toBe(1);
+      for (let j = 0; j < MILESTONE_COUNT; j++) expect(milestoneReveal(j, timelineAt(i))).toBe(j === i ? 1 : 0);
     }
     for (let i = 0; i < CARD_COUNT; i++) {
       const { stop } = stopOf(i);
@@ -282,17 +337,27 @@ describe("Test page choreography", () => {
       for (let i = 0; i < CARD_COUNT; i++) expect(copyVisibility(2, s, LAST_SCENE) * projectReveal(i, s)).toBe(0);
     }
     expect(copyVisibility(LAST_SCENE, LAST_SCENE + 1, LAST_SCENE)).toBe(1);
-    // The closing is a sequence: first line, then the second a stretch of scroll later, then the settle and last phrase.
+  });
+
+  it("pauses on the complete closing thought, then reveals its answer at the next stop in either scroll direction", () => {
+    const [thought, answer] = CLOSING_STOPS;
+    // The lines may stagger during arrival, but the first destination cannot split the sentence.
     expect(closingLine(0, LAST_SCENE + 0.3)).toBe(0);
-    expect(closingLine(0, LAST_SCENE + 0.5)).toBe(1);
-    expect(closingLine(1, LAST_SCENE + 0.5)).toBe(0);
-    expect(closingLine(1, LAST_SCENE + 0.7)).toBe(1);
     expect(closingStep(LAST_SCENE + 0.3)).toBe(0);
-    expect(closingStep(LAST_SCENE + 0.5)).toBe(1);
-    expect(closingStep(LAST_SCENE + 0.7)).toBe(2);
-    // Nothing settles to the middle until both lines are up.
-    expect(closingReveal(LAST_SCENE + 0.7)).toBe(0);
-    expect(closingReveal(LAST_SCENE + 1)).toBe(1);
+    for (const scene of [thought, answer, thought]) {
+      expect(closingLine(0, scene)).toBe(1);
+      expect(closingLine(1, scene)).toBe(1);
+      expect(closingStep(scene)).toBe(2);
+      expect(closingReveal(scene)).toBe(scene === answer ? 1 : 0);
+      expect(copyVisibility(LAST_SCENE, scene, LAST_SCENE)).toBe(1);
+    }
+    // The answer fades in during the next advance, without camera travel or an extra stop afterward.
+    expect(closingReveal((thought + answer) / 2)).toBeGreaterThan(0);
+    expect(closingReveal((thought + answer) / 2)).toBeLessThan(1);
+    for (const aspect of [WIDE, PHONE]) {
+      expect(cameraPoseAt(thought, aspect)).toEqual(cameraPoseAt(answer, aspect));
+    }
+    expect(answer).toBe(LAST_SCENE + 1);
   });
 });
 
@@ -318,6 +383,17 @@ describe("Home navigation anchors", () => {
 });
 
 describe("Test page without WebGL", () => {
+  it("returns to the beginning and moves keyboard focus there without WebGL", () => {
+    const scrollTo = vi.spyOn(window, "scrollTo").mockImplementation(() => undefined);
+    render(<MemoryRouter><Test /></MemoryRouter>);
+    const restart = screen.getByRole("button", { name: "Back to beginning" });
+    restart.focus();
+    fireEvent.click(restart, { detail: 0 });
+    expect(scrollTo).toHaveBeenLastCalledWith({ top: 0, behavior: "instant" });
+    expect(screen.getByRole("heading", { level: 1 })).toHaveFocus();
+    scrollTo.mockRestore();
+  });
+
   it("falls back to readable copy, the full timeline and project list, and working links", () => {
     const { container } = render(<MemoryRouter><Test /></MemoryRouter>);
     expect(container.firstElementChild).toHaveClass("is-fallback");

@@ -1,4 +1,4 @@
-import { AXIS_Z, CARD_COUNT, CLOSE, HERO, MILESTONE_COUNT, NETWORK, STAIRS, STOP_COUNT, layerX, networkFrame, networkLayers, networkSynapses, projectPlacement, stairsAngleAt, type ShapeName } from "./timeline";
+import { AXIS_Z, CARD_COUNT, CLOSE, HERO, NETWORK, STAIRS, STAIR_LANDING, STAIR_LANDING_Y, STAIR_STEP_ARC, STAIR_TREAD_INNER, STAIR_TREAD_OUTER, STOP_COUNT, landingPoint, layerX, networkFrame, networkLayers, networkSynapses, projectPlacement, stairStepY, stairsAngleAt, type ShapeName } from "./timeline";
 
 // Particle targets for each scene. Every shape is count records of x, y, z and brightness, packed for a float texture.
 
@@ -196,34 +196,56 @@ export function buildShapes(count: number, aspect: number): Record<ShapeName, Fl
     const writer = new ShapeWriter(count);
     const rng = seeded(13);
     const bottom = STAIRS.base - 3;
-    const top = STAIRS.base + (MILESTONE_COUNT - 1) * STAIRS.spacing + 3;
+    const top = STAIR_LANDING_Y;
     const steps = Math.floor((top - bottom) / STAIRS.stepHeight);
-    const stepArc = ((STAIRS.turn + Math.PI * 2) * STAIRS.stepHeight) / STAIRS.spacing;
-    const depth = STAIRS.outer - STAIRS.inner;
+    const depth = STAIR_TREAD_OUTER - STAIR_TREAD_INNER;
+    const randomStepY = () => stairStepY(1 + Math.floor(rng() * steps));
 
-    for (let k = Math.floor(count * 0.56); k > 0; k--) {
-      const y = top - Math.floor(rng() * steps) * STAIRS.stepHeight;
+    for (let k = Math.floor(count * 0.47); k > 0; k--) {
+      const y = randomStepY();
       const along = rng();
-      const angle = stairsAngleAt(y) + along * stepArc * 0.9;
-      const r = STAIRS.inner + rng() * depth;
+      const angle = stairsAngleAt(y) + along * STAIR_STEP_ARC * 0.9;
+      const r = STAIR_TREAD_INNER + rng() * depth;
       // The nosing and the outer rim catch the most light, so each tread reads as a solid step.
-      const edge = Math.max(1 - along * 7, (r - STAIRS.inner) / depth > 0.94 ? 0.75 : 0);
-      writer.push(Math.sin(angle) * r, y + (rng() - 0.5) * 0.03, AXIS_Z + Math.cos(angle) * r, 0.22 + edge * 0.45 + rng() * 0.08);
+      const edge = Math.max(1 - along * 7, (r - STAIR_TREAD_INNER) / depth > 0.94 ? 0.75 : 0);
+      writer.push(Math.sin(angle) * r, y + (rng() - 0.5) * 0.03, AXIS_Z + Math.cos(angle) * r, 0.34 + edge * 0.42 + rng() * 0.1);
     }
 
+    // A concentrated line of particles across every tread makes the stairs legible from the walking camera.
+    for (let k = Math.floor(count * 0.24); k > 0; k--) {
+      const y = randomStepY();
+      const angle = stairsAngleAt(y) + rng() * STAIR_STEP_ARC * 0.06;
+      const r = STAIR_TREAD_INNER + rng() * depth;
+      writer.push(Math.sin(angle) * r, y + (rng() - 0.5) * 0.018, AXIS_Z + Math.cos(angle) * r, 0.68 + rng() * 0.25);
+    }
+
+    // Short illuminated risers connect the nosings, so the local flight reads as stairs instead of floating rings.
     for (let k = Math.floor(count * 0.12); k > 0; k--) {
+      const y = randomStepY();
+      const angle = stairsAngleAt(y) + rng() * STAIR_STEP_ARC * 0.035;
+      const r = STAIR_TREAD_INNER + rng() * depth;
+      writer.push(Math.sin(angle) * r, y - rng() * STAIRS.stepHeight, AXIS_Z + Math.cos(angle) * r, 0.42 + rng() * 0.34);
+    }
+
+    // The particles use the same straight landing as the solid surface and its digital guide lines.
+    for (let k = Math.floor(count * 0.05); k > 0; k--) {
+      const point = landingPoint(rng() * STAIR_LANDING.length, (rng() - 0.5) * STAIR_LANDING.width, (rng() - 0.5) * 0.018);
+      writer.push(...point, 0.42 + rng() * 0.38);
+    }
+
+    for (let k = Math.floor(count * 0.05); k > 0; k--) {
       const y = bottom + rng() * (top - bottom);
       const angle = stairsAngleAt(y);
       writer.push(Math.sin(angle) * STAIRS.rail, y + 0.9 + (rng() - 0.5) * 0.03, AXIS_Z + Math.cos(angle) * STAIRS.rail, 0.42 + rng() * 0.18);
     }
 
-    for (let k = Math.floor(count * 0.05); k > 0; k--) {
-      const y = top - Math.floor(rng() * (steps / 2)) * STAIRS.stepHeight * 2;
-      const angle = stairsAngleAt(y) + stepArc * 0.5;
+    for (let k = Math.floor(count * 0.02); k > 0; k--) {
+      const y = stairStepY(1 + Math.floor(rng() * (steps / 2)) * 2);
+      const angle = stairsAngleAt(y) + STAIR_STEP_ARC * 0.5;
       writer.push(Math.sin(angle) * STAIRS.rail, y + rng() * 0.9, AXIS_Z + Math.cos(angle) * STAIRS.rail, 0.2 + rng() * 0.14);
     }
 
-    for (let k = Math.floor(count * 0.04); k > 0; k--) {
+    for (let k = Math.floor(count * 0.01); k > 0; k--) {
       const angle = rng() * Math.PI * 2;
       const r = 0.3 + rng() * 0.12;
       writer.push(Math.sin(angle) * r, bottom + rng() * (top - bottom), AXIS_Z + Math.cos(angle) * r, 0.1 + rng() * 0.12);
@@ -309,7 +331,7 @@ export function buildShapes(count: number, aspect: number): Record<ShapeName, Fl
     const writer = new ShapeWriter(count);
     const rng = seeded(17);
     const y = CLOSE.y + H * 0.12;
-    scatterText(writer, rng, "MJ.", 700, CLOSE.x, y, CLOSE.z, wide ? W * 0.26 : W * 0.5, H * 0.28, Math.floor(count * 0.86), 0.35, 0.22);
+    scatterText(writer, rng, "MJ", 700, CLOSE.x, y, CLOSE.z, wide ? W * 0.26 : W * 0.5, H * 0.28, Math.floor(count * 0.86), 0.35, 0.22);
     scatterBox(writer, rng, writer.remaining, CLOSE.x, y, W * 0.55, H * 0.45, CLOSE.z + 4, CLOSE.z - 8, 0.03, 0.12);
     return writer.finish(rng);
   };

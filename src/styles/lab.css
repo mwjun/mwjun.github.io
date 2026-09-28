@@ -30,8 +30,8 @@ html.lab-dragging, html.lab-dragging * { cursor: grabbing !important; user-selec
 .lab-anchor { position: absolute; left: 0; width: 1px; height: 1px; pointer-events: none; }
 .lab-scene-intro { height: 150svh; }
 .lab-page .theme-preview { position: fixed; }
-/* Paced like the About page journey: roughly a screen of scroll per milestone and per project card. */
-.lab-scene-timeline { height: 1450svh; }
+/* Career chapters arrive about half a viewport apart so the climb stays deliberate without overstaying. */
+.lab-scene-timeline { height: 1000svh; }
 .lab-scene-work { height: 1100svh; }
 .lab-scene-contact { height: 420svh; }
 .lab-frame { position: sticky; top: 0; height: 100svh; display: flex; padding: 150px var(--lab-gutter) clamp(40px, 7svh, 72px); opacity: var(--reveal, 0); transform: translate3d(0, calc((1 - var(--reveal, 0)) * 26px), 0); }
@@ -54,7 +54,7 @@ html.lab-dragging, html.lab-dragging * { cursor: grabbing !important; user-selec
 .lab-line { opacity: var(--line, 1); transform: translate3d(0, calc((1 - var(--line, 1)) * 16px), 0); }
 .lab-line-1 { --line: var(--line1, 1); }
 .lab-line-2 { --line: var(--line2, 1); }
-.lab-scene-contact .lab-copy { transform: translate3d(0, calc(var(--settle, 0) * -11vh), 0); }
+.lab-scene-contact .lab-copy { position: relative; transform: translate3d(0, calc(var(--settle, 0) * -11vh), 0); }
 .lab-page.is-open .lab-cue { opacity: 1; }
 .lab-accent { color: var(--accent); }
 /* The closing line fades in after the heading, on its own beat. */
@@ -71,8 +71,6 @@ html.lab-dragging, html.lab-dragging * { cursor: grabbing !important; user-selec
 .lab-scene-intro .lab-frame { flex-direction: column; justify-content: flex-end; }
 .lab-intro-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; }
 .lab-roles { max-width: 34ch; margin: 0; }
-/* Matches the roles line beside it exactly. */
-.lab-intro-body { margin: 0; max-width: 34ch; font: 500 11px/1.7 'JetBrains Mono', monospace; letter-spacing: .2em; text-transform: uppercase; color: #7f9ba4; text-align: right; }
 .lab-cue { opacity: 0; transition: opacity 900ms ease; position: absolute; left: 50%; bottom: clamp(40px, 7svh, 72px); display: grid; justify-items: center; gap: 12px; margin: 0; transform: translateX(-50%); font: 500 11px/1 'JetBrains Mono', monospace; letter-spacing: .3em; text-transform: uppercase; color: #8fb3b8; }
 .lab-cue i { width: 1px; height: 44px; background: linear-gradient(rgb(var(--accent-rgb)), transparent) no-repeat; background-size: 100% 40%; animation: lab-cue 1.8s ease-in-out infinite; }
 @keyframes lab-cue { from { background-position: 0 -40%; } to { background-position: 0 160%; } }
@@ -88,6 +86,11 @@ html.lab-dragging, html.lab-dragging * { cursor: grabbing !important; user-selec
 .lab-cta { display: inline-flex; align-items: center; gap: 12px; padding: 15px 22px; border: 1px solid rgb(var(--accent-rgb) / .45); border-radius: 999px; background: rgb(var(--accent-rgb) / .06); font: 500 13px/1 'JetBrains Mono', monospace; letter-spacing: .1em; text-transform: uppercase; color: #eafffc; backdrop-filter: blur(8px); transition: background-color 180ms ease, border-color 180ms ease; }
 .lab-contact-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 26px; margin-top: 28px; }
 .lab-contact-links a { display: inline-flex; align-items: center; gap: 8px; font: 500 12px/1 'JetBrains Mono', monospace; letter-spacing: .08em; text-transform: uppercase; color: #9fb2b9; transition: color 160ms ease; }
+.lab-restart { position: absolute; top: 100%; left: 50%; transform: translateX(-50%); display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 44px; margin-top: 20px; padding: 10px 14px; border: 0; background: transparent; white-space: nowrap; font: 500 11px/1.4 'JetBrains Mono', monospace; letter-spacing: .1em; text-transform: uppercase; color: #9fb2b9; cursor: pointer; opacity: var(--closing, 1); transition: color 160ms ease; }
+.lab-page.is-ready:not(.is-finished) .lab-restart { visibility: hidden; }
+.lab-restart:focus-visible { outline: 1px solid var(--accent); outline-offset: 4px; border-radius: 2px; }
+.lab-restart:active { color: var(--accent); }
+.lab-title:focus { outline: none; }
 
 .lab-page .site-footer { position: relative; z-index: 1; background: #03060ae6; }
 
@@ -95,6 +98,7 @@ html.lab-dragging, html.lab-dragging * { cursor: grabbing !important; user-selec
   .lab-links button:hover { color: #fff; transform: translateX(6px); }
   .lab-cta:hover { background: rgb(var(--accent-rgb) / .14); border-color: rgb(var(--accent-rgb) / .8); }
   .lab-contact-links a:hover { color: #fff; }
+  .lab-restart:hover { color: #fff; }
 }
 @media (hover: none), (pointer: coarse) { .lab-hint { display: none; } }
 
@@ -111,12 +115,12 @@ html.lab-dragging, html.lab-dragging * { cursor: grabbing !important; user-selec
 .lab-page.is-fallback .lab-milestones strong { font-weight: 600; color: #eef5f6; }
 .lab-page.is-fallback .lab-projects.sr-only { position: static; display: grid; gap: 8px; width: auto; height: auto; margin: 26px 0 0; padding: 0; overflow: visible; clip: auto; white-space: normal; list-style: none; font-size: 14px; color: #a7b6be; }
 .lab-page.is-fallback .lab-projects a { color: #eef5f6; }
+.lab-page.is-fallback .lab-restart { position: static; transform: none; }
 
 @media (max-width: 759px) {
   .lab-frame { padding: 160px 22px 34px; }
   .lab-heading { font-size: clamp(27px, 8.2vw, 40px); }
   .lab-intro-bottom { flex-direction: column; align-items: flex-start; gap: 14px; }
-  .lab-intro-body { text-align: left; }
   .lab-cue, .lab-hud-depth { display: none; }
 }
 
