@@ -102,14 +102,18 @@ export function paintProject(card: LabCard, index: number) {
   context.fillText(card.link ? "OPEN" : "PRIVATE", width - 64, 94);
   context.textAlign = "left";
 
+  context.font = '400 21px "JetBrains Mono", monospace';
+  const tagLines = wrap(context, card.tags.join("  /  ").toUpperCase(), width - 128);
+  const tagsTop = height - 64 - (tagLines.length - 1) * 30;
+
   context.font = '700 76px "Space Grotesk", sans-serif';
   context.fillStyle = "#e9f0f2";
   const lines = wrap(context, card.title, 780).slice(0, 2);
-  lines.forEach((line, i) => context.fillText(line, 60, height - 118 - (lines.length - 1 - i) * 80));
+  lines.forEach((line, i) => context.fillText(line, 60, tagsTop - 54 - (lines.length - 1 - i) * 80));
 
   context.font = '400 21px "JetBrains Mono", monospace';
   context.fillStyle = "rgba(170, 188, 196, 0.78)";
-  context.fillText(card.tags.slice(0, 4).join("  /  ").toUpperCase(), 64, height - 64);
+  tagLines.forEach((line, i) => context.fillText(line, 64, tagsTop + i * 30));
   return canvas;
 }
 
