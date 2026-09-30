@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Search, X, ArrowUpRight } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { skillGroups } from "@/data/skills";
 import SkillConstellation from "./SkillConstellation";
 import "@/styles/collections.css";
@@ -24,7 +24,7 @@ export default function SkillsSection() {
         <div className="skill-group-heading"><span className={`discipline-dot discipline-${skillGroups.findIndex(item => item.category === group.category)}`} /><h2>{group.category}</h2><span>{group.skills.length}</span></div>
         <motion.ul layout={!reduced} className="skill-list"><AnimatePresence initial={false} mode="popLayout">{group.skills.map(skill => <motion.li layout={!reduced} key={skill} initial={reduced ? false : { opacity: 0, scale: .96 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} transition={{ duration: .2 }} className={normalized ? "skill-match" : undefined}>{skill}</motion.li>)}</AnimatePresence></motion.ul>
       </motion.section>)}</AnimatePresence></motion.div>
-      {!matches.length && <div className="collection-empty"><Search size={28} /><h2>No connections found.</h2><p>Try a different term or explore another discipline.</p><button type="button" className="collection-link" onClick={reset}>Reset exploration <ArrowUpRight size={18} /></button></div>}
+      {!matches.length && <div className="collection-empty"><Search size={28} /><h2>No connections found.</h2><p>Try a different term or explore another discipline.</p><button type="button" className="collection-link" onClick={reset}>Reset exploration</button></div>}
     </div></div></section>
   </div>;
 }
