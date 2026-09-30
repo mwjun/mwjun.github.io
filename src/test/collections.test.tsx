@@ -12,7 +12,11 @@ describe("Work collection", () => {
     expect(screen.getAllByRole("article")).toHaveLength(15);
     expect(screen.getByRole("heading", { name: "Crypto Arcade" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Blackjack Pro" })).toBeInTheDocument();
-    expect(screen.getAllByText("Private repository")).toHaveLength(2);
+    expect(screen.getAllByText("Private repository")).toHaveLength(1);
+    const arcadeLink = screen.getByRole("link", { name: "View Crypto Arcade (opens in a new tab)" });
+    expect(arcadeLink).toHaveAttribute("href", "https://crypto-arcade-virid.vercel.app/");
+    expect(arcadeLink).toHaveAttribute("target", "_blank");
+    expect(arcadeLink).toHaveAttribute("rel", "noopener noreferrer");
     expect(screen.getByRole("link", { name: /View Website Portfolio \(Previous Version\)/ })).toHaveAttribute("href", "/versions/v1/");
     expect(screen.getByRole("link", { name: /View Website Portfolio \(Previous Version\)/ })).not.toHaveAttribute("target");
     expect(screen.getByRole("link", { name: /View Website Portfolio \(V2\)/ })).toHaveAttribute("href", "/versions/v2/");

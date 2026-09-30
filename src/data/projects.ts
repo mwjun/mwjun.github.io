@@ -13,6 +13,7 @@ export const projects = [
     description:
       "A live 15-minute crypto prediction challenge combining real-time exchange data, weighted technical signals, optional AI analysis, player scoring, and a complete subscription experience.",
     tags: ["Vue.js", "TypeScript", "Vite", "Express", "Firebase", "Stripe", "Vitest"],
+    link: "https://crypto-arcade-virid.vercel.app/",
     note: "Private repository",
   },
   {
